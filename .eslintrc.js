@@ -11,5 +11,8 @@ module.exports = {
         "node": true,
         "jest": true,
         "es6": true
-    }
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    },
 };

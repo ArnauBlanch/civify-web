@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FlatButton } from 'material-ui';
-import { Link } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-const AppBarButtons = (props) => {
+export function fAppBarButtons(props) {
   const { t } = props;
   return (
     <nav
@@ -21,10 +21,10 @@ const AppBarButtons = (props) => {
       />
     </nav>
   );
-};
+}
 
-AppBarButtons.propTypes = {
+fAppBarButtons.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
-export default translate('common')(AppBarButtons);
+export default translate()(fAppBarButtons);
