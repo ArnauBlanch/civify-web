@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { white, grey500 } from 'material-ui/styles/colors';
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { AppBar, Drawer, MenuItem } from 'material-ui';
-import { translate } from 'react-i18next';
+import { AppBar } from 'material-ui';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import AppBarButtons from '../components/AppBarButtons';
+import AppDrawer from '../components/AppDrawer';
 
 injectTapEventPlugin();
 
@@ -34,7 +33,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
     return (
       <Router>
         <MuiThemeProvider muiTheme={muiTheme} >
@@ -44,22 +42,10 @@ class App extends React.Component {
               iconElementRight={<AppBarButtons />}
               onLeftIconButtonTouchTap={this.toggleDrawer}
             />
-            <Drawer
-              docked={false}
+            <AppDrawer
+              toggleDrawer={this.toggleDrawer}
               open={this.state.open}
-              onRequestChange={this.toggleDrawer}
-            >
-              <AppBar
-                title={<img src="logo.svg" height="75%" alt="Civify logo" />}
-                onLeftIconButtonTouchTap={this.toggleDrawer}
-              />
-              <Link to="/" style={{ textDecoration: 'none' }}>
-                <MenuItem onTouchTap={this.toggleDrawer} >{t('issues')}</MenuItem>
-              </Link>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
-                <MenuItem onTouchTap={this.toggleDrawer} >{t('login')}</MenuItem>
-              </Link>
-            </Drawer>
+            />
             <main className="mdl-layout__content">
               <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
@@ -71,8 +57,4 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  t: PropTypes.func.isRequired,
-};
-
-export default translate()(App);
+export default App;
