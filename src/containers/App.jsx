@@ -1,60 +1,57 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { white, grey500 } from 'material-ui/styles/colors';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { AppBar } from 'material-ui';
 import Home from '../components/Home';
 import Login from '../components/Login';
-import AppBarButtons from '../components/AppBarButtons';
-import AppDrawer from '../components/AppDrawer';
+import Header from '../components/Header';
+import NotFound from '../components/NotFound';
+import Register from '../components/Register';
 
 injectTapEventPlugin();
 
 const muiTheme = getMuiTheme({
+  fontFamily: 'Nunito, sans-serif',
   palette: {
-    primary1Color: white,
-    alternateTextColor: grey500,
+    primary1Color: '#27ae60',
+    accent1Color: '#ffffff',
+    alternateTextColor: '#ffffff',
   },
   appBar: {
     height: 50,
   },
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { open: false };
-    this.toggleDrawer = this.toggleDrawer.bind(this);
-  }
+const mainStyle = {
+  fontFamily: 'Nunito, sans-serif',
+  backgroundColor: '#eee',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  overflow: 'auto',
+  maxHeight: '100vh',
+  minHeight: 'min-content',
+  marginTop: 50,
 
-  toggleDrawer() {
-    this.setState({ open: !this.state.open });
-  }
+};
 
-  render() {
-    return (
-      <Router>
-        <MuiThemeProvider muiTheme={muiTheme} >
-          <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <AppBar
-              title={<img src="logo.svg" height="75%" alt="Civify logo" />}
-              iconElementRight={<AppBarButtons />}
-              onLeftIconButtonTouchTap={this.toggleDrawer}
-            />
-            <AppDrawer
-              toggleDrawer={this.toggleDrawer}
-              open={this.state.open}
-            />
-            <main className="mdl-layout__content">
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-            </main>
-          </div>
-        </MuiThemeProvider>
-      </Router>
-    );
-  }
-}
+const App = (
+  <Router>
+    <MuiThemeProvider muiTheme={muiTheme} >
+      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <Header />
+        <main className="mdl-layout__content" style={mainStyle}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </main>
+      </div>
+    </MuiThemeProvider>
+  </Router>
+);
+
 
 export default App;

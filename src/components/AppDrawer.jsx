@@ -13,7 +13,11 @@ export function fAppDrawer(props) {
       onRequestChange={props.toggleDrawer}
     >
       <AppBar
-        title={<img src="logo.svg" height="75%" alt="Civify logo" />}
+        title={
+          <Link to="/" onClick={props.toggleDrawer}>
+            <img src="logo.svg" height="75%" alt="Civify logo" />
+          </Link>
+        }
         onLeftIconButtonTouchTap={props.toggleDrawer}
       />
       <Link to="/" style={{ textDecoration: 'none' }}>
@@ -24,7 +28,7 @@ export function fAppDrawer(props) {
       </Link>
     </Drawer>
   );
-};
+}
 
 fAppDrawer.propTypes = {
   open: PropTypes.bool.isRequired,

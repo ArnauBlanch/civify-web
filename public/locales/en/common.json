@@ -1,4 +1,15 @@
 {
  "issues": "Issues",
- "login": "Log in"
+ "login": "Log in",
+ "business-registration": "Business registration",
+ "register-now": "Register now",
+ "not-registered-business": "Are a business and want to offer rewards in our app?",
+ "not-found": "Page not found",
+ "couldnt-find-page": "Couldn't find the page you requested",
+ "username": "Username",
+ "email": "E-mail",
+ "business-name": "Business name",
+ "password": "Password",
+ "confirm-password": "Confirm your password",
+ "submit": "Submit"
 }

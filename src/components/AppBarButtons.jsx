@@ -13,10 +13,12 @@ export function fAppBarButtons(props) {
     >
       <FlatButton
         label={t('issues')}
+        secondary
         containerElement={<Link to="/" />}
       />
       <FlatButton
         label={t('login')}
+        secondary
         containerElement={<Link to="/login" />}
       />
     </nav>
