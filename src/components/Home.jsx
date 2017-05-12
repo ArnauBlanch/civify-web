@@ -1,18 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { translate } from 'react-i18next';
+import { withGoogleMap, GoogleMap } from 'react-google-maps';
 
-export function fHome(props) {
-  const { t } = props;
-  return (
-    <div>
-      <h1>{t('issues')}</h1>
-    </div>
-  );
+const SimpleMapExampleGoogleMap = withGoogleMap(() => (
+  <GoogleMap
+    defaultZoom={8}
+    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+  />
+));
+
+class Home extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      markers: [{
+        position: {
+          lat: 25.0122,
+          long: 121.5206,
+        },
+      }],
+    };
+  }
+
+  render() {
+    return (
+      <SimpleMapExampleGoogleMap
+        containerElement={
+          <div style={{ height: '100%' }} />
+        }
+        mapElement={
+          <div style={{ height: '94vh' }} />
+        }
+      />
+    );
+  }
 }
 
-fHome.propTypes = {
-  t: PropTypes.func.isRequired,
-};
-
-export default translate()(fHome);
+export default Home;
