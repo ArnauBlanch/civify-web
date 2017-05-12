@@ -10,20 +10,31 @@
  */
 
 import React from 'react';
-import { withGoogleMap, GoogleMap } from 'react-google-maps';
-
-const SimpleMapExampleGoogleMap = withGoogleMap(() => (
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+const SimpleMapExampleGoogleMap = withGoogleMap((props) => (
   <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: 41.390205, lng: 2.154007 }}
-  />
+  >
+    {props.markers.map((marker) => (
+      <Marker
+        position={marker.position}
+      >
+      </Marker>
+    ))}
+  </GoogleMap>
 ));
 
-class Home extends React.PureComponent {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      markers: [],
+      markers: [{
+        position: {
+          lat: 41.390205,
+          lng: 2.154007,
+        },
+      }],
     };
   }
 
@@ -37,6 +48,7 @@ class Home extends React.PureComponent {
           mapElement={
             <div style={{ height: '100%', width: '100%', position: 'absolute' }} />
           }
+          markers={this.state.markers}
         />
       </div>
     );
