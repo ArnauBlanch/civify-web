@@ -40,11 +40,11 @@ export default defineMessages({
   },
   invalidPassword: {
     id: 'app.containers.RegistrationForm.invalid-password',
-    defaultMessage: 'Invalid password',
+    defaultMessage: 'The password is invalid (Should have 8–40 characters, including at least 1 uppercase and 1 lowercase letter, 1 digit. Special characters allowed: @&#$%)',
   },
   passwordsDoNoMatch: {
     id: 'app.containers.RegistrationForm.passwords-do-not-match',
-    defaultMessage: 'Passwords do no match',
+    defaultMessage: 'Passwords do not match',
   },
   submit: {
     id: 'app.containers.RegistrationForm.submit',
