@@ -9,26 +9,41 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Paper } from 'material-ui';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
+import makeSelectRegistrationPage from './selectors';
+import { registerRequest, checkUnusedUsername, checkUnusedEmail } from './actions';
 import messages from './messages';
 import paperStyle from '../../paperStyle';
-import { registerRequest } from './actions';
 import RegistrationForm from '../../components/RegistrationForm';
 
 export class RegistrationPage extends React.Component {
   constructor(props) {
     super(props);
     this.registerUser = this.registerUser.bind(this);
+    this.checkUnusedUsername = this.checkUnusedUsername.bind(this);
+    this.checkUnusedEmail = this.checkUnusedEmail.bind(this);
   }
 
   registerUser(values) {
-    this.props.dispatch(registerRequest({
-      name: values.get('name'),
-      username: values.get('username'),
-      email: values.get('email'),
-      password: values.get('password'),
-    }));
+    this.checkUnusedEmail(values.get('email'));
+    this.checkUnusedUsername(values.get('username'));
+    if (this.props.registerState.unusedUsername && this.props.registerState.unusedEmail) {
+      this.props.dispatch(registerRequest({
+        name: values.get('name'),
+        username: values.get('username'),
+        email: values.get('email'),
+        password: values.get('password'),
+      }));
+    }
   }
 
+  checkUnusedUsername(username) {
+    this.props.dispatch(checkUnusedUsername(username));
+  }
+
+  checkUnusedEmail(email) {
+    this.props.dispatch(checkUnusedEmail(email));
+  }
 
   render() {
     const t = this.props.intl.formatMessage;
@@ -46,7 +61,12 @@ export class RegistrationPage extends React.Component {
           zDepth={4}
         >
           <h4><FormattedMessage {...messages.businessRegistration} /></h4>
-          <RegistrationForm onSubmit={this.registerUser} />
+          <RegistrationForm
+            onSubmit={this.registerUser}
+            unusedUsername={this.props.registerState.unusedUsername}
+            unusedEmail={this.props.registerState.unusedEmail}
+            checkUsername={this.checkUnusedUsername}
+          />
         </Paper>
       </div>
     );
@@ -56,6 +76,7 @@ export class RegistrationPage extends React.Component {
 RegistrationPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  registerState: PropTypes.object.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -64,10 +85,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function select(state) {
-  return {
-    data: state,
-  };
-}
+const mapStateToProps = createStructuredSelector({
+  registerState: makeSelectRegistrationPage(),
+});
 
-export default connect(select, mapDispatchToProps)(injectIntl(RegistrationPage));
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(RegistrationPage));
