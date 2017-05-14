@@ -6,24 +6,20 @@
 
 import { fromJS } from 'immutable';
 import {
-  REQUEST_ERROR,
   SENDING_REQUEST,
   UNUSED_USERNAME,
   UNUSED_EMAIL,
 } from './constants';
 
 const initialState = fromJS({
-  error: '',
+  requestError: '',
   currentlySending: false,
-  unusedUsername: false,
-  unusedEmail: false,
+  unusedUsername: true,
+  unusedEmail: true,
 });
 
 function registrationPageReducer(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_ERROR:
-      return state
-        .set('error', action.error);
     case SENDING_REQUEST:
       return state
         .set('currentlySending', action.sending);

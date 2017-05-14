@@ -26,7 +26,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
     return (
       <div>
         <AppBar
-          style={{ postion: 'fixed' }}
+          style={{ position: 'fixed' }}
           title={<Link to="/"><img src={Logo} height="75%" alt="Civify logo" /></Link>}
           iconElementRight={<AppBarButtons />}
           onLeftIconButtonTouchTap={this.toggleDrawer}

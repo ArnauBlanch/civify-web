@@ -3,13 +3,124 @@
  */
 
 /* eslint-disable redux-saga/yield-effects */
-// import { take, call, put, select } from 'redux-saga/effects';
-// import { defaultSaga } from '../sagas';
+import { call } from 'redux-saga/effects';
+import { expectSaga } from 'redux-saga-test-plan';
+import { push } from 'react-router-redux';
+import sha256 from 'js-sha256';
+import {
+  register as registerSaga,
+  checkUnusedUsername as checkUnusedUsernameSaga,
+  checkUnusedEmail as checkUnusedEmailSaga,
+} from '../sagas';
+import {
+  registerRequest,
+  sendingRequest,
+  unusedUsername,
+  checkUnusedUsername,
+  unusedEmail,
+  checkUnusedEmail,
+} from '../actions';
+import request from '../../../utils/request';
 
-// const generator = defaultSaga();
+const user = {
+  name: 'mock first_name',
+  username: 'mock username',
+  email: 'mock email',
+  password: 'mock password',
+};
 
-describe('defaultSaga Saga', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
-  });
+const userBody = {
+  first_name: user.name,
+  username: user.username,
+  email: user.email,
+  kind: 'business',
+  password: sha256(user.password),
+  password_confirmation: sha256(user.password),
+};
+
+describe('testing register saga', () => {
+  it('should dispatch an action alerting that the request is no longer being sent if it is successful', () => (
+    expectSaga(registerSaga)
+    .provide([
+      [call(request, '/users', 'POST', userBody, false), {
+        status: 201,
+        json: () => ({ message: 'User created' }),
+      }],
+    ])
+    .put(sendingRequest(true))
+    .put(push('/'))
+    .put(sendingRequest(false))
+    .dispatch(registerRequest(user))
+    .run()
+  ));
+
+  it('should dispatch an action alerting that the request is no longer being sent and another with an error if it had an error', () => (
+    expectSaga(registerSaga)
+    .provide([
+      [call(request, '/users', 'POST', userBody, false), {
+        status: 400,
+        json: () => ({ message: 'User not created' }),
+      }],
+    ])
+    .put(sendingRequest(true))
+    .put(sendingRequest(false))
+    .dispatch(registerRequest(user))
+    .run()
+  ));
+});
+
+describe('testing check username saga', () => {
+  it('should dispatch an action alerting that the username is unused', () => (
+    expectSaga(checkUnusedUsernameSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { username: 'unusedUsername' }, false), {
+        status: 404,
+        json: () => ({ message: 'User not exists' }),
+      }],
+    ])
+    .put(unusedUsername(true))
+    .dispatch(checkUnusedUsername('unusedUsername'))
+    .run()
+  ));
+
+  it('should dispatch an action alerting that the username is used', () => (
+    expectSaga(checkUnusedUsernameSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { username: 'usedUsername' }, false), {
+        status: 200,
+        json: () => ({ message: 'User exists' }),
+      }],
+    ])
+    .put(unusedUsername(false))
+    .dispatch(checkUnusedUsername('usedUsername'))
+    .run()
+  ));
+});
+
+describe('testing check e-mail saga', () => {
+  it('should dispatch an action alerting that the e-mail is unused', () => (
+    expectSaga(checkUnusedEmailSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { email: 'unused@email.com' }, false), {
+        status: 404,
+        json: () => ({ message: 'User not exists' }),
+      }],
+    ])
+    .put(unusedEmail(true))
+    .dispatch(checkUnusedEmail('unused@email.com'))
+    .run()
+  ));
+
+  it('should dispatch an action alerting that the e-mail is used', () => (
+    expectSaga(checkUnusedEmailSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { email: 'used@email.com' }, false), {
+        status: 200,
+        json: () => ({ message: 'User exists' }),
+      }],
+    ])
+    .put(unusedEmail(false))
+    .dispatch(checkUnusedEmail('used@email.com'))
+    .run()
+  ));
 });

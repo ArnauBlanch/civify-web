@@ -10,8 +10,8 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.issues',
     defaultMessage: 'Issues',
   },
-  login: {
-    id: 'app.components.AppBarButtons.login',
-    defaultMessage: 'Log in',
+  signIn: {
+    id: 'app.components.AppBarButtons.sign-in',
+    defaultMessage: 'Sign in',
   },
 });
