@@ -6,16 +6,16 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  login: {
-    id: 'app.containers.LoginPage.login',
-    defaultMessage: 'Log in',
+  signIn: {
+    id: 'app.containers.LoginPage.sign-in',
+    defaultMessage: 'Sign in',
   },
   register: {
-    id: 'app.containers.LoginPage.register',
-    defaultMessage: 'Register',
+    id: 'app.containers.LoginPage.register-now',
+    defaultMessage: 'Register now',
   },
   notRegisteredBusiness: {
     id: 'app.containers.LoginPage.not-registered-business',
-    defaultMessage: 'Are a business and want to offer rewards in our app?',
+    defaultMessage: 'Are you a business and would like to offer rewards in our app?',
   },
 });

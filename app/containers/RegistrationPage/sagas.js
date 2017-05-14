@@ -1,8 +1,8 @@
 import { take, call, put, fork } from 'redux-saga/effects';
 import sha256 from 'js-sha256';
-import { browserHistory } from 'react-router';
+import { push } from 'react-router-redux';
 import { REGISTER_REQUEST, CHECK_UNUSED_USERNAME, CHECK_UNUSED_EMAIL } from './constants';
-import { sendingRequest, requestError, unusedUsername, unusedEmail } from './actions';
+import { sendingRequest, unusedUsername, unusedEmail } from './actions';
 import request from '../../utils/request';
 
 // Individual exports for testing
@@ -20,18 +20,14 @@ export function* register() {
     };
 
     yield put(sendingRequest(true));
-
-    try {
-      const wasSuccesful =
-      yield call(request, '/users', 'POST', user, false);
-      if (wasSuccesful) {
-        browserHistory.push('/');
+    const response = yield call(request, '/users', 'POST', user, false);
+    if (response.status === 201 || response.status === 400) {
+      const body = yield response.json();
+      if (response.status === 201 && body.message === 'User created') {
+        yield put(push('/'));
       }
-    } catch (error) {
-      yield put(requestError(error.message));
-    } finally {
-      yield put(sendingRequest(false));
     }
+    yield put(sendingRequest(false));
   }
 }
 
@@ -39,13 +35,15 @@ export function* checkUnusedUsername() {
   while (true) {
     const unusedRequest = yield take(CHECK_UNUSED_USERNAME);
     const { username } = unusedRequest;
+    const response = yield call(request, '/users/search', 'POST', { username }, false);
 
-    try {
-      if (yield call(request, '/users/search', 'POST', { username }, false)) {
+    if (response.status === 200 || response.status === 404) {
+      const body = yield response.json();
+      if (response.status === 200 && body.message === 'User exists') {
+        yield put(unusedUsername(false));
+      } else if (response.status === 404 && body.message === 'User not exists') {
         yield put(unusedUsername(true));
       }
-    } catch (error) {
-      yield put(unusedUsername(false));
     }
   }
 }
@@ -54,13 +52,14 @@ export function* checkUnusedEmail() {
   while (true) {
     const unusedRequest = yield take(CHECK_UNUSED_EMAIL);
     const { email } = unusedRequest;
-
-    try {
-      if (yield call(request, '/users/search', 'POST', { email }, false)) {
+    const response = yield call(request, '/users/search', 'POST', { email }, false);
+    if (response.status === 200 || response.status === 404) {
+      const body = yield response.json();
+      if (response.status === 200 && body.message === 'User exists') {
+        yield put(unusedEmail(false));
+      } else if (response.status === 404 && body.message === 'User not exists') {
         yield put(unusedEmail(true));
       }
-    } catch (error) {
-      yield put(unusedEmail(false));
     }
   }
 }

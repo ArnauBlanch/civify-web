@@ -13,7 +13,7 @@
 
 import React from 'react';
 import Header from '../../components/Header';
-import mainStyle from './mainStyle';
+import mainStyle from './main.style';
 
 export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 

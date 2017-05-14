@@ -13,34 +13,28 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import makeSelectLoginPage from './selectors';
 import messages from './messages';
-import paperStyle from '../../paperStyle';
-
-const registerStyle = {
-  marginLeft: 10,
-  verticalAlign: 'middle',
-};
+import paperStyle from '../../paper.style';
 
 export class LoginPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div>
         <Helmet
-          title={`Civify | ${this.props.intl.formatMessage(messages.login)}`}
+          title={`Civify | ${this.props.intl.formatMessage(messages.signIn)}`}
           meta={[
-            { name: 'description', content: 'Log into Civify' },
+            { name: 'description', content: 'Sign into Civify' },
           ]}
         />
         <Paper
           style={paperStyle}
           zDepth={2}
         >
-          <h4 style={{ margin: 0 }}><FormattedMessage {...messages.login} /></h4>
+          <h4 style={{ margin: 0 }}><FormattedMessage {...messages.signIn} /></h4>
           <br /><br /><br />
           <FormattedMessage {...messages.notRegisteredBusiness} /><br />
           <FlatButton
             label={this.props.intl.formatMessage(messages.register)}
             primary
-            style={registerStyle}
             containerElement={<Link to="/register" />}
           />
         </Paper>

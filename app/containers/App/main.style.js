@@ -5,6 +5,7 @@ const mainStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'auto',
+  marginTop: 50,
   maxHeight: '100vh',
   minHeight: 'min-content',
 };

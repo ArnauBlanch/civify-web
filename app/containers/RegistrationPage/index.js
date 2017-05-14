@@ -7,13 +7,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Paper } from 'material-ui';
+import { Paper, CircularProgress } from 'material-ui';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import makeSelectRegistrationPage from './selectors';
 import { registerRequest, checkUnusedUsername, checkUnusedEmail } from './actions';
 import messages from './messages';
-import paperStyle from '../../paperStyle';
+import paperStyle from '../../paper.style';
 import RegistrationForm from '../../components/RegistrationForm';
 
 export class RegistrationPage extends React.Component {
@@ -25,16 +25,16 @@ export class RegistrationPage extends React.Component {
   }
 
   registerUser(values) {
-    this.checkUnusedEmail(values.get('email'));
-    this.checkUnusedUsername(values.get('username'));
-    if (this.props.registerState.unusedUsername && this.props.registerState.unusedEmail) {
-      this.props.dispatch(registerRequest({
-        name: values.get('name'),
-        username: values.get('username'),
-        email: values.get('email'),
-        password: values.get('password'),
-      }));
-    }
+    // this.checkUnusedEmail(values.get('email'));
+    // this.checkUnusedUsername(values.get('username'));
+    // if (this.props.registerState.unusedUsername && this.props.registerState.unusedEmail) {
+    this.props.dispatch(registerRequest({
+      name: values.get('name'),
+      username: values.get('username'),
+      email: values.get('email'),
+      password: values.get('password'),
+    }));
+    // }
   }
 
   checkUnusedUsername(username) {
@@ -66,7 +66,10 @@ export class RegistrationPage extends React.Component {
             unusedUsername={this.props.registerState.unusedUsername}
             unusedEmail={this.props.registerState.unusedEmail}
             checkUsername={this.checkUnusedUsername}
+            checkEmail={this.checkUnusedEmail}
+            error={this.props.registerState.error}
           />
+          { this.props.registerState.currentlySending && <CircularProgress style={{ marginTop: 20 }} size={40} /> }
         </Paper>
       </div>
     );

@@ -10,8 +10,8 @@ export default defineMessages({
     id: 'app.components.AppDrawer.issues',
     defaultMessage: 'Issues',
   },
-  login: {
-    id: 'app.components.AppDrawer.login',
-    defaultMessage: 'Log in',
+  signIn: {
+    id: 'app.components.AppDrawer.sign-in',
+    defaultMessage: 'Sign in',
   },
 });
