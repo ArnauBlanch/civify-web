@@ -18,7 +18,6 @@ import { useScroll } from 'react-router-scroll';
 // Import material-ui
 import { MuiThemeProvider } from 'material-ui/styles';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-// import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
