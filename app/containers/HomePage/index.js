@@ -11,13 +11,16 @@
 
 import React from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-const SimpleMapExampleGoogleMap = withGoogleMap((props) => (
+import iconUrl from '!file-loader?name=[name].[ext]!../../images/urban_furniture_pin.png';
+// import iconUrl from '../../urban_furniture_pin2.svg';
+const SimpleMap = withGoogleMap((props) => (
   <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: 41.390205, lng: 2.154007 }}
   >
     {props.markers.map((marker) => (
       <Marker
+        icon={{ url: iconUrl }}
         position={marker.position}
       >
       </Marker>
@@ -34,14 +37,20 @@ class Home extends React.Component {
           lat: 41.390205,
           lng: 2.154007,
         },
-      }],
+      }, {
+        position: {
+          lat: 41.990205,
+          lng: 2.854007,
+        },
+      },
+      ],
     };
   }
 
   render() {
     return (
       <div className="App">
-        <SimpleMapExampleGoogleMap
+        <SimpleMap
           containerElement={
             <div style={{ height: 'calc(100vh - 50px)', width: '100vw' }} />
           }
