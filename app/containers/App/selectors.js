@@ -14,7 +14,9 @@ const makeSelectLocationState = () => {
     return prevRoutingStateJS;
   };
 };
+const makeSelectIsAuthenticated = () => (state) => state.get('auth').get('isAuthenticated');
 
 export {
   makeSelectLocationState,
+  makeSelectIsAuthenticated,
 };
