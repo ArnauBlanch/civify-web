@@ -173,7 +173,7 @@
       "cross-env",
       "express",
       "ip",
-      "minimist",
+      "minimist"
     ],
     "include": [
       "core-js",
