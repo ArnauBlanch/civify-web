@@ -56,7 +56,7 @@ class MapPage extends React.Component {
       },
       ],
     };
-    this.props.dispatch(issuesRequest());
+    // this.props.dispatch(issuesRequest());
   }
 
   render() {
