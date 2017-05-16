@@ -49,11 +49,15 @@ export function* userInfo() {
 export function* login() {
   while (true) {
     const loginRequest = yield take(LOGIN_REQUEST);
+    console.log('login request saga');
     const { user } = loginRequest;
-    user.password = sha256(user.password);
+    const userBody = Object.assign({}, user);
+    userBody.password = sha256(userBody.password);
+    console.log(user);
+    console.log(userBody);
 
     yield put(sendingRequest(true));
-    const response = yield call(request, '/login', 'POST', user, false);
+    const response = yield call(request, '/login', 'POST', userBody, false);
     if (response.status === 200 || response.status === 401 || response.status === 404) {
       const body = yield response.json();
       if (response.status === 200 && body.auth_token) {
@@ -69,6 +73,7 @@ export function* login() {
 }
 
 export function* root() {
+  console.log('root login');
   yield fork(login);
   yield fork(userInfo);
 }

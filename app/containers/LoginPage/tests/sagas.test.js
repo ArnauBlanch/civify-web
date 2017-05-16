@@ -6,6 +6,7 @@
 import { call } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
+import sha256 from 'js-sha256';
 import { push } from 'react-router-redux';
 import {
   login as loginSaga,
@@ -23,8 +24,13 @@ import {
 import request from '../../../utils/request';
 
 const user = {
-  username: 'mock username',
-  password: 'mock password',
+  username: 'mock username2',
+  password: 'mock password2',
+};
+
+const userBody = {
+  username: user.username,
+  password: sha256(user.password),
 };
 
 describe('testing login saga', () => {
@@ -35,7 +41,7 @@ describe('testing login saga', () => {
   it('should do nothing if error code is unexpected', () => (
     expectSaga(loginSaga)
     .provide([
-      [call(request, '/login', 'POST', user, false), {
+      [call(request, '/login', 'POST', userBody, false), {
         status: 300,
       }],
     ])
@@ -48,7 +54,7 @@ describe('testing login saga', () => {
   it('should do nothing if response body is empty', () => (
     expectSaga(loginSaga)
     .provide([
-      [call(request, '/login', 'POST', user, false), {
+      [call(request, '/login', 'POST', userBody, false), {
         status: 200,
         json: () => ({}),
       }],
@@ -62,7 +68,7 @@ describe('testing login saga', () => {
   it('should alert that login failed if credentials are invalid', () => (
     expectSaga(loginSaga)
     .provide([
-      [call(request, '/login', 'POST', user, false), {
+      [call(request, '/login', 'POST', userBody, false), {
         status: 401,
         json: () => ({ message: 'Invalid credentials' }),
       }],
@@ -76,7 +82,7 @@ describe('testing login saga', () => {
   it('should alert that login failed if user does not exist', () => (
     expectSaga(loginSaga)
     .provide([
-      [call(request, '/login', 'POST', user, false), {
+      [call(request, '/login', 'POST', userBody, false), {
         status: 404,
         json: () => ({ message: 'User not exists' }),
       }],
@@ -91,7 +97,7 @@ describe('testing login saga', () => {
   it('should ask for user info if login succeeded', () => (
     expectSaga(loginSaga)
     .provide([
-      [call(request, '/login', 'POST', user, false), {
+      [call(request, '/login', 'POST', userBody, false), {
         status: 200,
         json: () => ({ auth_token: 'jdsffjhakj htqjk4 kr4 2132fdd' }),
       }],

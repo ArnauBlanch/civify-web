@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.sign-in',
     defaultMessage: 'Sign in',
   },
+  signOut: {
+    id: 'app.components.AppBarButtons.sign-out',
+    defaultMessage: 'Sign out',
+  },
 });

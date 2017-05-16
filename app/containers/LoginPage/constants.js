@@ -11,3 +11,4 @@ export const LOGIN_FAILED = 'app/LoginPage/LOGIN_ERROR';
 export const USER_INFO_REQUEST = 'app/LoginPage/USER_INFO_REQUEST';
 export const USER_INFO_SUCCESS = 'app/LoginPage/USER_INFO_SUCCESS';
 export const USER_INFO_FAILED = 'app/LoginPage/USER_INFO_FAILED';
+export const LOGOUT_REQUEST = 'app/LoginPage/LOGOUT_REQUEST';

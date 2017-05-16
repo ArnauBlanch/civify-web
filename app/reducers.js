@@ -9,7 +9,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form/immutable';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-import { LOGIN_SUCCESS } from './containers/LoginPage/constants';
+import { LOGIN_SUCCESS, LOGOUT_REQUEST } from './containers/LoginPage/constants';
 
 /*
  * routeReducer
@@ -47,6 +47,10 @@ export function authReducer(state = authInitialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return state.set('isAuthenticated', true);
+    case LOGOUT_REQUEST:
+      localStorage.removeItem('user_token');
+      localStorage.removeItem('auth_token');
+      return state.set('isAuthenticated', false);
     default:
       return state;
   }
