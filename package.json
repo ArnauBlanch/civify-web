@@ -173,8 +173,7 @@
       "cross-env",
       "express",
       "ip",
-      "minimist",
-      "sanitize.css"
+      "minimist"
     ],
     "include": [
       "core-js",
@@ -188,7 +187,11 @@
       "!app/**/*.test.{js,jsx}",
       "!app/*/RbGenerated*/*.{js,jsx}",
       "!app/app.js",
-      "!app/routes.js"
+      "!app/routes.js",
+      "!app/**/messages.js",
+      "app/**/LanguageProvider/index.js",
+      "!app/**/index.js",
+      "!app/**/*.style.{js,jsx}"
     ],
     "coverageThreshold": {
       "global": {
@@ -213,7 +216,7 @@
     "babel-polyfill": "6.22.0",
     "chalk": "1.1.3",
     "compression": "1.6.2",
-    "cross-env": "3.1.4",
+    "cross-env": "3.1.3",
     "express": "4.14.1",
     "fontfaceobserver": "2.0.8",
     "history": "3.2.1",
@@ -231,11 +234,9 @@
     "react-dom": "15.4.2",
     "react-google-maps": "^6.3.0",
     "react-helmet": "^4.0.0",
-    "react-i18next": "^3.1.0",
     "react-intl": "2.2.3",
     "react-redux": "5.0.2",
     "react-router": "3.0.2",
-    "react-router-dom": "^4.1.1",
     "react-router-redux": "4.0.6",
     "react-router-scroll": "0.4.1",
     "react-tap-event-plugin": "^2.0.1",
@@ -243,9 +244,10 @@
     "redux-form": "^6.7.0",
     "redux-form-material-ui": "^4.2.0",
     "redux-immutable": "3.0.11",
-    "redux-saga": "0.14.3",
+    "redux-jest": "^1.1.1",
+    "redux-saga": "^0.15.3",
+    "redux-saga-test-plan": "^3.0.2",
     "reselect": "2.5.4",
-    "sanitize.css": "4.1.0",
     "styled-components": "1.4.3",
     "warning": "3.0.0",
     "whatwg-fetch": "2.0.2"
@@ -286,7 +288,7 @@
     "html-webpack-plugin": "2.28.0",
     "image-webpack-loader": "2.0.0",
     "imports-loader": "0.7.0",
-    "jest-cli": "18.1.0",
+    "jest-cli": "^18.1.0",
     "lint-staged": "3.3.0",
     "ngrok": "2.2.6",
     "node-plop": "0.5.5",

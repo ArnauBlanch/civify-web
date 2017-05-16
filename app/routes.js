@@ -14,7 +14,7 @@ const loadModule = (cb) => (componentModule) => {
 
 export default function createRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
-  const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
+  const { injectReducer, injectSagas, checkAuth } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
 
   return [
     {
@@ -34,6 +34,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/register',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/RegistrationPage/reducer'),
@@ -53,6 +54,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/login',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/LoginPage/reducer'),

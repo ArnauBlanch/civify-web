@@ -6,16 +6,32 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  login: {
-    id: 'app.containers.LoginPage.login',
-    defaultMessage: 'Log in',
+  signIn: {
+    id: 'app.containers.LoginPage.sign-in',
+    defaultMessage: 'Sign in',
   },
   register: {
-    id: 'app.containers.LoginPage.register',
-    defaultMessage: 'Register',
+    id: 'app.containers.LoginPage.register-now',
+    defaultMessage: 'Register now',
   },
   notRegisteredBusiness: {
     id: 'app.containers.LoginPage.not-registered-business',
-    defaultMessage: 'Are a business and want to offer rewards in our app?',
+    defaultMessage: 'Are you a business and would like to offer rewards in our app?',
+  },
+  wrongPassword: {
+    id: 'app.containers.LoginPage.wrong-password',
+    defaultMessage: 'Wrong password',
+  },
+  userDoesNotExist: {
+    id: 'app.containers.LoginPage.user-does-not-exist',
+    defaultMessage: 'User does not exist',
+  },
+  thereWasAnError: {
+    id: 'app.containers.LoginPage.there-was-an-error',
+    defaultMessage: 'There was an error',
+  },
+  noPrivileges: {
+    id: 'app.containers.LoginPage.you-do-not-have-enough-privileges',
+    defaultMessage: 'You do not have enough privileges',
   },
 });

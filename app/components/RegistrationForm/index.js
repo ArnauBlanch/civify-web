@@ -14,39 +14,61 @@ import messages from './messages';
 class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
-    this.username = this.username.bind(this);
-    this.email = this.email.bind(this);
+    this.validUsername = this.validUsername.bind(this);
+    this.requiredUsername = this.requiredUsername.bind(this);
+    this.validEmail = this.validEmail.bind(this);
+    this.requiredEmail = this.requiredEmail.bind(this);
+    this.state = {
+      usernameTouched: false,
+      emailTouched: false,
+      validUsername: undefined,
+      validEmail: undefined,
+    };
   }
 
   required(value) {
     return (value ? undefined : <FormattedMessage {...messages.requiredField} />);
   }
 
-  email(value) {
-    if (value && !/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g.test(value)) {
-      return <FormattedMessage {...messages.invalidEmail} />;
-    }
-    return (this.props.unusedEmail && <FormattedMessage {...messages.usedEmail} />) || undefined;
+  requiredUsername(username) {
+    const errorMessage = username ?
+                         undefined : <FormattedMessage {...messages.requiredField} />;
+    this.setState({ requiredUsername: errorMessage });
+    return errorMessage;
   }
 
-  username(value) {
-    if (value && !/^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/g.test(value)) {
-      return <FormattedMessage {...messages.invalidUsername} />;
-    }
-    return (this.props.unusedUsername && <FormattedMessage {...messages.usedUsername} />) || undefined;
+  requiredEmail(email) {
+    const errorMessage = email ?
+                         undefined : <FormattedMessage {...messages.requiredField} />;
+    this.setState({ requiredEmail: errorMessage });
+    return errorMessage;
   }
 
-  password(value) {
+  validEmail(value) {
+    const errorMessage = value && /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g.test(value) ?
+                         undefined : <FormattedMessage {...messages.invalidEmail} />;
+    this.setState({ validEmail: errorMessage });
+    return errorMessage;
+  }
+
+  validUsername(value) {
+    const errorMessage = value && /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/g.test(value) ?
+      undefined : <FormattedMessage {...messages.invalidUsername} />;
+    this.setState({ validUsername: errorMessage });
+    return errorMessage;
+  }
+
+  validPassword(value) {
     return (
       value && !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9@&#$%]{8,40}$/g.test(value) ?
         <FormattedMessage {...messages.invalidPassword} /> : undefined
     );
   }
 
-  matchPassword(value, allValues) {
+  matchingPasswords(value, allValues) {
     return (
-      value && (value !== allValues.get('password')) ?
-        <FormattedMessage {...messages.passwordsDoNoMatch} /> : undefined
+      value && (value === allValues.get('password')) ?
+      undefined : <FormattedMessage {...messages.passwordsDoNoMatch} />
     );
   }
 
@@ -58,33 +80,51 @@ class RegistrationForm extends React.Component {
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.businessName} />}
           validate={this.required}
-        />
+        /><br />
         <Field
           name="username"
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.username} />}
-          validate={[this.required, this.username]}
-          onChange={(e) => this.props.checkUsername(e.target.value)}
-        />
+          validate={[this.requiredUsername, this.validUsername]}
+          errorText={this.state.usernameTouched &&
+            (this.state.requiredUsername || this.state.validUsername ||
+              (!this.props.unusedUsername && <FormattedMessage {...messages.usedUsername} />)
+            || undefined)}
+          onChange={(e) => {
+            this.setState({ usernameTouched: true });
+            if (e.target.value && /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/g.test(e.target.value)) {
+              this.props.checkUsername(e.target.value);
+            }
+          }}
+        /><br />
         <Field
           name="email"
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.email} />}
-          validate={[this.required, this.email]}
-        />
+          validate={[this.requiredEmail, this.validEmail]}
+          errorText={this.state.emailTouched &&
+            (this.state.requiredEmail || this.state.validEmail ||
+              (!this.props.unusedEmail && <FormattedMessage {...messages.usedEmail} />) || undefined)}
+          onChange={(e) => {
+            this.setState({ emailTouched: true });
+            if (e.target.value && /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g.test(e.target.value)) {
+              this.props.checkEmail(e.target.value);
+            }
+          }}
+        /><br />
         <Field
           name="password"
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.password} />}
           type="password"
-          validate={[this.required, this.password]}
-        />
+          validate={[this.required, this.validPassword]}
+        /><br />
         <Field
           name="password_confirmation"
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.confirmPassword} />}
           type="password"
-          validate={[this.required, this.matchPassword]}
+          validate={[this.required, this.matchingPasswords]}
         />
         <br /><br />
         <RaisedButton
@@ -106,6 +146,7 @@ RegistrationForm.propTypes = {
   unusedUsername: PropTypes.bool.isRequired,
   unusedEmail: PropTypes.bool.isRequired,
   checkUsername: PropTypes.func.isRequired,
+  checkEmail: PropTypes.func.isRequired,
 };
 
 export default reduxForm({ form: 'registrationForm' })(RegistrationForm);

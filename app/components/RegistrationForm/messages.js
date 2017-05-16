@@ -50,4 +50,12 @@ export default defineMessages({
     id: 'app.containers.RegistrationForm.submit',
     defaultMessage: 'Submit',
   },
+  usedUsername: {
+    id: 'app.containers.RegistrationPage.used-username',
+    defaultMessage: 'The username is already used',
+  },
+  usedEmail: {
+    id: 'app.containers.RegistrationPage.used-email',
+    defaultMessage: 'The e-mail is already used',
+  },
 });
