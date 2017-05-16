@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { take, call, put, fork } from 'redux-saga/effects';
 import sha256 from 'js-sha256';
 import { push } from 'react-router-redux';

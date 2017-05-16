@@ -1,8 +1,18 @@
+/* eslint-disable no-constant-condition */
 import { take, call, put, fork } from 'redux-saga/effects';
 import sha256 from 'js-sha256';
 import { push } from 'react-router-redux';
-import { LOGIN_REQUEST, USER_INFO_REQUEST } from './constants';
-import { sendingRequest, userInfoRequest, userInfoFailed, loginSuccess, loginFailed } from './actions';
+import {
+  LOGIN_REQUEST,
+  USER_INFO_REQUEST,
+} from './constants';
+import {
+  sendingRequest,
+  userInfoRequest,
+  userInfoFailed,
+  loginSuccess,
+  loginFailed,
+} from './actions';
 import request from '../../utils/request';
 
 export function* userInfo() {
@@ -10,25 +20,27 @@ export function* userInfo() {
     yield take(USER_INFO_REQUEST);
     try {
       const response = yield call(request, '/me', 'GET', undefined, true);
-      const body = yield response.json();
       if (response.status === 200) {
+        const body = yield response.json();
         if (body.kind === 'business' || body.kind === 'admin') {
           localStorage.setItem('user_token', body.user_auth_token);
-          if (body.kind === 'business') {
-            yield put(push('/')); // change
-          } else {
-            yield put(push('/')); // change
-          }
           yield put(loginSuccess());
+          if (body.kind === 'business') {
+            yield put(push('/rewards')); // change
+          } else {
+            yield put(push('/admin')); // change
+          }
         } else {
           localStorage.removeItem('auth_token');
+          localStorage.removeItem('user_token');
           yield put(loginFailed('Not a business or admin'));
         }
       } else {
         yield put(userInfoFailed());
-        yield put(loginFailed(body.message));
+        yield put(loginFailed('Unknown error'));
       }
     } catch (error) {
+      yield put(userInfoFailed());
       yield put(loginFailed(error.message));
     }
   }

@@ -11,7 +11,7 @@ import {
   UNUSED_EMAIL,
 } from './constants';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   requestError: '',
   currentlySending: false,
   unusedUsername: true,

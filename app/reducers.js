@@ -43,7 +43,7 @@ const authInitialState = fromJS({
   isAuthenticated: localStorage.getItem('auth_token') !== null,
 });
 
-function authReducer(state = authInitialState, action) {
+export function authReducer(state = authInitialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return state.set('isAuthenticated', true);
