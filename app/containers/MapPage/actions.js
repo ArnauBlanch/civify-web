@@ -5,11 +5,9 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  ISSUES_REQUEST,
 } from './constants';
 
-export function defaultAction() {
-  return {
-    type: DEFAULT_ACTION,
-  };
+export function issuesRequest() {
+  return { type: ISSUES_REQUEST };
 }

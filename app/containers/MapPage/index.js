@@ -34,6 +34,7 @@ class MapPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      markersLoaded: false,
       markers: [{
         position: {
           lat: 41.390205,
@@ -55,6 +56,7 @@ class MapPage extends React.Component {
       },
       ],
     };
+    this.props.dispatch(issuesRequest());
   }
 
   render() {
