@@ -1,23 +1,30 @@
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, call, fork, put } from 'redux-saga/effects';
 import {
   ISSUES_REQUEST,
 } from './constants';
+import {
+  issuesInfoSuccess,
+} from './actions';
+import request from '../../utils/request';
 
-// Individual exports for testing
-export function* defaultSaga() {
-  // See example in containers/HomePage/sagas.js
-}
-
-export function* login() {
+export function* issuesRequest() {
   while (true) {
     yield take(ISSUES_REQUEST);
-    try {
-      // hello
-    } catch (error) {
-      // error catch
+    const response = yield call(request, '/issues', 'GET', undefined, false);
+    console.log('API received');
+    if (response.status === 200) {
+      const body = yield response.json();
+      yield put(issuesInfoSuccess(body));
+      // aqui fare algo amb les issues del json
+    } else { // error retrieving issues
+      console.log('error retrieving the issues');
     }
     // yield put(sendingRequest(false));
   }
+}
+
+export function* defaultSaga() {
+  yield fork(issuesRequest);
 }
 
 // All sagas to be loaded
