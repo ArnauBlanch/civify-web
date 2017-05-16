@@ -173,7 +173,7 @@
       "cross-env",
       "express",
       "ip",
-      "minimist",
+      "minimist"
     ],
     "include": [
       "core-js",
@@ -188,6 +188,9 @@
       "!app/*/RbGenerated*/*.{js,jsx}",
       "!app/app.js",
       "!app/routes.js",
+      "!app/**/messages.js",
+      "app/**/LanguageProvider/index.js",
+      "!app/**/index.js",
       "!app/**/*.style.{js,jsx}"
     ],
     "coverageThreshold": {

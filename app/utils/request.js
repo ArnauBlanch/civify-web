@@ -13,12 +13,14 @@ export default function request(endpoint, method, body, withAuth) {
   const headers = {};
   if (body) headers['Content-Type'] = 'application/json';
   if (withAuth) {
-    headers.Authorization = 'toBeDone';
+    if (localStorage.getItem('auth_token') !== null) {
+      headers.Authorization = localStorage.getItem('auth_token');
+    } else {
+      throw new Error('No auth token in localStorage');
+    }
   }
-  const bodyString = JSON.stringify(body).toString();
-  return fetch(BASE_URL + endpoint, {
-    method,
-    body: bodyString,
-    headers,
-  });
+
+  const options = { method, headers };
+  if (body) options.body = JSON.stringify(body).toString();
+  return fetch(BASE_URL + endpoint, options);
 }

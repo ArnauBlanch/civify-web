@@ -25,6 +25,29 @@ export function checkStore(store) {
   );
 }
 
+export function checkAuth(store) {
+  return (nextState, replace) => {
+    const loggedIn = store.getState().get('auth').get('isAuthenticated');
+    // Check if the path isn't rewards. That way we can apply specific logic to
+    // display/render the path we want to
+    if (loggedIn) {
+      if (nextState.location.pathname === '/login' ||
+          nextState.location.pathname === '/register') {
+        replace('/');
+        console.log('Logged in + login/register');
+      } else {
+        console.log('Logged in + / or requires auth');
+        replace(nextState.location.pathname);
+      }
+    } else if (nextState.location.pathname !== '/' &&
+          nextState.location.pathname !== '/login' &&
+          nextState.location.pathname !== '/register') {
+      console.log('Not logged in + requires auth');
+      replace('/');
+    } else { console.log('Not logged in + doesn\'t require auth'); }
+  };
+}
+
 /**
  * Inject an asynchronously loaded reducer
  */
@@ -74,5 +97,6 @@ export function getAsyncInjectors(store) {
   return {
     injectReducer: injectAsyncReducer(store, true),
     injectSagas: injectAsyncSagas(store, true),
+    checkAuth: checkAuth(store),
   };
 }

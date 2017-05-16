@@ -18,4 +18,20 @@ export default defineMessages({
     id: 'app.containers.LoginPage.not-registered-business',
     defaultMessage: 'Are you a business and would like to offer rewards in our app?',
   },
+  wrongPassword: {
+    id: 'app.containers.LoginPage.wrong-password',
+    defaultMessage: 'Wrong password',
+  },
+  userDoesNotExist: {
+    id: 'app.containers.LoginPage.user-does-not-exist',
+    defaultMessage: 'User does not exist',
+  },
+  thereWasAnError: {
+    id: 'app.containers.LoginPage.there-was-an-error',
+    defaultMessage: 'There was an error',
+  },
+  noPrivileges: {
+    id: 'app.containers.LoginPage.you-do-not-have-enough-privileges',
+    defaultMessage: 'You do not have enough privileges',
+  },
 });

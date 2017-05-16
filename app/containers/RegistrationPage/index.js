@@ -13,7 +13,6 @@ import { createStructuredSelector } from 'reselect';
 import makeSelectRegistrationPage from './selectors';
 import { registerRequest, checkUnusedUsername, checkUnusedEmail } from './actions';
 import messages from './messages';
-import paperStyle from '../../paper.style';
 import RegistrationForm from '../../components/RegistrationForm';
 
 export class RegistrationPage extends React.Component {
@@ -25,16 +24,12 @@ export class RegistrationPage extends React.Component {
   }
 
   registerUser(values) {
-    // this.checkUnusedEmail(values.get('email'));
-    // this.checkUnusedUsername(values.get('username'));
-    // if (this.props.registerState.unusedUsername && this.props.registerState.unusedEmail) {
     this.props.dispatch(registerRequest({
       name: values.get('name'),
       username: values.get('username'),
       email: values.get('email'),
       password: values.get('password'),
     }));
-    // }
   }
 
   checkUnusedUsername(username) {
@@ -57,7 +52,13 @@ export class RegistrationPage extends React.Component {
           ]}
         />
         <Paper
-          style={paperStyle}
+          style={{
+            textAlign: 'center',
+            padding: 35,
+            width: '100%',
+            paddingLeft: 100,
+            paddingRight: 100,
+          }}
           zDepth={4}
         >
           <h4><FormattedMessage {...messages.businessRegistration} /></h4>
