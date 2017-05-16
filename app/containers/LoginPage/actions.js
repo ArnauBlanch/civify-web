@@ -29,7 +29,6 @@ export function loginSuccess() {
   return { type: LOGIN_SUCCESS };
 }
 
-
 export function userInfoRequest() {
   return { type: USER_INFO_REQUEST };
 }

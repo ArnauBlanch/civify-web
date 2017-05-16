@@ -11,6 +11,7 @@ import {
   register as registerSaga,
   checkUnusedUsername as checkUnusedUsernameSaga,
   checkUnusedEmail as checkUnusedEmailSaga,
+  root as rootSaga,
 } from '../sagas';
 import {
   registerRequest,
@@ -54,7 +55,18 @@ describe('testing register saga', () => {
     .run()
   ));
 
-  it('should dispatch an action alerting that the request is no longer being sent and another with an error if it had an error', () => (
+  it('should dispatch an action alerting that the request is no longer being sent if there was an unknown error', () => (
+    expectSaga(registerSaga)
+    .provide([
+      [call(request, '/users', 'POST', userBody, false), { status: 404 }],
+    ])
+    .put(sendingRequest(true))
+    .put(sendingRequest(false))
+    .dispatch(registerRequest(user))
+    .run()
+  ));
+
+  it('should dispatch an action alerting that the request is no longer being sent and another with an error if the user was not created', () => (
     expectSaga(registerSaga)
     .provide([
       [call(request, '/users', 'POST', userBody, false), {
@@ -95,6 +107,27 @@ describe('testing check username saga', () => {
     .dispatch(checkUnusedUsername('usedUsername'))
     .run()
   ));
+
+  it('should not alert of anything if there was an unknown error', () => (
+    expectSaga(checkUnusedUsernameSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { username: 'usedUsername' }, false), { status: 300 }],
+    ])
+    .dispatch(checkUnusedUsername('usedUsername'))
+    .run()
+  ));
+
+  it('should not alert of anything if there was an error with unknown body message', () => (
+    expectSaga(checkUnusedUsernameSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { username: 'usedUsername' }, false), {
+        status: 200,
+        json: () => ({ message: 'bad message' }),
+      }],
+    ])
+    .dispatch(checkUnusedUsername('usedUsername'))
+    .run()
+  ));
 });
 
 describe('testing check e-mail saga', () => {
@@ -121,6 +154,37 @@ describe('testing check e-mail saga', () => {
     ])
     .put(unusedEmail(false))
     .dispatch(checkUnusedEmail('used@email.com'))
+    .run()
+  ));
+
+  it('should not alert of anything if there was an unknown error', () => (
+    expectSaga(checkUnusedEmailSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { email: 'used@email.com' }, false), { status: 300 }],
+    ])
+    .dispatch(checkUnusedEmail('used@email.com'))
+    .run()
+  ));
+
+  it('should not alert of anything if there was an error with unknown body message', () => (
+    expectSaga(checkUnusedEmailSaga)
+    .provide([
+      [call(request, '/users/search', 'POST', { email: 'used@email.com' }, false), {
+        status: 404,
+        json: () => ({ message: 'bad message' }),
+      }],
+    ])
+    .dispatch(checkUnusedEmail('used@email.com'))
+    .run()
+  ));
+});
+
+describe('testing root saga', () => {
+  it('should fork all internal sagas', () => (
+    expectSaga(rootSaga)
+    .fork(registerSaga)
+    .fork(checkUnusedUsernameSaga)
+    .fork(checkUnusedEmailSaga)
     .run()
   ));
 });

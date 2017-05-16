@@ -10,11 +10,6 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-const userInfoStyle = {
-  color: 'white',
-  marginLeft: 5,
-};
-
 class AppBarButtons extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
