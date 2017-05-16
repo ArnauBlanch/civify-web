@@ -11,20 +11,25 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
 import Header from '../../components/Header';
 import mainStyle from './main.style';
+import { makeSelectIsAuthenticated } from './selectors';
 
-export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
-    children: React.PropTypes.node,
+    children: PropTypes.node,
+    isAuthenticated: PropTypes.bool.isRequired,
   };
 
   render() {
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <Header />
+        <Header isAuthenticated={this.props.isAuthenticated} />
         <main className="mdl-layout__content" style={mainStyle}>
           {React.Children.toArray(this.props.children)}
         </main>
@@ -32,3 +37,15 @@ export default class App extends React.PureComponent { // eslint-disable-line re
     );
   }
 }
+
+const mapStateToProps = createStructuredSelector({
+  isAuthenticated: makeSelectIsAuthenticated(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(App));

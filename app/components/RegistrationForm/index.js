@@ -80,7 +80,7 @@ class RegistrationForm extends React.Component {
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.businessName} />}
           validate={this.required}
-        />
+        /><br />
         <Field
           name="username"
           component={TextField}
@@ -96,7 +96,7 @@ class RegistrationForm extends React.Component {
               this.props.checkUsername(e.target.value);
             }
           }}
-        />
+        /><br />
         <Field
           name="email"
           component={TextField}
@@ -111,14 +111,14 @@ class RegistrationForm extends React.Component {
               this.props.checkEmail(e.target.value);
             }
           }}
-        />
+        /><br />
         <Field
           name="password"
           component={TextField}
           floatingLabelText={<FormattedMessage {...messages.password} />}
           type="password"
           validate={[this.required, this.validPassword]}
-        />
+        /><br />
         <Field
           name="password_confirmation"
           component={TextField}

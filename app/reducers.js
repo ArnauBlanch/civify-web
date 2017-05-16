@@ -9,6 +9,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form/immutable';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
+import { LOGIN_SUCCESS } from './containers/LoginPage/constants';
 
 /*
  * routeReducer
@@ -38,6 +39,19 @@ function routeReducer(state = routeInitialState, action) {
   }
 }
 
+const authInitialState = fromJS({
+  isAuthenticated: localStorage.getItem('auth_token') !== null,
+});
+
+export function authReducer(state = authInitialState, action) {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
+      return state.set('isAuthenticated', true);
+    default:
+      return state;
+  }
+}
+
 /**
  * Creates the main reducer with the asynchronously loaded ones
  */
@@ -46,6 +60,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     form: formReducer,
     language: languageProviderReducer,
+    auth: authReducer,
     ...asyncReducers,
   });
 }
