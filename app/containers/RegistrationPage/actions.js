@@ -7,7 +7,6 @@
 import {
   REGISTER_REQUEST,
   SENDING_REQUEST,
-  REQUEST_ERROR,
   CHECK_UNUSED_USERNAME,
   CHECK_UNUSED_EMAIL,
   UNUSED_USERNAME,
@@ -20,10 +19,6 @@ export function registerRequest(data) {
 
 export function sendingRequest(sending) {
   return { type: SENDING_REQUEST, sending };
-}
-
-export function requestError(error) {
-  return { type: REQUEST_ERROR, error };
 }
 
 export function checkUnusedUsername(username) {

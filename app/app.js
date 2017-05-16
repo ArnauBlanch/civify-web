@@ -18,7 +18,6 @@ import { useScroll } from 'react-router-scroll';
 // Import material-ui
 import { MuiThemeProvider } from 'material-ui/styles';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-// import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
@@ -32,15 +31,19 @@ import LanguageProvider from 'containers/LanguageProvider';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
-import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
-import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
-import '!file-loader?name=[name].[ext]!./images/icon-128x128.png';
-import '!file-loader?name=[name].[ext]!./images/icon-144x144.png';
-import '!file-loader?name=[name].[ext]!./images/icon-152x152.png';
-import '!file-loader?name=[name].[ext]!./images/icon-192x192.png';
-import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
-import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
+import '!file-loader?name=[name].[ext]!./images/android-chrome-192x192.png';
+import '!file-loader?name=[name].[ext]!./images/android-chrome-512x512.png';
+import '!file-loader?name=[name].[ext]!./images/apple-touch-icon.png';
+import '!file-loader?name=[name].[ext]!./images/browserconfig.xml';
+import '!file-loader?name=[name].[ext]!./images/favicon-16x16.png';
+import '!file-loader?name=[name].[ext]!./images/favicon-32x32.png';
+import '!file-loader?name=[name].[ext]!./images/manifest.json';
+import '!file-loader?name=[name].[ext]!./images/mstile-70x70.png';
+import '!file-loader?name=[name].[ext]!./images/mstile-144x144.png';
+import '!file-loader?name=[name].[ext]!./images/mstile-150x150.png';
+import '!file-loader?name=[name].[ext]!./images/mstile-310x150.png';
+import '!file-loader?name=[name].[ext]!./images/mstile-310x310.png';
+import '!file-loader?name=[name].[ext]!./images/safari-pinned-tab.svg';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
@@ -50,13 +53,13 @@ import configureStore from './store';
 import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
-import './global-styles';
+import './global.style';
 
 // Import root routes
 import createRoutes from './routes';
 
 // Prepare material-ui
-import muiTheme from './muiTheme';
+import muiTheme from './material-ui.style';
 injectTapEventPlugin();
 
 // Create redux store with history
