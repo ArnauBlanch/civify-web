@@ -10,20 +10,20 @@
  */
 
 import React from 'react';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import iconUrl from '!file-loader?name=[name].[ext]!../../images/urban_furniture_pin.png';
-// import iconUrl from '../../urban_furniture_pin2.svg';
+import { withGoogleMap, GoogleMap } from 'react-google-maps';
+import CustomMarker from '../../components/CustomMarker';
+
 const SimpleMap = withGoogleMap((props) => (
   <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: 41.390205, lng: 2.154007 }}
   >
     {props.markers.map((marker) => (
-      <Marker
-        icon={{ url: iconUrl }}
+      <CustomMarker
         position={marker.position}
+        category={marker.category}
       >
-      </Marker>
+      </CustomMarker>
     ))}
   </GoogleMap>
 ));
@@ -37,11 +37,19 @@ class Home extends React.Component {
           lat: 41.390205,
           lng: 2.154007,
         },
+        category: 'road_signs',
       }, {
         position: {
           lat: 41.990205,
           lng: 2.854007,
         },
+        category: 'suggestion',
+      }, {
+        position: {
+          lat: 41.590205,
+          lng: 2.454007,
+        },
+        category: 'street_furniture',
       },
       ],
     };
