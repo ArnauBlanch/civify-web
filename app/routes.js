@@ -40,13 +40,18 @@ export default function createRoutes(store) {
           import('containers/RegistrationPage/reducer'),
           import('containers/RegistrationPage/sagas'),
           import('containers/RegistrationPage'),
+          import('containers/LoginPage/reducer'),
+          import('containers/LoginPage/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
+          console.log('injecting register');
           injectReducer('registrationPage', reducer.default);
           injectSagas(sagas.default);
+          injectReducer('loginPage', reducer2.default);
+          injectSagas(sagas2.default);
           renderRoute(component);
         });
 

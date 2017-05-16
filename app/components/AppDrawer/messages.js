@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'app.components.AppDrawer.sign-in',
     defaultMessage: 'Sign in',
   },
+  signOut: {
+    id: 'app.components.AppDrawer.sign-out',
+    defaultMessage: 'Sign out',
+  },
 });
