@@ -13,6 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import makeSelectMapPage from './selectors';
 // import messages from './messages';
 import CustomMarker from '../../components/CustomMarker';
+import { issuesRequest } from './actions';
 
 const SimpleMap = withGoogleMap((props) => (
   <GoogleMap
@@ -56,7 +57,7 @@ class MapPage extends React.Component {
       },
       ],
     };
-    // this.props.dispatch(issuesRequest());
+    this.props.dispatch(issuesRequest());
   }
 
   render() {
