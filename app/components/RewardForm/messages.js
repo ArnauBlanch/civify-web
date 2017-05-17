@@ -38,4 +38,12 @@ export default defineMessages({
     id: 'app.components.RewardForm.invalid-file',
     defaultMessage: 'Types allowed: JPG, PNG. Max size 1 MB',
   },
+  invalidImage: {
+    id: 'app.components.RewardForm.invalid-image',
+    defaultMessage: 'Invalid image',
+  },
+  thereWasAnError: {
+    id: 'app.components.RewardForm.there-was-an-error',
+    defaultMessage: 'There was an error',
+  },
 });
