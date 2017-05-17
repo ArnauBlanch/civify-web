@@ -47,7 +47,6 @@ export default function createRoutes(store) {
         const renderRoute = loadModule(cb);
 
         importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
-          console.log('injecting register');
           injectReducer('registrationPage', reducer.default);
           injectSagas(sagas.default);
           injectReducer('loginPage', reducer2.default);
@@ -73,6 +72,30 @@ export default function createRoutes(store) {
           injectReducer('loginPage', reducer.default);
           injectSagas(sagas.default);
           renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/rewards/create',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CreateReward/reducer'),
+          import('containers/CreateReward/sagas'),
+          import('containers/CreateReward'),
+          import('containers/LoginPage/reducer'),
+          import('containers/LoginPage/sagas'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
+          injectReducer('createReward', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+          injectReducer('loginPage', reducer2.default);
+          injectSagas(sagas2.default);
         });
 
         importModules.catch(errorLoading);
