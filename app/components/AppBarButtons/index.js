@@ -22,7 +22,12 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
           secondary
           containerElement={<Link to="/" />} // eslint-disable-line jsx-a11y/anchor-has-content
         />
-        { !this.props.isAuthenticated &&
+        { this.props.isAuthenticated ?
+          <FlatButton
+            label={<FormattedMessage {...messages.signOut} />}
+            secondary
+            onClick={this.props.logout}
+          /> :
           <FlatButton
             label={<FormattedMessage {...messages.signIn} />}
             secondary
@@ -35,6 +40,7 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
 
 AppBarButtons.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 export default AppBarButtons;

@@ -4,8 +4,7 @@
 
 /* eslint-disable redux-saga/yield-effects */
 import { call } from 'redux-saga/effects';
-import { expectSaga } from 'redux-saga-test-plan'; // eslint-disable-line
-import { push } from 'react-router-redux';
+import { expectSaga } from 'redux-saga-test-plan';
 import sha256 from 'js-sha256';
 import {
   register as registerSaga,
@@ -21,6 +20,7 @@ import {
   unusedEmail,
   checkUnusedEmail,
 } from '../actions';
+import { loginRequest } from '../../LoginPage/actions';
 import request from '../../../utils/request';
 
 const user = {
@@ -40,7 +40,7 @@ const userBody = {
 };
 
 describe('testing register saga', () => {
-  it('should dispatch an action alerting that the request is no longer being sent if it is successful', () => (
+  it('should dispatch an action alerting that the request is no longer being sent and request login if it is successful', () => (
     expectSaga(registerSaga)
     .provide([
       [call(request, '/users', 'POST', userBody, false), {
@@ -49,7 +49,7 @@ describe('testing register saga', () => {
       }],
     ])
     .put(sendingRequest(true))
-    .put(push('/'))
+    .put(loginRequest({ username: user.username, password: user.password }))
     .put(sendingRequest(false))
     .dispatch(registerRequest(user))
     .run()

@@ -36,10 +36,12 @@ export function* userInfo() {
           yield put(loginFailed('Not a business or admin'));
         }
       } else {
+        localStorage.removeItem('auth_token');
         yield put(userInfoFailed());
         yield put(loginFailed('Unknown error'));
       }
     } catch (error) {
+      localStorage.removeItem('auth_token');
       yield put(userInfoFailed());
       yield put(loginFailed(error.message));
     }
@@ -50,10 +52,11 @@ export function* login() {
   while (true) {
     const loginRequest = yield take(LOGIN_REQUEST);
     const { user } = loginRequest;
-    user.password = sha256(user.password);
+    const userBody = Object.assign({}, user);
+    userBody.password = sha256(userBody.password);
 
     yield put(sendingRequest(true));
-    const response = yield call(request, '/login', 'POST', user, false);
+    const response = yield call(request, '/login', 'POST', userBody, false);
     if (response.status === 200 || response.status === 401 || response.status === 404) {
       const body = yield response.json();
       if (response.status === 200 && body.auth_token) {

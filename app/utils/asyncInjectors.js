@@ -37,13 +37,13 @@ export function checkAuth(store) {
         console.log('Logged in + login/register');
       } else {
         console.log('Logged in + / or requires auth');
-        replace(nextState.location.pathname);
+        // replace(nextState.location.pathname);
       }
     } else if (nextState.location.pathname !== '/' &&
           nextState.location.pathname !== '/login' &&
           nextState.location.pathname !== '/register') {
       console.log('Not logged in + requires auth');
-      replace('/');
+      replace('/login');
     } else { console.log('Not logged in + doesn\'t require auth'); }
   };
 }
@@ -71,6 +71,7 @@ export function injectAsyncReducer(store, isValid) {
  * Inject an asynchronously loaded saga
  */
 export function injectAsyncSagas(store, isValid) {
+  const asyncSagas = {};
   return function injectSagas(sagas) {
     if (!isValid) checkStore(store);
 
@@ -84,7 +85,17 @@ export function injectAsyncSagas(store, isValid) {
       '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
     );
 
-    sagas.map(store.runSaga);
+    if (!asyncSagas[name]) {
+      asyncSagas[name] = [];
+    }
+
+    sagas.filter((saga) => {
+      if (asyncSagas[name].includes(saga.name)) {
+        return false;
+      }
+      asyncSagas[name].push(saga.name);
+      return true;
+    }).map(store.runSaga);
   };
 }
 
