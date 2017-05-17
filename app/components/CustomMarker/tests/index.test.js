@@ -2,5 +2,3 @@
 // import { shallow } from 'enzyme';
 
 // import Header from '../index';
-
-

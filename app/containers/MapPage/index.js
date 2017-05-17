@@ -19,12 +19,15 @@ const SimpleMap = withGoogleMap((props) => (
     defaultZoom={8}
     defaultCenter={{ lat: 41.390205, lng: 2.154007 }}
   >
-    {props.markers.map((marker) => (
-      <CustomMarker
-        position={{ lat: marker.latitude, lng: marker.longitude }}
-        category={marker.category}
-      >
-      </CustomMarker>
+    {props.markers.map((marker, index) => (
+      <li key={index}> {// eslint-disable-line
+      }
+        <CustomMarker
+          position={{ lat: marker.latitude, lng: marker.longitude }}
+          category={marker.category}
+        >
+        </CustomMarker>
+      </li>
     ))}
   </GoogleMap>
 ));
@@ -33,29 +36,7 @@ const SimpleMap = withGoogleMap((props) => (
 class MapPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      markersLoaded: false,
-      markers: [{
-        position: {
-          lat: 41.390205,
-          lng: 2.154007,
-        },
-        category: 'road_signs',
-      }, {
-        position: {
-          lat: 41.990205,
-          lng: 2.854007,
-        },
-        category: 'suggestion',
-      }, {
-        position: {
-          lat: 41.590205,
-          lng: 2.454007,
-        },
-        category: 'street_furniture',
-      },
-      ],
-    };
+    console.log('He tornat');
     this.props.dispatch(issuesRequest());
   }
 

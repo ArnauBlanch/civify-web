@@ -1,4 +1,4 @@
-import { reducerTest } from 'redux-jest';
+import { reducerTest } from 'redux-jest'; // eslint-disable-line
 import { fromJS } from 'immutable';
 import registrationPageReducer from '../reducer';
 import {

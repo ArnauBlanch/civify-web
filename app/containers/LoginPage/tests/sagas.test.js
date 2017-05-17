@@ -4,8 +4,8 @@
 
 /* eslint-disable redux-saga/yield-effects */
 import { call } from 'redux-saga/effects';
-import { expectSaga } from 'redux-saga-test-plan';
-import { throwError } from 'redux-saga-test-plan/providers';
+import { expectSaga } from 'redux-saga-test-plan'; // eslint-disable-line
+import { throwError } from 'redux-saga-test-plan/providers'; // eslint-disable-line
 import { push } from 'react-router-redux';
 import {
   login as loginSaga,
