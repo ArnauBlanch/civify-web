@@ -32,6 +32,13 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
             <FormattedMessage {...messages.issues} />
           </MenuItem>
         </Link>
+        { this.props.isAuthenticated &&
+          <Link to="/rewards" style={{ textDecoration: 'none' }}>
+            <MenuItem onTouchTap={this.props.toggleDrawer} >
+              <FormattedMessage {...messages.myRewards} />
+            </MenuItem>
+          </Link>
+        }
         { this.props.isAuthenticated ?
           <MenuItem onTouchTap={this.props.toggleDrawer} onClick={this.props.logout} >
             <FormattedMessage {...messages.signOut} />

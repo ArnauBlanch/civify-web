@@ -10,6 +10,10 @@ export default defineMessages({
     id: 'app.components.AppDrawer.issues',
     defaultMessage: 'Issues',
   },
+  myRewards: {
+    id: 'app.components.AppDrawer.my-rewards',
+    defaultMessage: 'My rewards',
+  },
   signIn: {
     id: 'app.components.AppDrawer.sign-in',
     defaultMessage: 'Sign in',

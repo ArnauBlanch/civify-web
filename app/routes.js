@@ -101,6 +101,25 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/rewards',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/RewardsPage/reducer'),
+          import('containers/RewardsPage/sagas'),
+          import('containers/RewardsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('rewardsPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       getComponent(nextState, cb) {
         import('containers/NotFoundPage')
