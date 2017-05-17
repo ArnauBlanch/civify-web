@@ -11,7 +11,6 @@ export function* issuesRequest() {
   while (true) {
     yield take(ISSUES_REQUEST);
     const response = yield call(request, '/issues', 'GET', undefined, false);
-    console.log('API received');
     if (response.status === 200) {
       const body = yield response.json();
       yield put(issuesInfoSuccess(body));
