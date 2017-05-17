@@ -20,7 +20,7 @@ const renderDropzoneInput = (field) => {
         name={field.name}
         onDrop={(filesToUpload) => field.input.onChange(filesToUpload)}
         maxSize={1000000}
-        accept="image/jpeg, image/png"
+        // accept="image/jpeg, image/png"
         style={{
           border: '3px dotted #ccc',
           borderRadius: '20px',
@@ -97,7 +97,12 @@ class RewardForm extends React.Component {
           onChange={this.fileChanged}
           onFocus={this.fileChanged}
         /><br />
-        { this.props.missingFile && !this.state.fileChanged && <span style={{ color: 'red', fontSize: 12 }}>Required</span> }
+        { this.props.missingFile && !this.state.fileChanged
+          && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.required} /></span> }
+        { this.props.imageError
+          && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.invalidImage} /></span> }
+        { this.props.rewardError
+          && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.thereWasAnError} /></span> }
         <br /><br />
         <RaisedButton
           label={
@@ -116,6 +121,8 @@ class RewardForm extends React.Component {
 RewardForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   missingFile: PropTypes.bool.isRequired,
+  imageError: PropTypes.bool.isRequired,
+  rewardError: PropTypes.bool.isRequired,
 };
 
 export default reduxForm({ form: 'rewardForm' })(RewardForm);

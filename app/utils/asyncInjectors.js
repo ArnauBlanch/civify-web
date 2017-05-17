@@ -37,13 +37,13 @@ export function checkAuth(store) {
         console.log('Logged in + login/register');
       } else {
         console.log('Logged in + / or requires auth');
-        replace(nextState.location.pathname);
+        // replace(nextState.location.pathname);
       }
     } else if (nextState.location.pathname !== '/' &&
           nextState.location.pathname !== '/login' &&
           nextState.location.pathname !== '/register') {
       console.log('Not logged in + requires auth');
-      replace('/');
+      replace('/login');
     } else { console.log('Not logged in + doesn\'t require auth'); }
   };
 }
