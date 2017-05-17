@@ -14,6 +14,5 @@ export function issuesRequest() {
 }
 
 export function issuesInfoSuccess(issues) {
-  console.log(issues);
   return { type: ISSUES_INFO_SUCCESS, issues };
 }

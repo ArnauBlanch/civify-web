@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import { createStructuredSelector } from 'reselect';
-// import Helmet from 'react-helmet';
 import makeSelectMapPage from './selectors';
 // import messages from './messages';
 import CustomMarker from '../../components/CustomMarker';
@@ -22,7 +21,7 @@ const SimpleMap = withGoogleMap((props) => (
   >
     {props.markers.map((marker) => (
       <CustomMarker
-        position={marker.position}
+        position={{ lat: marker.latitude, lng: marker.longitude }}
         category={marker.category}
       >
       </CustomMarker>
@@ -70,7 +69,7 @@ class MapPage extends React.Component {
           mapElement={
             <div style={{ height: '100%', width: '100%', position: 'absolute' }} />
           }
-          markers={this.state.markers}
+          markers={this.props.mapState.issues}
         />
       </div>
     );
@@ -79,10 +78,11 @@ class MapPage extends React.Component {
 
 MapPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  mapState: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  MapPage: makeSelectMapPage(),
+  mapState: makeSelectMapPage(),
 });
 
 function mapDispatchToProps(dispatch) {
