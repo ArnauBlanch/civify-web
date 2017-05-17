@@ -4,7 +4,7 @@
 
 /* eslint-disable redux-saga/yield-effects */
 import { call } from 'redux-saga/effects';
-import { expectSaga } from 'redux-saga-test-plan';
+import { expectSaga } from 'redux-saga-test-plan'; // eslint-disable-line
 import { push } from 'react-router-redux';
 import sha256 from 'js-sha256';
 import {

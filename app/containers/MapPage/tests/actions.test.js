@@ -1,18 +1,35 @@
-
+import { actionTest } from 'redux-jest'; // eslint-disable-line
 import {
-  defaultAction,
+  issuesRequest,
+  issuesInfoSuccess,
 } from '../actions';
 import {
-  DEFAULT_ACTION,
+  ISSUES_REQUEST,
+  ISSUES_INFO_SUCCESS,
 } from '../constants';
 
+const issues = [
+  {
+    latitude: 41.2645,
+    longitude: 3.15161,
+    category: 'illumination',
+  }, {
+    latitude: 43.2645,
+    longitude: 1.15161,
+    category: 'illumination',
+  },
+];
+
 describe('MapPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
-  });
+  actionTest('should create an action to do the issues request',
+    issuesRequest,
+    null,
+    { type: ISSUES_REQUEST }
+  );
+
+  actionTest('should create an action to handle the success on issues request',
+    issuesInfoSuccess,
+    issues,
+    { type: ISSUES_INFO_SUCCESS, issues }
+  );
 });
