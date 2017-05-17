@@ -1,4 +1,4 @@
-import { actionTest } from 'redux-jest';
+import { actionTest } from 'redux-jest'; // eslint-disable-line
 import {
   loginRequest,
   sendingRequest,
