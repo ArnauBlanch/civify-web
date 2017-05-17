@@ -18,7 +18,7 @@ import suggestion from '!file-loader?name=[name].[ext]!../../images/marker_icons
 import other from '!file-loader?name=[name].[ext]!../../images/marker_icons/others_pin.png';
 
 
-class CustomMarker extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class CustomMarker extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.state = {
@@ -48,11 +48,13 @@ class CustomMarker extends React.PureComponent { // eslint-disable-line react/pr
         return 'error';
     }
   }
+
   render() {
     return (
       <Marker
-        icon={{ url: this.getIcon(this.props), scaledSize: new google.maps.Size(42, 53.9) }} // eslint-disable-line no-undef
+        icon={{ url: this.getIcon(this.props), scaledSize: new google.maps.Size(37.8, 48.51) }} // eslint-disable-line no-undef
         position={this.props.position}
+        onClick={this.props.onClick}
       >
       </Marker>
     );
@@ -61,6 +63,7 @@ class CustomMarker extends React.PureComponent { // eslint-disable-line react/pr
 
 CustomMarker.propTypes = {
   position: React.PropTypes.object.isRequired,
+  onClick: React.PropTypes.func.isRequired,
 };
 
 export default CustomMarker;

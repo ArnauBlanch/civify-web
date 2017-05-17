@@ -4,7 +4,7 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Button } from 'react';
 import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
@@ -13,6 +13,7 @@ import makeSelectMapPage from './selectors';
 // import messages from './messages';
 import CustomMarker from '../../components/CustomMarker';
 import { issuesRequest } from './actions';
+import IssueDetails from '../../components/IssueDetails';
 
 const SimpleMap = withGoogleMap((props) => (
   <GoogleMap
@@ -25,6 +26,7 @@ const SimpleMap = withGoogleMap((props) => (
         <CustomMarker
           position={{ lat: marker.latitude, lng: marker.longitude }}
           category={marker.category}
+          onClick={props.toggleDrawer}
         >
         </CustomMarker>
       </li>
@@ -37,20 +39,43 @@ class MapPage extends React.Component {
   constructor(props) {
     super(props);
     console.log('He tornat');
+    this.state = {
+      open: false,
+      issue: undefined,
+    };
+    this.toggleDrawer = this.toggleDrawer.bind(this);
     this.props.dispatch(issuesRequest());
+  }
+
+  toggleDrawer() {
+    // io k se arnau esborra el que vulguis d'aqui excepte la primera linia
+    this.setState({ open: !this.state.open });
+    if (!this.state.open) this.setState({ issue: undefined });
+    else {
+      console.log('same');
+      if (this.state.issue) {
+        console.log(this.state.issue);
+      }
+    }
   }
 
   render() {
     return (
       <div className="App">
+        <IssueDetails
+          toggleDrawer={this.toggleDrawer}
+          open={this.state.open}
+        />
         <SimpleMap
           containerElement={
-            <div style={{ height: 'calc(100vh - 50px)', width: '100vw' }} />
+            <div style={{ height: '100vh', width: '100vw', overflow: 'hidden' }} />
           }
           mapElement={
-            <div style={{ height: '100%', width: '100%', position: 'absolute' }} />
+            <div style={{ height: '100vh', width: '100vw', position: 'absolute' }} />
           }
           markers={this.props.mapState.issues}
+          toggleDrawer={this.toggleDrawer}
+          issue={this.state.issue}
         />
       </div>
     );
