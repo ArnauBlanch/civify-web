@@ -2,7 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 
 module.exports = require('./webpack.base.babel')({
   // In production, we skip all hot-reloading stuff
@@ -44,7 +44,7 @@ module.exports = require('./webpack.base.babel')({
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
-    new OfflinePlugin({
+  /*  new OfflinePlugin({
       relativePaths: false,
       publicPath: '/',
 
@@ -65,7 +65,7 @@ module.exports = require('./webpack.base.babel')({
       safeToUseOptionalCaches: true,
 
       AppCache: false,
-    }),
+    }),*/
   ],
 
   performance: {
