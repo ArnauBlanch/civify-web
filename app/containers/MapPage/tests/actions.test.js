@@ -2,10 +2,12 @@ import { actionTest } from 'redux-jest'; // eslint-disable-line
 import {
   issuesRequest,
   issuesInfoSuccess,
+  issuesInfoFail,
 } from '../actions';
 import {
   ISSUES_REQUEST,
   ISSUES_INFO_SUCCESS,
+  ISSUES_INFO_FAIL,
 } from '../constants';
 
 const issues = [
@@ -31,5 +33,11 @@ describe('MapPage actions', () => {
     issuesInfoSuccess,
     issues,
     { type: ISSUES_INFO_SUCCESS, issues }
+  );
+
+  actionTest('should create an action to handle error on issues request',
+    issuesInfoFail,
+    null,
+    { type: ISSUES_INFO_FAIL }
   );
 });

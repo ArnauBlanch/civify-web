@@ -14,11 +14,9 @@ export function* issuesRequest() {
     if (response.status === 200) {
       const body = yield response.json();
       yield put(issuesInfoSuccess(body));
-      // aqui fare algo amb les issues del json
     } else { // error retrieving issues
       console.log('error retrieving the issues');
     }
-    // yield put(sendingRequest(false));
   }
 }
 
