@@ -4,6 +4,7 @@ import loginPageReducer from '../reducer';
 import {
   sendingRequest,
   loginFailed,
+  loginSuccess,
 } from '../actions';
 
 describe('loginPageReducer', () => {
@@ -21,6 +22,14 @@ describe('loginPageReducer', () => {
     fromJS({ loginError: undefined }),
     loginFailed('error message'),
     fromJS({ loginError: 'error message' })
+  );
+
+  reducerTest(
+    'should clear the login error',
+    loginPageReducer,
+    fromJS({ loginError: 'error message' }),
+    loginSuccess(),
+    fromJS({ loginError: undefined })
   );
 
   reducerTest(

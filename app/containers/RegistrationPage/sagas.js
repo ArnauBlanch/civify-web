@@ -1,9 +1,9 @@
 /* eslint-disable no-constant-condition */
 import { take, call, put, fork } from 'redux-saga/effects';
 import sha256 from 'js-sha256';
-import { push } from 'react-router-redux';
 import { REGISTER_REQUEST, CHECK_UNUSED_USERNAME, CHECK_UNUSED_EMAIL } from './constants';
 import { sendingRequest, unusedUsername, unusedEmail } from './actions';
+import { loginRequest } from '../LoginPage/actions';
 import request from '../../utils/request';
 
 // Individual exports for testing
@@ -25,7 +25,7 @@ export function* register() {
     if (response.status === 201 || response.status === 400) {
       const body = yield response.json();
       if (response.status === 201 && body.message === 'User created') {
-        yield put(push('/'));
+        yield put(loginRequest({ username: data.username, password: data.password }));
       }
     }
     yield put(sendingRequest(false));

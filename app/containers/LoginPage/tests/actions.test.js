@@ -6,6 +6,7 @@ import {
   userInfoFailed,
   loginSuccess,
   loginFailed,
+  logoutRequest,
 } from '../actions';
 
 import {
@@ -15,6 +16,7 @@ import {
   LOGIN_FAILED,
   USER_INFO_REQUEST,
   USER_INFO_FAILED,
+  LOGOUT_REQUEST,
 } from '../constants';
 
 const user = {
@@ -58,5 +60,11 @@ describe('LoginPage actions', () => {
     userInfoFailed,
     null,
     { type: USER_INFO_FAILED }
+  );
+
+  actionTest('should create an action to log out',
+    logoutRequest,
+    null,
+    { type: LOGOUT_REQUEST }
   );
 });
