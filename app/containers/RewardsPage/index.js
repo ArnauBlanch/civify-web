@@ -4,9 +4,10 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { push } from 'react-router-redux';
 import { Paper, FloatingActionButton } from 'material-ui';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
@@ -14,9 +15,10 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import makeSelectRewardsPage from './selectors';
 import messages from './messages';
+import { getRewardsRequest } from './actions';
 import RewardCard from '../../components/RewardCard';
 
-const style = {
+const FABstyle = {
   margin: 0,
   top: 'auto',
   right: 40,
@@ -26,6 +28,10 @@ const style = {
 };
 
 export class RewardsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.props.dispatch(getRewardsRequest());
+  }
   render() {
     const t = this.props.intl.formatMessage;
     return (
@@ -41,20 +47,26 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
             textAlign: 'center',
             width: '100%',
             padding: 30,
+            marginTop: 20,
+            marginBottom: 20,
             maxWidth: 1000,
           }}
           zDepth={4}
         >
           <h3><FormattedMessage {...messages.myRewards} /></h3>
+          { this.props.rewardsState.error &&
+            <span style={{ color: 'red', fontWeight: 'bold' }}><FormattedMessage {...messages.error} /></span>}
+          { !this.props.rewardsState.error && this.props.rewardsState.rewards.length === 0
+            && <h5 style={{ color: '#888' }}><FormattedMessage {...messages.noRewards} /></h5>}
           <div className="mdl-grid">
-            <RewardCard />
-            <RewardCard />
-            <RewardCard />
-            <RewardCard />
-            <RewardCard />
-            <RewardCard />
+            { this.props.rewardsState.rewards.map((reward) =>
+              <RewardCard reward={reward} key={reward.award_auth_token} />) }
           </div>
-        </Paper><FloatingActionButton style={style}>
+        </Paper>
+        <FloatingActionButton
+          style={FABstyle}
+          onClick={() => this.props.dispatch(push('/rewards/create'))}
+        >
           <ContentAdd />
         </FloatingActionButton>
 
@@ -64,12 +76,13 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
 }
 
 RewardsPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  rewardsState: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  RewardsPage: makeSelectRewardsPage(),
+  rewardsState: makeSelectRewardsPage(),
 });
 
 function mapDispatchToProps(dispatch) {
