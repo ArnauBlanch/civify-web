@@ -12,7 +12,7 @@ import IssueInformation from '../IssueInformation';
 
 class IssueDetails extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { issue } = this.props;
+    const { issue } = this.props; // eslint-disable-line
     return (
       <Drawer
         docked={false}
