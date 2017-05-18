@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { Drawer } from 'material-ui';
+import IssueInformation from '../IssueInformation';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
@@ -16,10 +17,11 @@ class IssueDetails extends React.PureComponent { // eslint-disable-line react/pr
       <Drawer
         docked={false}
         open={this.props.open}
+        width={400}
         onRequestChange={this.props.toggleDrawer}
       >
         <div style={{ marginTop: 50 }}>
-          ISSUE AUTH TOKEN: { issue ? issue.issue_auth_token : '(cap)' }
+          <IssueInformation />
         </div>
       </Drawer>
     );
