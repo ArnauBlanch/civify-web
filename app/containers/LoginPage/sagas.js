@@ -71,12 +71,12 @@ export function* login() {
   }
 }
 
-export function* root() {
+export function* loginPageSaga() {
   yield fork(login);
   yield fork(userInfo);
 }
 
 // All sagas to be loaded
 export default [
-  root,
+  loginPageSaga,
 ];
