@@ -13,38 +13,39 @@ export function* createReward() {
       yield put(createRewardFailed());
       yield put(logoutRequest());
       yield put(push('/login'));
-    }
-    yield put(sendingRequest(true));
-    const url = `/users/${userToken}/offered_awards`;
-    try {
-      const response = yield call(request, url, 'POST', reward, true);
-      if (response.status === 201) {
-        yield put(sendingRequest(false));
-        yield put(createRewardSuccess());
-        yield put(push('/rewards'));
-      } else {
+    } else {
+      yield put(sendingRequest(true));
+      const url = `/users/${userToken}/offered_awards`;
+      try {
+        const response = yield call(request, url, 'POST', reward, true);
+        if (response.status === 201) {
+          yield put(sendingRequest(false));
+          yield put(createRewardSuccess());
+          yield put(push('/rewards'));
+        } else {
+          yield put(sendingRequest(false));
+          yield put(createRewardFailed());
+          if (response.status === 401) {
+            yield put(logoutRequest());
+            yield put(push('/login'));
+          }
+        }
+      } catch (e) {
         yield put(sendingRequest(false));
         yield put(createRewardFailed());
-        if (response.status === 401) {
-          yield put(logoutRequest());
-          yield put(push('/login'));
-        }
+        yield put(logoutRequest());
+        yield put(push('/login'));
       }
-    } catch (e) {
-      yield put(sendingRequest(false));
-      yield put(createRewardFailed());
-      yield put(logoutRequest());
-      yield put(push('/login'));
     }
   }
 }
 
 // Individual exports for testing
-export function* defaultSaga() {
+export function* createRewardSaga() {
   yield fork(createReward);
 }
 
 // All sagas to be loaded
 export default [
-  defaultSaga,
+  createRewardSaga,
 ];

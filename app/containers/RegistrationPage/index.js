@@ -58,6 +58,8 @@ export class RegistrationPage extends React.Component {
             width: '100%',
             paddingLeft: 100,
             paddingRight: 100,
+            marginTop: 20,
+            marginBottom: 20,
           }}
           zDepth={4}
         >
