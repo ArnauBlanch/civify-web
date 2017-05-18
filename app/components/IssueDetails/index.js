@@ -12,7 +12,9 @@ import IssueInformation from '../IssueInformation';
 
 class IssueDetails extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { issue } = this.props; // eslint-disable-line
+    console.log('IssueDetails!!');
+    console.log(this.props.issue);
+    const { issue } = this.props;
     return (
       <Drawer
         docked={false}
@@ -21,7 +23,7 @@ class IssueDetails extends React.PureComponent { // eslint-disable-line react/pr
         onRequestChange={this.props.toggleDrawer}
       >
         <div style={{ marginTop: 50 }}>
-          <IssueInformation />
+          <IssueInformation issue={issue ? this.props.issue : { isSet: false }} />
         </div>
       </Drawer>
     );
