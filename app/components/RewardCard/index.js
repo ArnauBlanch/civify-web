@@ -13,35 +13,33 @@ class RewardCard extends React.PureComponent { // eslint-disable-line react/pref
   render() {
     return (
       <div className="mdl-cell mdl-cell--4-col">
-        <Card onClick={() => console.log(this.props.reward.award_auth_token)}>
+        <Card
+          onClick={() => console.log(this.props.reward.award_auth_token)}
+          style={{ width: '100%', height: '95%' }}
+        >
           <CardMedia
             style={{
-              height: 220,
-              width: '100%',
               overflow: 'hidden',
-              position: 'relative',
+              background: 'red',
+              maxHeight: '200',
             }}
           >
-            <div
-              style={{ height: 220, backgroundColor: '#eee' }}
-            >
-              <img
-                alt="Reward"
-                src={`${API_URL}/${this.props.reward.picture.med_url}`}
-                height={220}
-              /></div>
+            <img
+              alt="Reward"
+              src={`${API_URL}/${this.props.reward.picture.med_url}`}
+            />
           </CardMedia>
           <CardTitle
             title={this.props.reward.title}
             subtitle={<span>
-              <img alt="Coins" src={coinsIcon} height={25} />&nbsp;&nbsp;{this.props.reward.price}
+              <img alt="Coins" src={coinsIcon} height={20} />&nbsp;&nbsp;{this.props.reward.price}
             </span>}
             titleStyle={{
               fontWeight: 'bold',
               fontSize: 20,
               lineHeight: 1.3,
               marginBottom: 10,
-              height: 50,
+              maxHeight: 50,
               overflow: 'hidden',
             }}
             subtitleStyle={{ fontSize: 20 }}

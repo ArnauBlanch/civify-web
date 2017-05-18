@@ -21,8 +21,8 @@ import RewardCard from '../../components/RewardCard';
 const FABstyle = {
   margin: 0,
   top: 'auto',
-  right: 40,
-  bottom: 40,
+  right: 20,
+  bottom: 20,
   left: 'auto',
   position: 'fixed',
 };
