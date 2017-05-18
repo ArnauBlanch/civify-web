@@ -3,18 +3,15 @@
 * IssueInformation
 *
 */
-import elephant from '!file-loader?name=[name].[ext]!../../images/elephant.jpg';
 import React from 'react';
-import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import messages from './messages';
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
 class IssueInformation extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <Card>
         <CardMedia>
-          <img
+          <img //eslint-disable-line
             src="http://staging-api.civify.cf/system/issues/pictures/000/000/012/original/data?1492950502"
             style={{ width: '50%' }}
           />
