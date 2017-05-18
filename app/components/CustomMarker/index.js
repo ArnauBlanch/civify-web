@@ -19,15 +19,8 @@ import other from '!file-loader?name=[name].[ext]!../../images/marker_icons/othe
 
 
 class CustomMarker extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.state = {
-      position: props.position,
-      iconUrl: this.getIcon(props),
-    };
-  }
-  getIcon(props) {
-    switch (props.category) {
+  getIcon(category) {
+    switch (category) {
       case 'road_signs':
         return roadSigns;
       case 'illumination':
@@ -50,11 +43,12 @@ class CustomMarker extends React.Component { // eslint-disable-line react/prefer
   }
 
   render() {
+    const { category, latitude, longitude } = this.props.marker;
     return (
       <Marker
-        icon={{ url: this.getIcon(this.props), scaledSize: new google.maps.Size(37.8, 48.51) }} // eslint-disable-line no-undef
-        position={this.props.position}
-        onClick={this.props.onClick}
+        icon={{ url: this.getIcon(category), scaledSize: new google.maps.Size(31.15, 40.0) }} // eslint-disable-line no-undef
+        position={{ lat: latitude, lng: longitude }}
+        onClick={() => this.props.onClick(this.props.marker)}
       >
       </Marker>
     );
@@ -62,7 +56,7 @@ class CustomMarker extends React.Component { // eslint-disable-line react/prefer
 }
 
 CustomMarker.propTypes = {
-  position: React.PropTypes.object.isRequired,
+  marker: React.PropTypes.object.isRequired,
   onClick: React.PropTypes.func.isRequired,
 };
 
