@@ -14,7 +14,7 @@ describe('rewardsPageReducer', () => {
     rewardsPageReducer,
     fromJS({ rewards: [], error: true }),
     getRewardsSuccess(rewards),
-    fromJS({ rewards: rewards, error: false })
+    fromJS({ rewards, error: false })
   );
 
   reducerTest(
