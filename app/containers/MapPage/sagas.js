@@ -8,7 +8,7 @@ import {
 import request from '../../utils/request';
 
 export function* issuesRequest() {
-  while (true) {
+  while (true) { // eslint-disable-line
     yield take(ISSUES_REQUEST);
     const response = yield call(request, '/issues', 'GET', undefined, false);
     if (response.status === 200) {

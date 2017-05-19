@@ -53,7 +53,7 @@ describe('testing ValidateRewardsPage saga', () => {
     .provide([
       [call(request, '/use', 'POST', validateBody, true), {
         status: 401,
-        json: () => ({ message: 'This award doesn’t belong to this commerce' }),
+        json: () => ({ message: 'This award doesn\'t belong to this commerce' }),
       }],
     ])
     .put(rewardInvalid())

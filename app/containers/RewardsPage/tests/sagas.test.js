@@ -85,8 +85,8 @@ describe('testing RewardsPage saga', () => {
   it('should dispatch an action to alert that the reward has been deleted', () => (
     expectSaga(deleteRewardSaga)
     .provide([
-      [call(request, '/awards/test1234', 'GET', undefined, true), {
-        status: 401,
+      [call(request, '/awards/test1234', 'DELETE', undefined, true), {
+        status: 204,
         json: () => rewards,
       }],
     ])
