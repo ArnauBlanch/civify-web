@@ -72,7 +72,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           <img //eslint-disable-line
             src={!issue.isEmpty ? (BASE_URL + issue.picture.small_url) : 'whatever'}
             // src="http://staging-api.civify.cf/system/issues/pictures/000/000/161/med/data?1495009364"
-            style={{ maxWidth: '100%', marginTop: '-25px' }}
+            style={{ height: '250', objectFit: 'cover' }}
           />
         </CardMedia>
         <CardText>
