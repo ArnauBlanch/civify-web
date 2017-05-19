@@ -124,6 +124,25 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/rewards/validate',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/ValidateRewardsPage/reducer'),
+          import('containers/ValidateRewardsPage/sagas'),
+          import('containers/ValidateRewardsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('validateRewardsPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '/rewards/:rewardID',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
@@ -142,8 +161,7 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    },
-    {
+    }, {
       path: '*',
       getComponent(nextState, cb) {
         import('containers/NotFoundPage')

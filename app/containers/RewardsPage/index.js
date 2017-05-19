@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { push } from 'react-router-redux';
-import { Paper, FloatingActionButton } from 'material-ui';
+import { Paper, FloatingActionButton, RaisedButton } from 'material-ui';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -17,6 +17,7 @@ import makeSelectRewardsPage from './selectors';
 import messages from './messages';
 import { getRewardsRequest } from './actions';
 import RewardCard from '../../components/RewardCard';
+import QrCodeIcon from '../../QrCodeIcon';
 
 const FABstyle = {
   margin: 0,
@@ -54,6 +55,14 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
           zDepth={4}
         >
           <h3><FormattedMessage {...messages.myRewards} /></h3>
+          <RaisedButton
+            href="/rewards/validate"
+            label={<FormattedMessage {...messages.validate} />}
+            primary
+            backgroundColor="#27ae60"
+            icon={<QrCodeIcon color="#ffffff" />}
+            style={{ marginBottom: 20 }}
+          />
           { this.props.rewardsState.error &&
             <span style={{ color: '#ccc', fontWeight: 'bold' }}><FormattedMessage {...messages.error} /></span>}
           { !this.props.rewardsState.error && this.props.rewardsState.rewards &&
