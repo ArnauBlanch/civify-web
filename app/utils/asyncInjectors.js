@@ -41,7 +41,8 @@ export function checkAuth(store) {
       }
     } else if (nextState.location.pathname !== '/' &&
           nextState.location.pathname !== '/login' &&
-          nextState.location.pathname !== '/register') {
+          nextState.location.pathname !== '/register' &&
+          !nextState.location.pathname.startsWith('/issues/')) {
       console.log('Not logged in + requires auth');
       replace('/login');
     } else { console.log('Not logged in + doesn\'t require auth'); }
