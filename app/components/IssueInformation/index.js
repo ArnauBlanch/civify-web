@@ -3,6 +3,8 @@
 * IssueInformation
 *
 */
+
+import { FormattedRelative } from 'react-intl';
 import React, { PropTypes } from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import BASE_URL from '../../api';
@@ -31,23 +33,46 @@ const descriptionRowStyle = {
   fontSize: '15px',
 };
 
+const geocoder = new google.maps.Geocoder(); // eslint-disable-line no-undef
+
 
 class IssueInformation extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor() {
+    super();
+    this.state = {
+      address: 'Loading',
+    };
+  }
   render() {
     const { issue } = this.props;
+    if (!issue.isEmpty) {
+      const latlng = {
+        lat: issue.latitude,
+        lng: issue.longitude,
+      };
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        if (status === 'OK') {
+          if (results[1]) {
+            this.setState({ address: results[1].formatted_address });
+          } else {
+            console.log('No results found');
+          }
+        }
+      });
+    }
     return (
       <Card>
         <CardMedia
           style={{
             width: '400px',
-            height: '200px',
+            height: '250px',
             overflow: 'hidden',
           }}
         >
           <img //eslint-disable-line
             src={!issue.isEmpty ? (BASE_URL + issue.picture.small_url) : 'whatever'}
             // src="http://staging-api.civify.cf/system/issues/pictures/000/000/161/med/data?1495009364"
-            style={{ maxWidth: '100%', marginTop: '-45px' }}
+            style={{ maxWidth: '100%', marginTop: '-25px' }}
           />
         </CardMedia>
         <CardText>
@@ -58,10 +83,16 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             </p>
           </div>
           <div style={textRowStyle}>
-            <b>Categoria</b> Mobiliari
+            <b>Categoria</b>
+            <span>
+              <img //eslint-disable-line
+                src=""
+              />
+            </span>
+            <span style={{ paddingLeft: '10px' }}>Mobiliari</span>
           </div>
           <div style={descriptionRowStyle}>
-            <b>Suposa un risc?</b> <span style={{ color: 'red' }}> {
+            <b>Suposa un risc?</b> <span style={{ color: 'red', paddingLeft: '10px' }}> {
               !issue.Empty ? (issue.risk ? 'Si' : 'No') : '##' // eslint-disable-line
           } </span>
           </div>
@@ -71,10 +102,12 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             </span>
           </div>
           <div style={textRowStyle}>
-            <span><i>Carrer de la diputació, 13, Barcelona</i></span>
+            <span><i>{!issue.isEmpty ? this.state.address : '#######'}</i></span>
           </div>
           <div style={textRowStyle}>
-            <span style={{ color: 'grey' }}><i>fa 3 setmanes</i></span>
+            <span style={{ color: 'grey' }}><i>
+              <FormattedRelative value={new Date(issue.created_at)} /></i>
+            </span>
           </div>
         </CardText>
       </Card>
