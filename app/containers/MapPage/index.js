@@ -19,31 +19,22 @@ class MapPage extends React.Component {
     this.state = {
       open: false,
       issue: undefined,
-      loaded: false,
+      showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
     };
     this.showIssue = this.showIssue.bind(this);
-    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.closeDrawer = this.closeDrawer.bind(this);
     this.props.dispatch(issuesRequest());
   }
   findIssueByToken(token) {
-    return this.props.mapState.issues.filter((issue) => {
-      return issue.issue_auth_token === token;
-    });
+    return this.props.mapState.issues.find((i) => i.issue_auth_token === token);
   }
   showIssue(issue) {
-    console.log(typeof issue);
-    if (typeof issue !== 'object') {
-      const issueFound = this.findIssueByToken(issue)[0];
-      console.log('Look here baby');
-      console.log(issueFound);
-      this.setState({ open: true, issueFound });
-    } else {
-      this.setState({ open: true, issue });
-    }
+    this.setState({ issue });
   }
 
-  toggleDrawer() {
-    this.setState({ open: !this.state.open });
+  closeDrawer() {
+    console.log('drawer cloose');
+    this.setState({ issue: undefined, showIssueFromUrl: false });
   }
 
   mapLoaded() {
@@ -51,6 +42,7 @@ class MapPage extends React.Component {
   }
 
   render() {
+    /*
     if (this.props.mapState.issuesLoaded) {
       console.log('I entered here');
       console.log(this.props.params.issueID);
@@ -59,13 +51,14 @@ class MapPage extends React.Component {
         this.showIssue(token);
         this.mapLoaded();
       }
-    }
+    }*/
+    const issueFromUrl = this.props.mapState.issues.find((i) => i.issue_auth_token === this.props.params.issueID);
     return (
       <div className="App">
         <IssueDetails
-          toggleDrawer={this.toggleDrawer}
-          open={this.state.open}
-          issue={this.state.issue}
+          toggleDrawer={this.closeDrawer}
+          open={this.state.showIssueFromUrl || typeof (this.state.issue) !== 'undefined'}
+          issue={this.state.issue || issueFromUrl}
         />
         <Map
           containerElement={

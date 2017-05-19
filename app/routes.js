@@ -37,7 +37,7 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/:issueID',
+      path: '/issues/:issueID',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/MapPage/reducer'),
