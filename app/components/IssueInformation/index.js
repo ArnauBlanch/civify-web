@@ -9,6 +9,15 @@ import React, { PropTypes } from 'react';
 import { Card, CardMedia, CardText } from 'material-ui/Card';
 import BASE_URL from '../../api';
 
+import roadSigns from '!file-loader?name=[name].[ext]!../../images/category_icons/traffic_signs_lights_icon.png';
+import illumination from '!file-loader?name=[name].[ext]!../../images/category_icons/street_lights_icon.png';
+import grove from '!file-loader?name=[name].[ext]!../../images/category_icons/trees_and_plants_icon.png';
+import streetFurniture from '!file-loader?name=[name].[ext]!../../images/category_icons/urban_furniture_icon.png';
+import trashAndCleaning from '!file-loader?name=[name].[ext]!../../images/category_icons/trash_and_cleaning_icon.png';
+import publicTransport from '!file-loader?name=[name].[ext]!../../images/category_icons/public_transportation_icon.png';
+import suggestion from '!file-loader?name=[name].[ext]!../../images/category_icons/suggestion_icon.png';
+import other from '!file-loader?name=[name].[ext]!../../images/category_icons/others_icon.png';
+
 const titleStyle = {
   fontSize: '24px',
   fontWeight: 'bold',
@@ -42,6 +51,57 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
     this.state = {
       address: 'Loading',
     };
+  }
+  renderCategory() {
+    const { issue } = this.props;
+    if (!issue.isEmpty) {
+      let categoryString;
+      let imageUrl = streetFurniture;
+      switch (issue.category) {
+        case 'road_signs':
+          categoryString = 'Road Signs';
+          imageUrl = roadSigns;
+          break;
+        case 'illumination':
+          categoryString = 'Illumination';
+          imageUrl = illumination;
+          break;
+        case 'grove':
+          categoryString = 'Grove';
+          imageUrl = grove;
+          break;
+        case 'street_furniture':
+          categoryString = 'Street furniture';
+          imageUrl = streetFurniture;
+          break;
+        case 'trash_and_cleaning':
+          categoryString = 'Trash and cleaning';
+          imageUrl = trashAndCleaning;
+          break;
+        case 'public_transport':
+          categoryString = 'Public transport';
+          imageUrl = publicTransport;
+          break;
+        case 'suggestion':
+          categoryString = 'Suggestion';
+          imageUrl = suggestion;
+          break;
+        case 'other':
+          categoryString = 'Other';
+          imageUrl = other;
+          break;
+        default:
+          categoryString = '####';
+          break;
+      }
+      return (
+        <span>
+          <img style={{ width: '30px' }} src={imageUrl} alt="category" />
+          <span style={{ paddingLeft: '10px' }}>{categoryString}</span>
+        </span>
+      );
+    }
+    return null;
   }
   renderTime() {
     const { issue } = this.props;
@@ -94,7 +154,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             <span>
             </span>
             <span style={{ paddingLeft: '10px' }}>
-              {!issue.isEmpty ? issue.category : '###'}
+              {this.renderCategory()}
             </span>
           </div>
           <div style={descriptionRowStyle}>
