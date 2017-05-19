@@ -6,7 +6,7 @@ import { logoutRequest } from '../LoginPage/actions';
 import request from '../../utils/request';
 
 export function* getRewards() {
-  while (true) {
+  while (true) { // eslint-disable-line
     yield take(GET_REWARDS_REQUEST);
     const userToken = localStorage.getItem('user_token');
     if (!userToken) {
@@ -19,9 +19,7 @@ export function* getRewards() {
         const response = yield call(request, url, 'GET', undefined, true);
         if (response.status === 200) {
           const body = yield response.json();
-          console.log(body);
           yield put(getRewardsSuccess(body));
-          yield put(push('/rewards'));
         } else {
           yield put(getRewardsFailed());
           if (response.status === 401) {
