@@ -14,17 +14,15 @@ export function* issuesRequest() {
     if (response.status === 200) {
       const body = yield response.json();
       yield put(issuesInfoSuccess(body));
-    } else { // error retrieving issues
-      console.log('error retrieving the issues');
     }
   }
 }
 
-export function* defaultSaga() {
+export function* mapSaga() {
   yield fork(issuesRequest);
 }
 
 // All sagas to be loaded
 export default [
-  defaultSaga,
+  mapSaga,
 ];
