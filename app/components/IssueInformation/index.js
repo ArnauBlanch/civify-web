@@ -92,11 +92,10 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           <div style={textRowStyle}>
             <b>Category</b>
             <span>
-              <img //eslint-disable-line
-                src=""
-              />
             </span>
-            <span style={{ paddingLeft: '10px' }}>Mobiliari</span>
+            <span style={{ paddingLeft: '10px' }}>
+              {!issue.isEmpty ? issue.category : '###'}
+            </span>
           </div>
           <div style={descriptionRowStyle}>
             <b>Does it pose a risk?</b> <span style={{ color: 'red', paddingLeft: '10px' }}> {
