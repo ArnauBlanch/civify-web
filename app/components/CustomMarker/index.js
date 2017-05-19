@@ -18,16 +18,9 @@ import suggestion from '!file-loader?name=[name].[ext]!../../images/marker_icons
 import other from '!file-loader?name=[name].[ext]!../../images/marker_icons/others_pin.png';
 
 
-class CustomMarker extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.state = {
-      position: props.position,
-      iconUrl: this.getIcon(props),
-    };
-  }
-  getIcon(props) {
-    switch (props.category) {
+class CustomMarker extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  getIcon(category) {
+    switch (category) {
       case 'road_signs':
         return roadSigns;
       case 'illumination':
@@ -48,11 +41,20 @@ class CustomMarker extends React.PureComponent { // eslint-disable-line react/pr
         return 'error';
     }
   }
+  centerMap() {
+    const newCenter = {
+      lat: this.props.marker.latitude,
+      lng: this.props.marker.longitude,
+    };
+    this.props.map.setState({ center: newCenter });
+  }
   render() {
+    const { category, latitude, longitude } = this.props.marker;
     return (
       <Marker
-        icon={{ url: this.getIcon(this.props), scaledSize: new google.maps.Size(42, 53.9) }} // eslint-disable-line no-undef
-        position={this.props.position}
+        icon={{ url: this.getIcon(category), scaledSize: new google.maps.Size(31.15, 40.0) }} // eslint-disable-line no-undef
+        position={{ lat: latitude, lng: longitude }}
+        onClick={() => { this.props.onClick(this.props.marker); this.centerMap(); }}
       >
       </Marker>
     );
@@ -60,7 +62,9 @@ class CustomMarker extends React.PureComponent { // eslint-disable-line react/pr
 }
 
 CustomMarker.propTypes = {
-  position: React.PropTypes.object.isRequired,
+  marker: React.PropTypes.object.isRequired,
+  onClick: React.PropTypes.func.isRequired,
+  map: React.PropTypes.object.isRequired,
 };
 
 export default CustomMarker;
