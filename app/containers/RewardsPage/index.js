@@ -55,16 +55,16 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
           zDepth={4}
         >
           <h3><FormattedMessage {...messages.myRewards} /></h3>
-          <RaisedButton
-            href="/rewards/validate"
-            label={<FormattedMessage {...messages.validate} />}
-            primary
-            backgroundColor="#27ae60"
-            icon={<QrCodeIcon color="#ffffff" />}
-            style={{ marginBottom: 20 }}
-          />
-          { this.props.rewardsState.error &&
-            <span style={{ color: '#ccc', fontWeight: 'bold' }}><FormattedMessage {...messages.error} /></span>}
+          { this.props.rewardsState.rewards && this.props.rewardsState.rewards.length !== 0 &&
+            <RaisedButton
+              href="/rewards/validate"
+              label={<FormattedMessage {...messages.validate} />}
+              primary
+              backgroundColor="#27ae60"
+              icon={<QrCodeIcon color="#ffffff" />}
+              style={{ marginBottom: 20 }}
+            />
+          }
           { !this.props.rewardsState.error && this.props.rewardsState.rewards &&
             this.props.rewardsState.rewards.length === 0
               && <h5 style={{ color: '#888' }}><FormattedMessage {...messages.noRewards} /></h5>}
