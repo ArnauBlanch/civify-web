@@ -9,11 +9,14 @@ import { push } from 'react-router-redux';
 import {
   getRewards,
   rewardsPageSaga,
+  deleteRewardSaga,
 } from '../sagas';
 import {
   getRewardsRequest,
   getRewardsSuccess,
   getRewardsFailed,
+  deleteRewardRequest,
+  deleteRewardSuccess,
 } from '../actions';
 import { logoutRequest } from '../../LoginPage/actions';
 import request from '../../../utils/request';
@@ -78,12 +81,28 @@ describe('testing RewardsPage saga', () => {
     .dispatch(getRewardsRequest())
     .run()
   ));
+
+  it('should dispatch an action to alert that the reward has been deleted', () => (
+    expectSaga(deleteRewardSaga)
+    .provide([
+      [call(request, '/awards/test1234', 'GET', undefined, true), {
+        status: 401,
+        json: () => rewards,
+      }],
+    ])
+    .put(deleteRewardSuccess())
+    .put(getRewardsRequest())
+    .put(push('/rewards'))
+    .dispatch(deleteRewardRequest('test1234'))
+    .run()
+  ));
 });
 
 describe('testing root saga', () => {
   it('should fork all internal sagas', () => (
     expectSaga(rewardsPageSaga)
     .fork(getRewards)
+    .fork(deleteRewardSaga)
     .run()
   ));
 });

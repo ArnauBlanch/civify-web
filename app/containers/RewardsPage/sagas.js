@@ -1,7 +1,7 @@
 import { take, call, put, fork } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
-import { GET_REWARDS_REQUEST } from './constants';
-import { getRewardsSuccess, getRewardsFailed } from './actions';
+import { GET_REWARDS_REQUEST, DELETE_REWARD_REQUEST } from './constants';
+import { getRewardsRequest, getRewardsSuccess, getRewardsFailed, deleteRewardSuccess } from './actions';
 import { logoutRequest } from '../LoginPage/actions';
 import request from '../../utils/request';
 
@@ -36,9 +36,31 @@ export function* getRewards() {
   }
 }
 
+export function* deleteRewardSaga() {
+  while (true) { // eslint-disable-line
+    const { rewardID } = yield take(DELETE_REWARD_REQUEST);
+    const url = `/awards/${rewardID}`;
+    try {
+      const response = yield call(request, url, 'DELETE', undefined, true);
+      if (response.status === 204) {
+        yield put(deleteRewardSuccess());
+        yield put(push('/rewards'));
+        yield put(getRewardsRequest());
+      } else if (response.status === 401) {
+        yield put(logoutRequest());
+        yield put(push('/login'));
+      }
+    } catch (e) {
+      yield put(logoutRequest());
+      yield put(push('/login'));
+    }
+  }
+}
+
 // Individual exports for testing
 export function* rewardsPageSaga() {
   yield fork(getRewards);
+  yield fork(deleteRewardSaga);
 }
 
 // All sagas to be loaded
