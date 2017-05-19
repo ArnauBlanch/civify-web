@@ -157,7 +157,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           </div>
           <div style={descriptionRowStyle}>
             <b>Does it pose a risk?</b> <span style={{ color: 'red', paddingLeft: '10px' }}> {
-              !issue.Empty ? (issue.risk ? 'Si' : 'No') : '##' // eslint-disable-line
+              !issue.Empty ? (issue.risk ? 'Yes' : 'No') : '##' // eslint-disable-line
           } </span>
           </div>
           <div style={descriptionRowStyle}>
