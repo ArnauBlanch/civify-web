@@ -43,6 +43,13 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
       address: 'Loading',
     };
   }
+  renderTime() {
+    const { issue } = this.props;
+    if (!issue.isEmpty) {
+      return (<FormattedRelative value={new Date(issue.created_at)} />);
+    }
+    return null;
+  }
   render() {
     const { issue } = this.props;
     if (!issue.isEmpty) {
@@ -72,7 +79,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           <img //eslint-disable-line
             src={!issue.isEmpty ? (BASE_URL + issue.picture.small_url) : 'whatever'}
             // src="http://staging-api.civify.cf/system/issues/pictures/000/000/161/med/data?1495009364"
-            style={{ height: '250', objectFit: 'cover' }}
+            style={{ height: '250px', objectFit: 'cover' }}
           />
         </CardMedia>
         <CardText>
@@ -83,7 +90,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             </p>
           </div>
           <div style={textRowStyle}>
-            <b>Categoria</b>
+            <b>Category</b>
             <span>
               <img //eslint-disable-line
                 src=""
@@ -92,7 +99,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             <span style={{ paddingLeft: '10px' }}>Mobiliari</span>
           </div>
           <div style={descriptionRowStyle}>
-            <b>Suposa un risc?</b> <span style={{ color: 'red', paddingLeft: '10px' }}> {
+            <b>Does it pose a risk?</b> <span style={{ color: 'red', paddingLeft: '10px' }}> {
               !issue.Empty ? (issue.risk ? 'Si' : 'No') : '##' // eslint-disable-line
           } </span>
           </div>
@@ -106,8 +113,8 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           </div>
           <div style={textRowStyle}>
             <span style={{ color: 'grey' }}><i>
-              <FormattedRelative value={new Date(issue.created_at)} /></i>
-            </span>
+              {this.renderTime()}
+            </i></span>
           </div>
         </CardText>
       </Card>
