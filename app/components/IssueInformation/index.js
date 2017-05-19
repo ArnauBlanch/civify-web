@@ -35,8 +35,6 @@ const descriptionRowStyle = {
 class IssueInformation extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const { issue } = this.props;
-    console.log('IssueInformation!!');
-    console.log(this.props.issue);
     return (
       <Card>
         <CardMedia
@@ -47,7 +45,7 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
           }}
         >
           <img //eslint-disable-line
-            src={issue ? (BASE_URL + issue.picture.med_url) : 'whatever'}
+            src={!issue.isEmpty ? (BASE_URL + issue.picture.small_url) : 'whatever'}
             // src="http://staging-api.civify.cf/system/issues/pictures/000/000/161/med/data?1495009364"
             style={{ maxWidth: '100%', marginTop: '-45px' }}
           />
@@ -55,22 +53,21 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
         <CardText>
           <div style={textRowStyle}>
             <p style={{ textAlign: 'left', lineHeight: '36px' }}>
-              <span style={titleStyle}> {issue ? issue.title : 'Error loading'} </span>
-              <span style={confirmStyle}>+{issue ? issue.confirm_votes : '(-1)'}</span>
+              <span style={titleStyle}> {!issue.isEmpty ? issue.title : 'Error loading'} </span>
+              <span style={confirmStyle}>+{!issue.isEmpty ? issue.confirm_votes : '(-1)'}</span>
             </p>
           </div>
           <div style={textRowStyle}>
             <b>Categoria</b> Mobiliari
           </div>
           <div style={descriptionRowStyle}>
-            <b>Suposa un risc?</b> <span style={{ color: 'red' }}>No </span>
+            <b>Suposa un risc?</b> <span style={{ color: 'red' }}> {
+              !issue.Empty ? (issue.risk ? 'Si' : 'No') : '##' // eslint-disable-line
+          } </span>
           </div>
           <div style={descriptionRowStyle}>
             <span style={{ color: 'grey' }}>
-              Lorem <b>ipsum</b> dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+              {!issue.isEmpty ? issue.description : '###################'}
             </span>
           </div>
           <div style={textRowStyle}>
