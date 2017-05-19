@@ -46,7 +46,7 @@ class MapPage extends React.Component {
       <div className="App">
         <IssueDetails
           toggleDrawer={this.closeDrawer}
-          open={this.state.showIssueFromUrl || typeof (this.state.issue) !== 'undefined'}
+          open={(this.state.showIssueFromUrl && issueFromUrl) || typeof (this.state.issue) !== 'undefined'}
           issue={this.state.issue || issueFromUrl}
         />
         <Map
