@@ -18,4 +18,8 @@ export default defineMessages({
     id: 'app.containers.RewardsPage.you-do-not-have-rewards-yet',
     defaultMessage: 'You do not have rewards yet. Create one!',
   },
+  validate: {
+    id: 'app.containers.RewardsPage.validate',
+    defaultMessage: 'Validate',
+  },
 });

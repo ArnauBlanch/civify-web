@@ -191,6 +191,9 @@
       "!app/**/messages.js",
       "app/**/LanguageProvider/index.js",
       "!app/**/index.js",
+      "!app/**/selectors.js",
+      "!app/QrCodeIcon.js",
+      "!app/utils/**",
       "!app/**/*.style.{js,jsx}"
     ],
     "coverageThreshold": {
@@ -236,6 +239,7 @@
     "react-google-maps": "^6.3.0",
     "react-helmet": "^4.0.0",
     "react-intl": "2.2.3",
+    "react-qr-reader": "^1.1.1",
     "react-redux": "5.0.2",
     "react-router": "3.0.2",
     "react-router-redux": "4.0.6",
