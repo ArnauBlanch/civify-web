@@ -23,7 +23,7 @@ class IssueDetails extends React.PureComponent { // eslint-disable-line react/pr
         onRequestChange={this.props.toggleDrawer}
       >
         <div style={{ marginTop: 50 }}>
-          <IssueInformation issue={issue ? this.props.issue : { isSet: false }} />
+          <IssueInformation issue={issue ? this.props.issue : { isEmpty: true }} />
         </div>
       </Drawer>
     );
