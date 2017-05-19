@@ -22,7 +22,7 @@ export function* validateReward() {
         const body = yield response.json();
         if (body.message === 'User has already used this buyed award') {
           yield put(rewardAlreadyUsed());
-        } else if (body.message === 'This award doesn’t belong to this commerce') {
+        } else if (body.message === 'This award doesn\'t belong to this commerce') {
           yield put(rewardInvalid());
         } else {
           yield put(validateError());
