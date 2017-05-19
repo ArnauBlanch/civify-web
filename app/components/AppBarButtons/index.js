@@ -22,6 +22,13 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
           secondary
           containerElement={<Link to="/" />} // eslint-disable-line jsx-a11y/anchor-has-content
         />
+        { this.props.isAuthenticated &&
+          <FlatButton
+            label={<FormattedMessage {...messages.rewards} />}
+            secondary
+            containerElement={<Link to="/rewards" />} // eslint-disable-line jsx-a11y/anchor-has-content
+          />
+          }
         { this.props.isAuthenticated ?
           <FlatButton
             label={<FormattedMessage {...messages.signOut} />}

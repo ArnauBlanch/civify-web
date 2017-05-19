@@ -65,12 +65,12 @@ export function* checkUnusedEmail() {
   }
 }
 
-export function* root() {
+export function* registrationPageSaga() {
   yield fork(register);
   yield fork(checkUnusedUsername);
   yield fork(checkUnusedEmail);
 }
 
 export default [
-  root,
+  registrationPageSaga,
 ];

@@ -67,6 +67,8 @@ export class LoginPage extends React.Component {
           style={{
             textAlign: 'center',
             padding: 35,
+            marginTop: 20,
+            marginBottom: 20,
             width: '100%',
           }}
           zDepth={2}

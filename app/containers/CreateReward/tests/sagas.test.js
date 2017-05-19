@@ -8,8 +8,8 @@ import { expectSaga } from 'redux-saga-test-plan';
 import { throwError } from 'redux-saga-test-plan/providers';
 import { push } from 'react-router-redux';
 import {
-  createReward as createRewardSaga,
-  defaultSaga,
+  createReward,
+  createRewardSaga,
 } from '../sagas';
 import {
   createRewardRequest,
@@ -35,7 +35,7 @@ describe('testing createReward saga', () => {
   beforeEach(() => global.localStorage.setItem('user_token', 'userTokenTest'));
 
   it('should alert that the request is no longer being sent and that if succeeded sent if the reward was created', () => (
-    expectSaga(createRewardSaga)
+    expectSaga(createReward)
     .provide([
       [call(request, '/users/userTokenTest/offered_awards', 'POST', reward, true),
       { status: 201 }],
@@ -50,7 +50,7 @@ describe('testing createReward saga', () => {
 
   it('should logout and redirect to login if there is not user_token in localStorage', () => {
     global.localStorage.removeItem('user_token');
-    return expectSaga(createRewardSaga)
+    return expectSaga(createReward)
     .put(createRewardFailed())
     .put(logoutRequest())
     .put(push('/login'))
@@ -59,7 +59,7 @@ describe('testing createReward saga', () => {
   });
 
   it('should alert that there was an error if there was a bad request', () => (
-    expectSaga(createRewardSaga)
+    expectSaga(createReward)
     .provide([
       [call(request, '/users/userTokenTest/offered_awards', 'POST', reward, true),
       { status: 400 }],
@@ -72,7 +72,7 @@ describe('testing createReward saga', () => {
   ));
 
   it('should alert that there was an error if the user does not exist', () => (
-    expectSaga(createRewardSaga)
+    expectSaga(createReward)
     .provide([
       [call(request, '/users/userTokenTest/offered_awards', 'POST', reward, true),
       { status: 404 }],
@@ -85,7 +85,7 @@ describe('testing createReward saga', () => {
   ));
 
   it('should logout and redirect to login if there is an authentication error', () => (
-    expectSaga(createRewardSaga)
+    expectSaga(createReward)
     .provide([
       [call(request, '/users/userTokenTest/offered_awards', 'POST', reward, true),
       { status: 401 }],
@@ -100,7 +100,7 @@ describe('testing createReward saga', () => {
   ));
 
   it('should logout and redirect to login if there is no auth_token in localStorage', () => (
-    expectSaga(createRewardSaga)
+    expectSaga(createReward)
     .provide([
       [call(request, '/users/userTokenTest/offered_awards', 'POST', reward, true),
         throwError(new Error('No auth_token in localStorage'))],
@@ -117,8 +117,8 @@ describe('testing createReward saga', () => {
 
 describe('testing default saga', () => {
   it('should fork the internal sagas', () => (
-    expectSaga(defaultSaga)
-    .fork(createRewardSaga)
+    expectSaga(createRewardSaga)
+    .fork(createReward)
     .run()
   ));
 });
