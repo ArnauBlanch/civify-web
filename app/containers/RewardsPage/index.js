@@ -55,9 +55,10 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
         >
           <h3><FormattedMessage {...messages.myRewards} /></h3>
           { this.props.rewardsState.error &&
-            <span style={{ color: 'red', fontWeight: 'bold' }}><FormattedMessage {...messages.error} /></span>}
-          { !this.props.rewardsState.error && this.props.rewardsState.rewards.length === 0
-            && <h5 style={{ color: '#888' }}><FormattedMessage {...messages.noRewards} /></h5>}
+            <span style={{ color: '#ccc', fontWeight: 'bold' }}><FormattedMessage {...messages.error} /></span>}
+          { !this.props.rewardsState.error && this.props.rewardsState.rewards &&
+            this.props.rewardsState.rewards.length === 0
+              && <h5 style={{ color: '#888' }}><FormattedMessage {...messages.noRewards} /></h5>}
           <div className="mdl-grid">
             { this.props.rewardsState.rewards.map((reward) =>
               <RewardCard reward={reward} key={reward.award_auth_token} />) }

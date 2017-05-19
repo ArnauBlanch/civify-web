@@ -32,7 +32,6 @@ describe('testing RewardsPage saga', () => {
       }],
     ])
     .put(getRewardsSuccess(rewards))
-    .put(push('/rewards'))
     .dispatch(getRewardsRequest())
     .run()
   ));
