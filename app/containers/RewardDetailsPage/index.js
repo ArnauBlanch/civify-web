@@ -7,14 +7,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Paper, CardTitle, CardMedia, CardText } from 'material-ui';
+import { Paper, CardTitle, CardMedia, CardText, FlatButton, Dialog } from 'material-ui';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import messages from './messages';
 import coinsIcon from '../../images/coins.svg';
 import makeSelectRewardsPage from '../RewardsPage/selectors';
-import { getRewardsRequest } from '../RewardsPage/actions';
+import { getRewardsRequest, deleteRewardRequest } from '../RewardsPage/actions';
 import API_URL from '../../api';
 
 export class RewardDetailsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -23,12 +23,37 @@ export class RewardDetailsPage extends React.Component { // eslint-disable-line 
     if (this.props.rewardsState.rewards.length === 0) {
       this.props.dispatch(getRewardsRequest());
     }
+    this.state = { dialogOpen: false };
+    this.handleDialog = this.handleDialog.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDialog() {
+    this.setState({ dialogOpen: !this.state.dialogOpen });
+  }
+
+  handleDelete() {
+    this.props.dispatch(deleteRewardRequest(this.props.params.rewardID));
   }
 
   render() {
     const { rewards } = this.props.rewardsState;
     const reward = rewards.find((r) => r.award_auth_token === this.props.params.rewardID);
     const rewardExists = typeof reward !== 'undefined';
+
+    const actions = [
+      <FlatButton
+        label={<FormattedMessage {...messages.cancel} />}
+        primary
+        onTouchTap={this.handleDialog}
+      />,
+      <FlatButton
+        label={<FormattedMessage {...messages.delete} />}
+        primary
+        onTouchTap={this.handleDelete}
+      />,
+    ];
+
     return (
       <div>
         <Helmet
@@ -80,9 +105,27 @@ export class RewardDetailsPage extends React.Component { // eslint-disable-line 
             >
               <CardText>{reward.description}</CardText>
               <b><FormattedMessage {...messages.created} /> <FormattedRelative value={new Date(reward.created_at)} /></b>
+              <br />
+              <FlatButton
+                onClick={this.handleDialog}
+                label={<FormattedMessage {...messages.delete} />}
+                secondary
+                backgroundColor="#E74C3C"
+                style={{ marginTop: 30 }}
+              />
             </div>
           </Paper> :
           <h2><FormattedMessage {...messages.rewardNotFound} /></h2>}
+
+        <Dialog
+          title="Delete reward"
+          actions={actions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.handleDialog}
+        >
+          <FormattedMessage {...messages.areYouSureDelete} />
+        </Dialog>
       </div>
     );
   }

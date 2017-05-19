@@ -14,4 +14,20 @@ export default defineMessages({
     id: 'app.containers.RewardDetailsPage.created',
     defaultMessage: 'created',
   },
+  delete: {
+    id: 'app.containers.RewardDetailsPage.delete',
+    defaultMessage: 'Delete',
+  },
+  deleteReward: {
+    id: 'app.containers.RewardDetailsPage.delete-reward',
+    defaultMessage: 'Delete reward',
+  },
+  areYouSureDelete: {
+    id: 'app.containers.RewardDetailsPage.are-you-sure-you-want-to-delete-this-reward',
+    defaultMessage: 'Are you sure you want to delete this reward?',
+  },
+  cancel: {
+    id: 'app.containers.RewardDetailsPage.cancel',
+    defaultMessage: 'Cancel',
+  },
 });
