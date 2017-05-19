@@ -13,6 +13,7 @@ import { call } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan'; // eslint-disable-line
 import {
   issuesRequest as issuesRequestSaga,
+  mapSaga,
 } from '../sagas';
 import {
   issuesRequest,
@@ -43,6 +44,14 @@ describe('test map page saga', () => {
       }],
     ])
     .dispatch(issuesRequest())
+    .run()
+  ));
+});
+
+describe('testing map saga', () => {
+  it('should fork all internal sagas', () => (
+    expectSaga(mapSaga)
+    .fork(issuesRequestSaga)
     .run()
   ));
 });

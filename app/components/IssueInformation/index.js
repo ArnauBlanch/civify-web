@@ -4,11 +4,6 @@
 *
 */
 
-import { FormattedRelative } from 'react-intl';
-import React, { PropTypes } from 'react';
-import { Card, CardMedia, CardText } from 'material-ui/Card';
-import BASE_URL from '../../api';
-
 import roadSigns from '!file-loader?name=[name].[ext]!../../images/category_icons/traffic_signs_lights_icon.png';
 import illumination from '!file-loader?name=[name].[ext]!../../images/category_icons/street_lights_icon.png';
 import grove from '!file-loader?name=[name].[ext]!../../images/category_icons/trees_and_plants_icon.png';
@@ -17,6 +12,11 @@ import trashAndCleaning from '!file-loader?name=[name].[ext]!../../images/catego
 import publicTransport from '!file-loader?name=[name].[ext]!../../images/category_icons/public_transportation_icon.png';
 import suggestion from '!file-loader?name=[name].[ext]!../../images/category_icons/suggestion_icon.png';
 import other from '!file-loader?name=[name].[ext]!../../images/category_icons/others_icon.png';
+
+import { FormattedRelative } from 'react-intl';
+import React, { PropTypes } from 'react';
+import { Card, CardMedia, CardText } from 'material-ui/Card';
+import BASE_URL from '../../api';
 
 const titleStyle = {
   fontSize: '24px',
@@ -121,8 +121,6 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
         if (status === 'OK') {
           if (results[1]) {
             this.setState({ address: results[1].formatted_address });
-          } else {
-            console.log('No results found');
           }
         }
       });

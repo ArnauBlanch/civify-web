@@ -34,18 +34,20 @@ export function checkAuth(store) {
       if (nextState.location.pathname === '/login' ||
           nextState.location.pathname === '/register') {
         replace('/');
-        console.log('Logged in + login/register');
-      } else {
-        console.log('Logged in + / or requires auth');
-        // replace(nextState.location.pathname);
+        // console.log('Logged in + login/register');
       }
+      // else {
+      //   console.log('Logged in + / or requires auth');
+      //   // replace(nextState.location.pathname);
+      // }
     } else if (nextState.location.pathname !== '/' &&
           nextState.location.pathname !== '/login' &&
           nextState.location.pathname !== '/register' &&
           !nextState.location.pathname.startsWith('/issues/')) {
-      console.log('Not logged in + requires auth');
+      // console.log('Not logged in + requires auth');
       replace('/login');
-    } else { console.log('Not logged in + doesn\'t require auth'); }
+    }
+    // else { console.log('Not logged in + doesn\'t require auth'); }
   };
 }
 
