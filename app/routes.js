@@ -106,6 +106,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/rewards',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/RewardsPage/reducer'),
@@ -125,6 +126,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/rewards/validate',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/ValidateRewardsPage/reducer'),
