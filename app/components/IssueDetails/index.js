@@ -12,8 +12,6 @@ import IssueInformation from '../IssueInformation';
 
 class IssueDetails extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    console.log('IssueDetails!!');
-    console.log(this.props.issue);
     const { issue } = this.props;
     return (
       <Drawer

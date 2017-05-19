@@ -17,9 +17,7 @@ const initialState = fromJS({
 function mapPageReducer(state = initialState, action) {
   switch (action.type) {
     case ISSUES_INFO_SUCCESS:
-      console.log(action.issues);
-      return state.set('issues', fromJS(action.issues))
-                  .set('issuesLoaded', true);
+      return state.set('issues', fromJS(action.issues));
     default:
       return state;
   }
