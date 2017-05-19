@@ -1,1 +1,1 @@
-export default 'http://staging-api.civify.cf';
+export default 'http://api.civify.cf';
