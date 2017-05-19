@@ -41,14 +41,20 @@ class CustomMarker extends React.Component { // eslint-disable-line react/prefer
         return 'error';
     }
   }
-
+  centerMap() {
+    const newCenter = {
+      lat: this.props.marker.latitude,
+      lng: this.props.marker.longitude,
+    };
+    this.props.map.setState({ center: newCenter });
+  }
   render() {
     const { category, latitude, longitude } = this.props.marker;
     return (
       <Marker
         icon={{ url: this.getIcon(category), scaledSize: new google.maps.Size(31.15, 40.0) }} // eslint-disable-line no-undef
         position={{ lat: latitude, lng: longitude }}
-        onClick={() => this.props.onClick(this.props.marker)}
+        onClick={() => { this.props.onClick(this.props.marker); this.centerMap(); }}
       >
       </Marker>
     );
@@ -58,6 +64,7 @@ class CustomMarker extends React.Component { // eslint-disable-line react/prefer
 CustomMarker.propTypes = {
   marker: React.PropTypes.object.isRequired,
   onClick: React.PropTypes.func.isRequired,
+  map: React.PropTypes.object.isRequired,
 };
 
 export default CustomMarker;

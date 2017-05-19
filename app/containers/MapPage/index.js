@@ -19,22 +19,47 @@ class MapPage extends React.Component {
     this.state = {
       open: false,
       issue: undefined,
+      loaded: false,
     };
     this.showIssue = this.showIssue.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
     this.props.dispatch(issuesRequest());
   }
-
+  findIssueByToken(token) {
+    return this.props.mapState.issues.filter((issue) => {
+      return issue.issue_auth_token === token;
+    });
+  }
   showIssue(issue) {
-    console.log(issue);
-    this.setState({ open: true, issue });
+    console.log(typeof issue);
+    if (typeof issue !== 'object') {
+      const issueFound = this.findIssueByToken(issue)[0];
+      console.log('Look here baby');
+      console.log(issueFound);
+      this.setState({ open: true, issueFound });
+    } else {
+      this.setState({ open: true, issue });
+    }
   }
 
   toggleDrawer() {
     this.setState({ open: !this.state.open });
   }
 
+  mapLoaded() {
+    this.setState({ loaded: true });
+  }
+
   render() {
+    if (this.props.mapState.issuesLoaded) {
+      console.log('I entered here');
+      console.log(this.props.params.issueID);
+      if (this.props.params.issueID && !this.state.loaded) {
+        const token = this.props.params.issueID;
+        this.showIssue(token);
+        this.mapLoaded();
+      }
+    }
     return (
       <div className="App">
         <IssueDetails
@@ -60,6 +85,7 @@ class MapPage extends React.Component {
 MapPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   mapState: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
