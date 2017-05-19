@@ -33,7 +33,6 @@ class MapPage extends React.Component {
   }
 
   closeDrawer() {
-    console.log('drawer cloose');
     this.setState({ issue: undefined, showIssueFromUrl: false });
   }
 
@@ -42,16 +41,6 @@ class MapPage extends React.Component {
   }
 
   render() {
-    /*
-    if (this.props.mapState.issuesLoaded) {
-      console.log('I entered here');
-      console.log(this.props.params.issueID);
-      if (this.props.params.issueID && !this.state.loaded) {
-        const token = this.props.params.issueID;
-        this.showIssue(token);
-        this.mapLoaded();
-      }
-    }*/
     const issueFromUrl = this.props.mapState.issues.find((i) => i.issue_auth_token === this.props.params.issueID);
     return (
       <div className="App">
