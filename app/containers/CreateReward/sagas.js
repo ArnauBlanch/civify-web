@@ -6,7 +6,7 @@ import { sendingRequest, createRewardSuccess, createRewardFailed } from './actio
 import { logoutRequest } from '../LoginPage/actions';
 
 export function* createReward() {
-  while (true) {
+  while (true) { // eslint-disable-line
     const { reward } = yield take(CREATE_REWARD_REQUEST);
     const userToken = localStorage.getItem('user_token');
     if (!userToken) {
