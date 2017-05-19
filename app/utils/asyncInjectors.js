@@ -88,7 +88,6 @@ export function injectAsyncSagas(store, isValid) {
     if (!asyncSagas[name]) {
       asyncSagas[name] = [];
     }
-
     sagas.filter((saga) => {
       if (asyncSagas[name].includes(saga.name)) {
         return false;

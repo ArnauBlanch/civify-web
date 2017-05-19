@@ -11,7 +11,7 @@ import { push } from 'react-router-redux';
 import {
   login as loginSaga,
   userInfo as userInfoSaga,
-  root as rootSaga,
+  loginPageSaga,
 } from '../sagas';
 import {
   loginRequest,
@@ -180,7 +180,7 @@ describe('testing user info saga', () => {
 
 describe('testing root saga', () => {
   it('should fork the internal sagas', () => (
-    expectSaga(rootSaga)
+    expectSaga(loginPageSaga)
     .fork(loginSaga)
     .fork(userInfoSaga)
     .run()

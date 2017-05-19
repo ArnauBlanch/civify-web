@@ -10,7 +10,7 @@ import {
   register as registerSaga,
   checkUnusedUsername as checkUnusedUsernameSaga,
   checkUnusedEmail as checkUnusedEmailSaga,
-  root as rootSaga,
+  registrationPageSaga,
 } from '../sagas';
 import {
   registerRequest,
@@ -181,7 +181,7 @@ describe('testing check e-mail saga', () => {
 
 describe('testing root saga', () => {
   it('should fork all internal sagas', () => (
-    expectSaga(rootSaga)
+    expectSaga(registrationPageSaga)
     .fork(registerSaga)
     .fork(checkUnusedUsernameSaga)
     .fork(checkUnusedEmailSaga)
