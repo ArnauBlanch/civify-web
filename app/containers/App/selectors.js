@@ -15,8 +15,10 @@ const makeSelectLocationState = () => {
   };
 };
 const makeSelectIsAuthenticated = () => (state) => state.get('auth').get('isAuthenticated');
+const makeSelectLanguage = () => (state) => state.get('language').get('locale');
 
 export {
   makeSelectLocationState,
   makeSelectIsAuthenticated,
+  makeSelectLanguage,
 };
