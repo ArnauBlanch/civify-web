@@ -4,7 +4,6 @@ import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import invariant from 'invariant';
-import warning from 'warning';
 import createReducer from 'reducers';
 
 /**
@@ -75,27 +74,28 @@ export function injectAsyncReducer(store, isValid) {
  */
 export function injectAsyncSagas(store, isValid) {
   const asyncSagas = {};
-  return function injectSagas(sagas) {
+
+  return function injectSagas(name, sagas) {
     if (!isValid) checkStore(store);
 
     invariant(
-      Array.isArray(sagas),
-      '(app/utils...) injectAsyncSagas: Expected `sagas` to be an array of generator functions'
-    );
+        Array.isArray(sagas),
+        '(app/utils...) injectAsyncSagas: Expected `sagas` to be an array of generator functions'
+     );
 
-    warning(
-      !isEmpty(sagas),
-      '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
-    );
+    if (sagas.length <= 0) return;
 
     if (!asyncSagas[name]) {
       asyncSagas[name] = [];
     }
+
     sagas.filter((saga) => {
       if (asyncSagas[name].includes(saga.name)) {
         return false;
       }
+
       asyncSagas[name].push(saga.name);
+
       return true;
     }).map(store.runSaga);
   };

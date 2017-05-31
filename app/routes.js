@@ -30,7 +30,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('mapPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('mapPage', sagas.default);
           renderRoute(component);
         });
 
@@ -49,7 +49,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('mapPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('mapPage', sagas.default);
           renderRoute(component);
         });
 
@@ -71,9 +71,9 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
           injectReducer('registrationPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('registrationPage', sagas.default);
           injectReducer('loginPage', reducer2.default);
-          injectSagas(sagas2.default);
+          injectSagas('loginPage', sagas2.default);
           renderRoute(component);
         });
 
@@ -93,7 +93,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('loginPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('loginPage', sagas.default);
           renderRoute(component);
         });
 
@@ -115,10 +115,10 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
           injectReducer('createReward', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
+          injectSagas('createReward', sagas.default);
           injectReducer('loginPage', reducer2.default);
-          injectSagas(sagas2.default);
+          injectSagas('loginPage', sagas2.default);
+          renderRoute(component);
         });
 
         importModules.catch(errorLoading);
@@ -137,7 +137,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('rewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('rewardsPage', sagas.default);
           renderRoute(component);
         });
 
@@ -157,7 +157,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('validateRewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('validateRewardsPage', sagas.default);
           renderRoute(component);
         });
 
@@ -176,7 +176,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('rewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('rewardsPage', sagas.default);
           renderRoute(component);
         });
 

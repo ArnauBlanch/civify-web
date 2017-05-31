@@ -53,9 +53,9 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
           underlineStyle={{ borderColor: 'rgba(255,255,255,0.7)', width: 45 }}
 
         >
-          <MenuItem value="ca" primaryText={<img src={catalanIcon} height="22" />} />
-          <MenuItem value="es" primaryText={<img src={spanishIcon} height="22" />} />
-          <MenuItem value="en" primaryText={<img src={englishIcon} height="22" />} />
+          <MenuItem value="ca" primaryText={<img alt="Catalan" src={catalanIcon} height="22" />} />
+          <MenuItem value="es" primaryText={<img alt="Spanish" src={spanishIcon} height="22" />} />
+          <MenuItem value="en" primaryText={<img alt="English" src={englishIcon} height="22" />} />
         </SelectField>
       </nav>
     );

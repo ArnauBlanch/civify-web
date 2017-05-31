@@ -25,9 +25,6 @@ class MapPage extends React.Component {
     this.closeDrawer = this.closeDrawer.bind(this);
     this.props.dispatch(issuesRequest());
   }
-  findIssueByToken(token) {
-    return this.props.mapState.issues.find((i) => i.issue_auth_token === token);
-  }
   showIssue(issue) {
     this.setState({ issue });
   }
@@ -46,7 +43,11 @@ class MapPage extends React.Component {
       <div className="App">
         <IssueDetails
           toggleDrawer={this.closeDrawer}
-          open={(this.state.showIssueFromUrl && issueFromUrl) || typeof (this.state.issue) !== 'undefined'}
+          open={
+            (this.state.showIssueFromUrl &&
+            typeof issueFromUrl !== 'undefined')
+            || typeof (this.state.issue) !== 'undefined'
+          }
           issue={this.state.issue || issueFromUrl}
         />
         <Map
