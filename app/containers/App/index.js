@@ -17,19 +17,23 @@ import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import Header from '../../components/Header';
 import mainStyle from './main.style';
-import { makeSelectIsAuthenticated } from './selectors';
+import { makeSelectIsAuthenticated, makeSelectLanguage } from './selectors';
 
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: PropTypes.node,
     isAuthenticated: PropTypes.bool.isRequired,
+    language: PropTypes.string.isRequired,
   };
 
   render() {
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <Header isAuthenticated={this.props.isAuthenticated} />
+        <Header
+          isAuthenticated={this.props.isAuthenticated}
+          language={this.props.language}
+        />
         <main className="mdl-layout__content" style={mainStyle}>
           {React.Children.toArray(this.props.children)}
         </main>
@@ -40,6 +44,7 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
 
 const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated(),
+  language: makeSelectLanguage(),
 });
 
 function mapDispatchToProps(dispatch) {
