@@ -52,7 +52,6 @@ class MapPage extends React.Component {
   }
 
   render() {
-    // const issueFromUrl = this.props.mapState.issues.find((i) => i.issue_auth_token === this.props.params.issueID);
     return (
       <div className="App">
         <IssueDetails

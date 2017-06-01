@@ -75,7 +75,7 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
         </Paper>
         <FloatingActionButton
           style={FABstyle}
-          onClick={() => this.props.dispatch(push('/rewards/create'))}
+          onClick={() => this.props.dispatch(push('/rewards/new'))}
         >
           <ContentAdd />
         </FloatingActionButton>

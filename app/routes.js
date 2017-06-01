@@ -100,7 +100,7 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/rewards/create',
+      path: '/rewards/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
@@ -165,6 +165,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/rewards/:rewardID',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/RewardsPage/reducer'),
@@ -177,6 +178,26 @@ export default function createRoutes(store) {
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('rewardsPage', reducer.default);
           injectSagas('rewardsPage', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/achievements/new',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CreateAchievement/reducer'),
+          import('containers/CreateAchievement/sagas'),
+          import('containers/CreateAchievement'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('createAchievement', reducer.default);
+          injectSagas('createAchievement', sagas.default);
           renderRoute(component);
         });
 

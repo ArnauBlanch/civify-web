@@ -7,16 +7,16 @@ describe('authReducer test', () => {
   reducerTest(
     'should set \'isAuthenticated\' to true (LOGIN_SUCCESS)',
     authReducer,
-    fromJS({ isAuthenticated: false }),
-    loginSuccess(),
-    fromJS({ isAuthenticated: true })
+    fromJS({ isAuthenticated: false, isAdmin: undefined }),
+    loginSuccess(false),
+    fromJS({ isAuthenticated: true, isAdmin: false })
   );
 
   reducerTest(
     'should set \'isAuthenticated\' to false (LOGOUT_REQUEST)',
     authReducer,
-    fromJS({ isAuthenticated: true }),
+    fromJS({ isAuthenticated: true, isAdmin: true }),
     logoutRequest(),
-    fromJS({ isAuthenticated: false })
+    fromJS({ isAuthenticated: false, isAdmin: undefined })
   );
 });

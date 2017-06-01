@@ -14,11 +14,11 @@ const makeSelectLocationState = () => {
     return prevRoutingStateJS;
   };
 };
-const makeSelectIsAuthenticated = () => (state) => state.get('auth').get('isAuthenticated');
+const makeSelectAuthState = () => (state) => state.get('auth').toJS();
 const makeSelectLanguage = () => (state) => state.get('language').get('locale');
 
 export {
   makeSelectLocationState,
-  makeSelectIsAuthenticated,
+  makeSelectAuthState,
   makeSelectLanguage,
 };

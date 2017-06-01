@@ -15,6 +15,7 @@ import englishIcon from '../../images/en.png';
 
 class AppBarButtons extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { isAuthenticated, isAdmin } = this.props;
     return (
       <nav
         className="mdl-navigation mdl-layout--large-screen-only"
@@ -25,14 +26,21 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
           secondary
           containerElement={<Link to="/" />} // eslint-disable-line jsx-a11y/anchor-has-content
         />
-        { this.props.isAuthenticated &&
+        { isAuthenticated && !isAdmin &&
           <FlatButton
             label={<FormattedMessage {...messages.rewards} />}
             secondary
             containerElement={<Link to="/rewards" />} // eslint-disable-line jsx-a11y/anchor-has-content
           />
         }
-        { this.props.isAuthenticated ?
+        { isAuthenticated && isAdmin &&
+          <FlatButton
+            label={<FormattedMessage {...messages.achievements} />}
+            secondary
+            containerElement={<Link to="/achievements" />} // eslint-disable-line jsx-a11y/anchor-has-content
+          />
+        }
+        { isAuthenticated ?
           <FlatButton
             label={<FormattedMessage {...messages.signOut} />}
             secondary
@@ -64,6 +72,7 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
 
 AppBarButtons.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   changeLocale: PropTypes.func.isRequired,

@@ -16,6 +16,7 @@ import englishIcon from '../../images/en.png';
 
 class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { isAuthenticated, isAdmin } = this.props;
     return (
       <Drawer
         docked={false}
@@ -35,14 +36,21 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
             <FormattedMessage {...messages.issues} />
           </MenuItem>
         </Link>
-        { this.props.isAuthenticated &&
+        { isAuthenticated && !isAdmin &&
           <Link to="/rewards" style={{ textDecoration: 'none' }}>
             <MenuItem onTouchTap={this.props.toggleDrawer} >
               <FormattedMessage {...messages.myRewards} />
             </MenuItem>
           </Link>
         }
-        { this.props.isAuthenticated ?
+        { isAuthenticated && isAdmin &&
+          <Link to="/achievements" style={{ textDecoration: 'none' }}>
+            <MenuItem onTouchTap={this.props.toggleDrawer} >
+              <FormattedMessage {...messages.achievements} />
+            </MenuItem>
+          </Link>
+        }
+        { isAuthenticated ?
           <MenuItem onTouchTap={this.props.toggleDrawer} onClick={this.props.logout} >
             <FormattedMessage {...messages.signOut} />
           </MenuItem> :
@@ -75,6 +83,7 @@ AppDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   changeLocale: PropTypes.func.isRequired,

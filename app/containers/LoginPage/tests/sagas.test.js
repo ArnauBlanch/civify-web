@@ -157,7 +157,7 @@ describe('testing user info saga', () => {
         json: () => ({ kind: 'admin', user_auth_token: 'test user token' }),
       }],
     ])
-    .put(loginSuccess())
+    .put(loginSuccess(true))
     .put(push('/admin'))
     .dispatch(userInfoRequest())
     .run()
@@ -171,7 +171,7 @@ describe('testing user info saga', () => {
         json: () => ({ kind: 'business', user_auth_token: 'test user token' }),
       }],
     ])
-    .put(loginSuccess())
+    .put(loginSuccess(false))
     .put(push('/rewards'))
     .dispatch(userInfoRequest())
     .run()
