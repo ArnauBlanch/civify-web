@@ -41,16 +41,19 @@ function routeReducer(state = routeInitialState, action) {
 
 const authInitialState = fromJS({
   isAuthenticated: localStorage.getItem('auth_token') !== null,
+  isAdmin: localStorage.getItem('auth_admin') !== null,
 });
 
 export function authReducer(state = authInitialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return state.set('isAuthenticated', true);
+      localStorage.setItem('auth_admin', action.isAdmin);
+      return state.set('isAuthenticated', true).set('isAdmin', action.isAdmin);
     case LOGOUT_REQUEST:
       localStorage.removeItem('user_token');
       localStorage.removeItem('auth_token');
-      return state.set('isAuthenticated', false);
+      localStorage.removeItem('auth_admin');
+      return state.set('isAuthenticated', false).set('isAdmin', undefined);
     default:
       return state;
   }

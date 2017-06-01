@@ -27,26 +27,20 @@ export function checkStore(store) {
 export function checkAuth(store) {
   return (nextState, replace) => {
     const loggedIn = store.getState().get('auth').get('isAuthenticated');
+    const isAdmin = store.getState().get('auth').get('isAdmin');
+    const { pathname } = nextState.location;
     // Check if the path isn't rewards. That way we can apply specific logic to
     // display/render the path we want to
     if (loggedIn) {
-      if (nextState.location.pathname === '/login' ||
-          nextState.location.pathname === '/register') {
+      if (pathname === '/login' || pathname === '/register' ||
+          (pathname.startsWith('/rewards') && isAdmin) ||
+          (pathname.startsWith('/achievements') && !isAdmin)) {
         replace('/');
-        // console.log('Logged in + login/register');
       }
-      // else {
-      //   console.log('Logged in + / or requires auth');
-      //   // replace(nextState.location.pathname);
-      // }
-    } else if (nextState.location.pathname !== '/' &&
-          nextState.location.pathname !== '/login' &&
-          nextState.location.pathname !== '/register' &&
-          !nextState.location.pathname.startsWith('/issues/')) {
-      // console.log('Not logged in + requires auth');
+    } else if (pathname !== '/' && pathname !== '/login' &&
+          pathname !== '/register' && !pathname.startsWith('/issues/')) {
       replace('/login');
     }
-    // else { console.log('Not logged in + doesn\'t require auth'); }
   };
 }
 

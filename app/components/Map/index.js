@@ -68,7 +68,6 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
   handlePlacesChanged() {
     const places = this.searchBox.getPlaces();
-
     // Set map center to first search result
     const mapCenter = places.length > 0 ? places[0].geometry.location : this.state.center;
     this.setState({

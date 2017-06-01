@@ -46,6 +46,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
           iconElementRight={
             <AppBarButtons
               isAuthenticated={this.props.isAuthenticated}
+              isAdmin={this.props.isAdmin}
               logout={this.logout}
               language={this.props.language}
               changeLocale={this.changeLocale}
@@ -56,6 +57,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
           toggleDrawer={this.toggleDrawer}
           open={this.state.open}
           isAuthenticated={this.props.isAuthenticated}
+          isAdmin={this.props.isAdmin}
           logout={this.logout}
           language={this.props.language}
           changeLocale={this.changeLocale}
@@ -67,6 +69,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   language: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
