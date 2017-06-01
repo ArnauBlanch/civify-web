@@ -28,10 +28,10 @@ const searchStyle = {
 };
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      zoom: 8,
+      zoom: this.props.showingIssue ? 20 : 8,
       bounds: null,
       center: { lat: 41.390205, lng: 2.154007 },
     };
@@ -40,6 +40,15 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     this.handleSearchBoxMounted = this.handleSearchBoxMounted.bind(this);
     this.handlePlacesChanged = this.handlePlacesChanged.bind(this);
     this.handleZoomChanged = this.handleZoomChanged.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.showingIssue !== nextProps.showingIssue && nextProps.showingIssue) {
+      this.setState({
+        zoom: 20,
+        center: nextProps.issueCenter,
+      });
+    }
   }
 
   handleMapMounted(map) {
@@ -62,7 +71,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
     // Set map center to first search result
     const mapCenter = places.length > 0 ? places[0].geometry.location : this.state.center;
-    this.setState({ center: mapCenter, zoom: 15 });
+    this.setState({ center: mapCenter });
   }
 
   handleZoomChanged() {
@@ -97,7 +106,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
               marker={marker}
               position={{ lat: marker.latitude, lng: marker.longitude }}
               category={marker.category}
-              onClick={this.props.showIssue}
+              onClick={this.props.onIssueClick}
               map={this}
             >
             </CustomMarker>
@@ -110,8 +119,10 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
 Map.propTypes = {
   markers: PropTypes.array.isRequired,
-  showIssue: PropTypes.func.isRequired,
+  onIssueClick: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  showingIssue: PropTypes.bool.isRequired,
+  issueCenter: PropTypes.object,
 };
 
 export default withGoogleMap(injectIntl(Map));

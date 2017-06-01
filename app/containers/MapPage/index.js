@@ -25,6 +25,20 @@ class MapPage extends React.Component {
     this.closeDrawer = this.closeDrawer.bind(this);
     this.props.dispatch(issuesRequest());
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { issues } = this.props.mapState;
+    const nextIssues = nextProps.mapState.issues;
+    if (issues !== nextIssues && this.state.showIssueFromUrl) {
+      const issueFromUrl = nextIssues.find((i) => (
+        i.issue_auth_token === nextProps.params.issueID)
+      );
+      if (issueFromUrl) {
+        this.setState({ issue: issueFromUrl });
+      }
+    }
+  }
+
   showIssue(issue) {
     this.setState({ issue });
   }
@@ -38,17 +52,13 @@ class MapPage extends React.Component {
   }
 
   render() {
-    const issueFromUrl = this.props.mapState.issues.find((i) => i.issue_auth_token === this.props.params.issueID);
+    // const issueFromUrl = this.props.mapState.issues.find((i) => i.issue_auth_token === this.props.params.issueID);
     return (
       <div className="App">
         <IssueDetails
           toggleDrawer={this.closeDrawer}
-          open={
-            (this.state.showIssueFromUrl &&
-            typeof issueFromUrl !== 'undefined')
-            || typeof (this.state.issue) !== 'undefined'
-          }
-          issue={this.state.issue || issueFromUrl}
+          open={typeof this.state.issue !== 'undefined'}
+          issue={this.state.issue}
         />
         <Map
           containerElement={
@@ -58,7 +68,9 @@ class MapPage extends React.Component {
             <div style={{ height: '100vh', width: '100vw', position: 'absolute' }} />
           }
           markers={this.props.mapState.issues}
-          showIssue={this.showIssue}
+          onIssueClick={this.showIssue}
+          showingIssue={typeof (this.state.issue) !== 'undefined'}
+          issueCenter={this.state.issue && { lat: this.state.issue.latitude, lng: this.state.issue.longitude }}
         />
       </div>
     );
