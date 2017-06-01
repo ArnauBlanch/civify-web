@@ -71,7 +71,10 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
     // Set map center to first search result
     const mapCenter = places.length > 0 ? places[0].geometry.location : this.state.center;
-    this.setState({ center: mapCenter });
+    this.setState({
+      center: mapCenter,
+      zoom: 16,
+    });
   }
 
   handleZoomChanged() {
@@ -122,7 +125,6 @@ Map.propTypes = {
   onIssueClick: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   showingIssue: PropTypes.bool.isRequired,
-  issueCenter: PropTypes.object,
 };
 
 export default withGoogleMap(injectIntl(Map));
