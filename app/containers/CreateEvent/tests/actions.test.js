@@ -40,10 +40,8 @@ describe('CreateEvent actions', () => {
     { type: CREATE_EVENT_SUCCESS }
   );
 
-  actionTest('should create an action to notify that the event creation failed',
-    createEventFailure,
-    false,
-    false,
-    { type: CREATE_EVENT_FAILURE, alreadyExists: false, datesError: false }
-  );
+  it('should create an action to notify that the event creation failed', () => {
+    expect(createEventFailure(true, false))
+    .toEqual({ type: CREATE_EVENT_FAILURE, alreadyExists: true, datesError: false });
+  });
 });

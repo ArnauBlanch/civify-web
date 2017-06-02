@@ -32,7 +32,6 @@ export function* createAchievement() {
         }
       }
     } catch (e) {
-      console.log(e);
       yield put(sendingRequest(false));
       yield put(createAchievementFailure(false));
       yield put(logoutRequest());

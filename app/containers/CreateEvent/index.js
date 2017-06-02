@@ -66,7 +66,6 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
         content_type: values.get('image')[0].type,
       },
     };
-    console.log(event);
     this.props.dispatch(createEventRequest(event));
   }
 
