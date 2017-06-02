@@ -19,8 +19,8 @@ export function createEventSuccess() {
   return { type: CREATE_EVENT_SUCCESS };
 }
 
-export function createEventFailure(alreadyExists) {
-  return { type: CREATE_EVENT_FAILURE, alreadyExists };
+export function createEventFailure(alreadyExists, datesError) {
+  return { type: CREATE_EVENT_FAILURE, alreadyExists, datesError };
 }
 
 export function sendingRequest(sending) {

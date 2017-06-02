@@ -13,7 +13,7 @@ import { Card, CircularProgress } from 'material-ui';
 import makeSelectCreateEvent from './selectors';
 import messages from './messages';
 import AchievementEventForm, { formatDate } from '../../components/AchievementEventForm';
-// import { createEventRequest } from './actions';
+import { createEventRequest } from './actions';
 import { makeSelectLanguage } from '../App/selectors';
 
 const formatTime = (time) => {
@@ -60,15 +60,19 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
       xp: valuesJs.xp,
       start_date: `${formatDate(valuesJs.startDate)} ${startTime}`,
       end_date: `${formatDate(valuesJs.endDate)} ${endTime}`,
-      image: base64image,
+      image: {
+        content: base64image,
+        filename: values.get('image')[0].name,
+        content_type: values.get('image')[0].type,
+      },
     };
     console.log(event);
+    this.props.dispatch(createEventRequest(event));
   }
 
   render() {
     const t = this.props.intl.formatMessage;
-    const { eventError, currentlySending, alreadyExists } = this.props.CreateEvent;
-    console.log(this.props.CreateEvent);
+    const { eventError, currentlySending, alreadyExists, datesError } = this.props.CreateEvent;
     return (
       <div style={{ maxWidth: 550, width: '100%', margin: 5 }}>
         <Helmet
@@ -87,6 +91,7 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
             lang={this.props.lang}
             missingFile={this.state.missingFile}
             imageError={this.state.imageError}
+            datesError={datesError}
           />
           { currentlySending &&
             <CircularProgress style={{ marginTop: 20 }} size={40} /> }

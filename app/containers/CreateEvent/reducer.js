@@ -14,6 +14,7 @@ import {
 const initialState = fromJS({
   currentlySending: false,
   eventError: false,
+  datesError: false,
   alreadyExists: false,
 });
 
@@ -22,9 +23,10 @@ function createEventReducer(state = initialState, action) {
     case SENDING_REQUEST:
       return state.set('currentlySending', action.sending);
     case CREATE_EVENT_SUCCESS:
-      return state.set('eventError', false).set('alreadyExists', false);
+      return state.set('eventError', false)
+      .set('alreadyExists', false).set('datesError', false);
     case CREATE_EVENT_FAILURE:
-      return state.set('eventError', true)
+      return state.set('eventError', true).set('datesError', action.datesError)
         .set('alreadyExists', action.alreadyExists);
     default:
       return state;
