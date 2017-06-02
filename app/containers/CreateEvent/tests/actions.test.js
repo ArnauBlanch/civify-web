@@ -43,6 +43,7 @@ describe('CreateEvent actions', () => {
   actionTest('should create an action to notify that the event creation failed',
     createEventFailure,
     false,
-    { type: CREATE_EVENT_FAILURE, alreadyExists: false }
+    false,
+    { type: CREATE_EVENT_FAILURE, alreadyExists: false, datesError: false }
   );
 });

@@ -18,7 +18,7 @@ export function* createAchievement() {
       } else {
         if (response.status === 400) {
           const body = yield response.json();
-          if (body.message === 'Already exists') {
+          if (body.message === 'Number has already been taken') {
             yield put(createAchievementFailure(true));
           } else {
             yield put(createAchievementFailure(false));

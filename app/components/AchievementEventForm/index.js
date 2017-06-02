@@ -12,10 +12,14 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { renderDropzoneInput } from '../RewardForm';
 
-const types = [
+const eventTypes = [
   { value: 'issue', text: <FormattedMessage {...messages.createIssues} /> },
   { value: 'confirm', text: <FormattedMessage {...messages.confirmIssues} /> },
   { value: 'resolve', text: <FormattedMessage {...messages.resolveIssues} /> },
+];
+
+const achievementTypes = [
+  ...eventTypes,
   { value: 'reward', text: <FormattedMessage {...messages.getRewards} /> },
   { value: 'use', text: <FormattedMessage {...messages.useRewards} /> },
   { value: 'confirm_received', text: <FormattedMessage {...messages.receiveConfirmations} /> },
@@ -167,7 +171,7 @@ class AchievementEventForm extends React.Component {
             errorStyle={{ textAlign: 'center' }}
             validate={this.required}
           >
-            { types.map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
+            { (isEvent ? eventTypes : achievementTypes).map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
             }
           </Field><br />
           <Field
@@ -182,9 +186,9 @@ class AchievementEventForm extends React.Component {
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.required} /></span> }
           { isEvent && imageError
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.invalidImage} /></span> }
-          { aeError && !datesError
+          { aeError && (typeof datesError === 'undefined' || !datesError)
             && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.thereWasAnError} /></span> }
-          { aeError && datesError
+          { aeError && (typeof datesError !== 'undefined' && datesError)
             && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.invalidDates} /></span> }
           { alreadyExists
             && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.alreadyExists} /></span> }

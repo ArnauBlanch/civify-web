@@ -18,13 +18,15 @@ export function* createEvent() {
       } else {
         if (response.status === 400) {
           const body = yield response.json();
-          if (body.message === 'Already exists') {
-            yield put(createEventFailure(true));
+          if (body.message === 'Number has already been taken') {
+            yield put(createEventFailure(true, false));
+          } else if (body.message.startsWith('End date must be after or equal to')) {
+            yield put(createEventFailure(false, true));
           } else {
-            yield put(createEventFailure(false));
+            yield put(createEventFailure(false, false));
           }
         } else {
-          yield put(createEventFailure(false));
+          yield put(createEventFailure(false, false));
         }
         if (response.status === 401) {
           yield put(logoutRequest());
@@ -32,9 +34,8 @@ export function* createEvent() {
         }
       }
     } catch (e) {
-      console.log(e);
       yield put(sendingRequest(false));
-      yield put(createEventFailure(false));
+      yield put(createEventFailure(false, false));
       yield put(logoutRequest());
       yield put(push('/login'));
     }

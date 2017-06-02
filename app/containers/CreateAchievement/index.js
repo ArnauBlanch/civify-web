@@ -54,7 +54,6 @@ CreateAchievement.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   CreateAchievement: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
