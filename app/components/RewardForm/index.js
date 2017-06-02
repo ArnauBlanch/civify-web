@@ -12,7 +12,7 @@ import { FormattedMessage } from 'react-intl';
 import Dropzone from 'react-dropzone';
 import messages from './messages';
 
-const renderDropzoneInput = (field) => {
+export const renderDropzoneInput = (field) => {
   const files = field.input.value;
   return (
     <div>
@@ -20,7 +20,7 @@ const renderDropzoneInput = (field) => {
         name={field.name}
         onDrop={(filesToUpload) => field.input.onChange(filesToUpload)}
         maxSize={1000000}
-        // accept="image/jpeg, image/png"
+        accept="image/jpeg, image/png"
         style={{
           border: '3px dotted #ccc',
           borderRadius: '20px',

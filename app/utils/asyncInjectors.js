@@ -34,7 +34,8 @@ export function checkAuth(store) {
     if (loggedIn) {
       if (pathname === '/login' || pathname === '/register' ||
           (pathname.startsWith('/rewards') && isAdmin) ||
-          (pathname.startsWith('/achievements') && !isAdmin)) {
+          (pathname.startsWith('/achievements') && !isAdmin) ||
+          (pathname.startsWith('/events') && !isAdmin)) {
         replace('/');
       }
     } else if (pathname !== '/' && pathname !== '/login' &&

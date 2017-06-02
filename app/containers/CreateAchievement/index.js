@@ -12,8 +12,9 @@ import { createStructuredSelector } from 'reselect';
 import { Card, CircularProgress } from 'material-ui';
 import makeSelectCreateAchievement from './selectors';
 import messages from './messages';
-import AchievementForm from '../../components/AchievementForm';
+import AchievementEventForm from '../../components/AchievementEventForm';
 import { createAchievementRequest } from './actions';
+import { makeSelectLanguage } from '../App/selectors';
 
 export class CreateAchievement extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -36,9 +37,9 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
         />
         <Card style={{ paddingTop: 10, paddingBottom: 30 }}>
           <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
-          <AchievementForm
+          <AchievementEventForm
             onSubmit={this.onSubmit}
-            achievementError={achievementError}
+            error={achievementError}
             alreadyExists={alreadyExists}
           />
           { currentlySending &&
@@ -53,10 +54,12 @@ CreateAchievement.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   CreateAchievement: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   CreateAchievement: makeSelectCreateAchievement(),
+  lang: makeSelectLanguage(),
 });
 
 function mapDispatchToProps(dispatch) {
