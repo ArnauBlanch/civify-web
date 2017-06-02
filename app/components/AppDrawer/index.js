@@ -50,6 +50,13 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
             </MenuItem>
           </Link>
         }
+        { isAuthenticated && isAdmin &&
+          <Link to="/events" style={{ textDecoration: 'none' }}>
+            <MenuItem onTouchTap={this.props.toggleDrawer} >
+              <FormattedMessage {...messages.events} />
+            </MenuItem>
+          </Link>
+        }
         { isAuthenticated ?
           <MenuItem onTouchTap={this.props.toggleDrawer} onClick={this.props.logout} >
             <FormattedMessage {...messages.signOut} />
@@ -83,7 +90,7 @@ AppDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   logout: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   changeLocale: PropTypes.func.isRequired,
