@@ -204,6 +204,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/events/new',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CreateEvent/reducer'),
+          import('containers/CreateEvent/sagas'),
+          import('containers/CreateEvent'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('createEvent', reducer.default);
+          injectSagas('createEvent', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       getComponent(nextState, cb) {
         import('containers/NotFoundPage')
