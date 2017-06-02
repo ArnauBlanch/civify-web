@@ -20,7 +20,7 @@ describe('createEventReducer', () => {
     'should update if the request failed',
     createEventReducer,
     fromJS({ eventError: false, alreadyExists: false, datesError: false }),
-    createEventFailure(false),
+    createEventFailure(false, false),
     fromJS({ eventError: true, alreadyExists: false, datesError: false })
   );
 
@@ -28,7 +28,7 @@ describe('createEventReducer', () => {
     'should update if the request failed because the dates are invalid',
     createEventReducer,
     fromJS({ eventError: false, alreadyExists: false, datesError: false }),
-    createEventFailure(false),
+    createEventFailure(false, true),
     fromJS({ eventError: true, alreadyExists: false, datesError: true })
   );
 
@@ -36,7 +36,7 @@ describe('createEventReducer', () => {
     'should update if the request failed because it already exists',
     createEventReducer,
     fromJS({ eventError: false, alreadyExists: true, datesError: false }),
-    createEventFailure(true),
+    createEventFailure(true, false),
     fromJS({ eventError: true, alreadyExists: true, datesError: false })
   );
 

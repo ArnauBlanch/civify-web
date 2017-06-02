@@ -63,7 +63,7 @@ describe('testing createAchievement saga', () => {
     expectSaga(createAchievement)
     .provide([
       [call(request, '/achievements', 'POST', achievement, true),
-      { status: 400, json: () => ({ message: 'Already exists' }) }],
+      { status: 400, json: () => ({ message: 'Number has already been taken' }) }],
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))

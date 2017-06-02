@@ -54,7 +54,7 @@ describe('testing createEvent saga', () => {
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(createEventFailure(false))
+    .put(createEventFailure(false, false))
     .dispatch(createEventRequest(event))
     .run()
   ));
@@ -63,11 +63,24 @@ describe('testing createEvent saga', () => {
     expectSaga(createEvent)
     .provide([
       [call(request, '/events', 'POST', event, true),
-      { status: 400, json: () => ({ message: 'Already exists' }) }],
+      { status: 400, json: () => ({ message: 'Number has already been taken' }) }],
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(createEventFailure(true))
+    .put(createEventFailure(true, false))
+    .dispatch(createEventRequest(event))
+    .run()
+  ));
+
+  it('should alert that there was an error if the dates are invalid', () => (
+    expectSaga(createEvent)
+    .provide([
+      [call(request, '/events', 'POST', event, true),
+      { status: 400, json: () => ({ message: 'End date must be after or equal to ???????' }) }],
+    ])
+    .put(sendingRequest(true))
+    .put(sendingRequest(false))
+    .put(createEventFailure(false, true))
     .dispatch(createEventRequest(event))
     .run()
   ));
@@ -80,7 +93,7 @@ describe('testing createEvent saga', () => {
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(createEventFailure(false))
+    .put(createEventFailure(false, false))
     .put(logoutRequest())
     .put(push('/login'))
     .dispatch(createEventRequest(event))
@@ -95,7 +108,7 @@ describe('testing createEvent saga', () => {
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(createEventFailure(false))
+    .put(createEventFailure(false, false))
     .put(logoutRequest())
     .put(push('/login'))
     .dispatch(createEventRequest(event))
