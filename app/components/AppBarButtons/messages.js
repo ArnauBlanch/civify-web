@@ -18,6 +18,10 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.achievements',
     defaultMessage: 'Achievements',
   },
+  events: {
+    id: 'app.components.AppBarButtons.events',
+    defaultMessage: 'Events',
+  },
   signIn: {
     id: 'app.components.AppBarButtons.sign-in',
     defaultMessage: 'Sign in',

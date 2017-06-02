@@ -40,6 +40,13 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
             containerElement={<Link to="/achievements" />} // eslint-disable-line jsx-a11y/anchor-has-content
           />
         }
+        { isAuthenticated && isAdmin &&
+          <FlatButton
+            label={<FormattedMessage {...messages.events} />}
+            secondary
+            containerElement={<Link to="/events" />} // eslint-disable-line jsx-a11y/anchor-has-content
+          />
+        }
         { isAuthenticated ?
           <FlatButton
             label={<FormattedMessage {...messages.signOut} />}
@@ -72,7 +79,7 @@ class AppBarButtons extends React.PureComponent { // eslint-disable-line react/p
 
 AppBarButtons.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   logout: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   changeLocale: PropTypes.func.isRequired,
