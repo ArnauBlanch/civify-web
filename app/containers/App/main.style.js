@@ -3,7 +3,7 @@ const mainStyle = {
   backgroundColor: '#eee',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
+  // alignItems: 'center',
   overflow: 'auto',
   marginTop: 50,
   maxHeight: '100vh',
