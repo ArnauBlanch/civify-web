@@ -48,7 +48,6 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
     const t = this.props.intl.formatMessage;
     const { enabled } = this.state;
     const { currentlySending, achievements, error } = this.props.AchievementsPage;
-    console.log(achievements);
     return (
       <div>
         <Helmet

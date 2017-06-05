@@ -6,8 +6,8 @@
 
 import React, { PropTypes } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { FlatButton, Dialog, TableRow, TableRowColumn } from 'material-ui';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { TableRow, TableRowColumn } from 'material-ui';
+import { injectIntl, intlShape } from 'react-intl';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router';
 import messages from './messages';
@@ -50,7 +50,6 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
   render() {
     const t = this.props.intl.formatMessage;
     const a = this.props.achievement;
-    console.log(a);
     return (
       <TableRow>
         <TableRowColumn>
