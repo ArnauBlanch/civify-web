@@ -20,9 +20,48 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.sendAchievement = this.sendAchievement.bind(this);
+    this.state = {
+      missingBadgeImage: false,
+      badgeError: false,
+      badgeImage: undefined,
+    };
   }
   onSubmit(values) {
-    this.props.dispatch(createAchievementRequest(values.toJS()));
+    if (typeof values.get('badge_image') === 'undefined') {
+      this.setState({ missingBadgeImage: true });
+    }
+    if (typeof values.get('badge_image') !== 'undefined') {
+      const badgeReader = new FileReader();
+      badgeReader.readAsDataURL(values.get('badge_image')[0]);
+      badgeReader.onload = () => {
+        this.setState({ badgeImage: badgeReader.result.split(',')[1] });
+        this.sendAchievement(values);
+      };
+      badgeReader.onError = () => this.setState({ badgeError: true });
+    }
+  }
+
+  sendAchievement(values) {
+    if (typeof this.state.badgeImage !== 'undefined') {
+      const valuesJs = values.toJS();
+      this.setState({ badgeError: false });
+      const achievement = {
+        title: valuesJs.title,
+        description: valuesJs.description,
+        kind: valuesJs.kind,
+        number: valuesJs.number,
+        coins: valuesJs.coins,
+        xp: valuesJs.xp,
+        badge: {
+          title: valuesJs.badge_title,
+          content: this.state.badgeImage,
+          filename: values.get('badge_image')[0].name,
+          content_type: values.get('badge_image')[0].type,
+        },
+      };
+      this.props.dispatch(createAchievementRequest(achievement));
+    }
   }
   render() {
     const t = this.props.intl.formatMessage;
@@ -43,7 +82,9 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
             alreadyExists={alreadyExists}
           />
           { currentlySending &&
-            <CircularProgress style={{ marginTop: 20 }} size={40} /> }
+            <div style={{ width: '100%', textAlign: 'center' }}>
+              <CircularProgress style={{ marginTop: 20 }} size={40} />
+            </div> }
         </Card>
       </div>
     );
