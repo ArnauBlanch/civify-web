@@ -121,6 +121,7 @@ if (!window.Intl) {
       import('intl/locale-data/jsonp/en.js'),
       import('intl/locale-data/jsonp/ca.js'),
       import('intl/locale-data/jsonp/ca.js'),
+      import('intl/locale-data/jsonp/es.js'),
     ]))
     .then(() => render(translationMessages))
     .catch((err) => {

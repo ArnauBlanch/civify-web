@@ -122,7 +122,7 @@
   "app.containers.LoginForm.required-field": "Required field",
   "app.containers.LoginForm.signIn": "Sign in",
   "app.containers.LoginForm.username-or-email": "Username or e-mail",
-  "app.containers.LoginPage.not-registered-business": "Are you a business and would like to offer rewards in our app?",
+  "app.containers.LoginPage.not-registered-business": "Do you have a business and would like to offer rewards in our app?",
   "app.containers.LoginPage.register-now": "Register now",
   "app.containers.LoginPage.sign-in": "Sign in",
   "app.containers.LoginPage.there-was-an-error": "There was an error",
