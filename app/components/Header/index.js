@@ -69,7 +69,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   language: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

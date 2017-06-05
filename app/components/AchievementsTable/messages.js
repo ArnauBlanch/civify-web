@@ -26,4 +26,16 @@ export default defineMessages({
     id: 'app.components.AchievementsTable.coins',
     defaultMessage: 'Coins',
   },
+  badge: {
+    id: 'app.components.AchievementsTable.badge',
+    defaultMessage: 'Badge',
+  },
+  edit: {
+    id: 'app.components.AchievementsTable.edit',
+    defaultMessage: 'Edit',
+  },
+  delete: {
+    id: 'app.components.AchievementsTable.delete',
+    defaultMessage: 'Delete',
+  },
 });

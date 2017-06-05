@@ -18,4 +18,8 @@ export default defineMessages({
     id: 'app.containers.AchievementsPage.enabled',
     defaultMessage: 'Enabled',
   },
+  disabled: {
+    id: 'app.containers.AchievementsPage.disabled',
+    defaultMessage: 'Disabled',
+  },
 });

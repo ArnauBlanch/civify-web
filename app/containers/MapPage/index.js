@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import Helmet from 'react-helmet';
 import makeSelectMapPage from './selectors';
 // import messages from './messages';
 import { issuesRequest } from './actions';
@@ -54,6 +55,13 @@ class MapPage extends React.Component {
   render() {
     return (
       <div className="App">
+        <Helmet
+          title="Civify"
+          meta={[
+            { name: 'description', content: 'Description of CreateAchievement' },
+          ]}
+        />
+
         <IssueDetails
           toggleDrawer={this.closeDrawer}
           open={typeof this.state.issue !== 'undefined'}

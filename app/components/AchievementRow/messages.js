@@ -46,4 +46,12 @@ export default defineMessages({
     id: 'app.components.AchievementEventForm.reach-level-x',
     defaultMessage: 'Reach level {num}',
   },
+  close: {
+    id: 'app.components.AchievementEventForm.close',
+    defaultMessage: 'Close',
+  },
+  badge: {
+    id: 'app.components.AchievementEventForm.badge',
+    defaultMessage: 'Badge',
+  },
 });
