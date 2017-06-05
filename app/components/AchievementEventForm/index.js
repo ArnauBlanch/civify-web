@@ -91,7 +91,7 @@ class AchievementEventForm extends React.Component {
           multiLine
           rows={2}
         />
-        <div>
+        { isEvent && <div>
           <Field
             name="startDate"
             component={DatePicker}
@@ -113,8 +113,8 @@ class AchievementEventForm extends React.Component {
             floatingLabelText={<FormattedMessage {...messages.startTime} />}
             cancelLabel={<FormattedMessage {...messages.cancel} />}
           />
-        </div>
-        <div>
+        </div> }
+        { isEvent && <div>
           <Field
             name="endDate"
             component={DatePicker}
@@ -136,7 +136,7 @@ class AchievementEventForm extends React.Component {
             floatingLabelText={<FormattedMessage {...messages.endTime} />}
             cancelLabel={<FormattedMessage {...messages.cancel} />}
           />
-        </div>
+        </div> }
         <Field
           name="coins"
           type="number" min="1"
