@@ -97,7 +97,7 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
             { error && <h5 style={{ color: 'red', margin: 50 }}>{'Couldn\'t get the achievements'}</h5> }
             <AchievementsTable achievements={achievements} />
             { !error && achievements.length === 0 &&
-              <h5 style={{ color: '#888', margin: 50 }}>There are no achievements</h5> }
+              <h5 style={{ color: '#888', margin: 50 }}><FormattedMessage {...messages.thereAreNoAchievements} /></h5> }
           </Paper>
         }
         <FloatingActionButton

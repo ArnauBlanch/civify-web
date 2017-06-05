@@ -97,7 +97,7 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
             { error && <h5 style={{ color: 'red', margin: 50 }}>{'Couldn\'t get the events'}</h5> }
             <EventsTable events={events} />
             { !error && events.length === 0 &&
-              <h5 style={{ color: '#888', margin: 50 }}>There are no events</h5> }
+              <h5 style={{ color: '#888', margin: 50 }}><FormattedMessage {...messages.thereAreNoEvents} /></h5> }
           </Paper>
         }
         <FloatingActionButton
