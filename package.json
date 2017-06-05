@@ -245,6 +245,7 @@
     "react-router-redux": "4.0.6",
     "react-router-scroll": "0.4.1",
     "react-tap-event-plugin": "^2.0.1",
+    "react-tooltip": "^3.3.0",
     "redux": "3.6.0",
     "redux-form": "^6.7.0",
     "redux-form-material-ui": "^4.2.0",

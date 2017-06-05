@@ -30,8 +30,6 @@ const achievement = {
 };
 
 describe('testing createAchievement saga', () => {
-  beforeEach(() => global.localStorage.setItem('user_token', 'userTokenTest'));
-
   it('should alert that the request is no longer being sent and that if succeeded sent if the achievement was created', () => (
     expectSaga(createAchievement)
     .provide([
