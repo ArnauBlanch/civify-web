@@ -46,10 +46,13 @@ export const formatDate = (date) => {
 class AchievementEventForm extends React.Component {
   constructor(props) {
     super(props);
-    this.fileChanged = this.fileChanged.bind(this);
+    this.imageChanged = this.imageChanged.bind(this);
+    this.badgeChanged = this.badgeChanged.bind(this);
     this.state = {
-      file: undefined,
-      fileChanged: false,
+      imageFile: undefined,
+      badgeFile: undefined,
+      imageChanged: false,
+      badgeChanged: false,
     };
   }
 
@@ -62,13 +65,17 @@ class AchievementEventForm extends React.Component {
     undefined : <FormattedMessage {...messages.invalidNumber} />;
   }
 
-  fileChanged(e) {
-    this.setState({ file: e[0], fileChanged: true });
+  imageChanged(e) {
+    this.setState({ imageFile: e[0], imageChanged: true });
+  }
+  badgeChanged(e) {
+    this.setState({ badgeFile: e[0], badgeChanged: true });
   }
 
   render() {
-    const { aeError, alreadyExists, datesError, isEvent, missingFile, imageError } = this.props;
-    const { fileChanged } = this.state;
+    const { aeError, alreadyExists, datesError, isEvent,
+      missingImage, missingBadge, imageError, badgeError } = this.props;
+    const { imageChanged, badgeChanged } = this.state;
     return (
       <form
         style={{ marginLeft: 80, marginRight: 80, textAlign: 'center' }}
@@ -91,7 +98,7 @@ class AchievementEventForm extends React.Component {
           multiLine
           rows={2}
         />
-        <div>
+        { isEvent && <div>
           <Field
             name="startDate"
             component={DatePicker}
@@ -113,8 +120,8 @@ class AchievementEventForm extends React.Component {
             floatingLabelText={<FormattedMessage {...messages.startTime} />}
             cancelLabel={<FormattedMessage {...messages.cancel} />}
           />
-        </div>
-        <div>
+        </div> }
+        { isEvent && <div>
           <Field
             name="endDate"
             component={DatePicker}
@@ -136,7 +143,7 @@ class AchievementEventForm extends React.Component {
             floatingLabelText={<FormattedMessage {...messages.endTime} />}
             cancelLabel={<FormattedMessage {...messages.cancel} />}
           />
-        </div>
+        </div> }
         <Field
           name="coins"
           type="number" min="1"
@@ -174,17 +181,45 @@ class AchievementEventForm extends React.Component {
             { (isEvent ? eventTypes : achievementTypes).map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
             }
           </Field><br />
+        </div>
+        { isEvent && <div>
+          <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.3)', paddingTop: 10, marginBottom: -15 }}>
+            <FormattedMessage {...messages.picture} />
+          </div>
           <Field
             name="image"
             component={renderDropzoneInput}
-            onChange={this.fileChanged}
-            onFocus={this.fileChanged}
+            onChange={this.imageChanged}
+            onFocus={this.imageChanged}
           />
+          <div style={{ textAlign: 'center' }}>
+            { isEvent && missingImage && !imageChanged
+              && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.required} /></span> }
+            { isEvent && imageError
+              && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.invalidImage} /></span> }
+          </div>
         </div>
+        }
+        <Field
+          name="badge_title"
+          component={TextField}
+          style={{ width: '100%' }}
+          floatingLabelText={<FormattedMessage {...messages.badgeTitle} />}
+          validate={this.required}
+        /><br />
+        <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.3)', paddingTop: 10, marginBottom: -15 }}>
+          <FormattedMessage {...messages.badgePicture} />
+        </div>
+        <Field
+          name="badge_image"
+          component={renderDropzoneInput}
+          onChange={this.badgeChanged}
+          onFocus={this.badgeChanged}
+        />
         <div style={{ textAlign: 'center' }}>
-          { isEvent && missingFile && !fileChanged
+          { isEvent && missingBadge && !badgeChanged
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.required} /></span> }
-          { isEvent && imageError
+          { isEvent && badgeError
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.invalidImage} /></span> }
           { aeError && (typeof datesError === 'undefined' || !datesError)
             && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.thereWasAnError} /></span> }
@@ -214,8 +249,10 @@ AchievementEventForm.propTypes = {
   datesError: PropTypes.bool,
   alreadyExists: PropTypes.bool.isRequired,
   isEvent: PropTypes.bool,
-  missingFile: PropTypes.bool,
+  missingImage: PropTypes.bool,
+  missingBadge: PropTypes.bool,
   imageError: PropTypes.bool,
+  badgeError: PropTypes.bool,
   lang: PropTypes.string,
 };
 
