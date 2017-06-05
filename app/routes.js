@@ -184,6 +184,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/achievements',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/AchievementsPage/reducer'),
+          import('containers/AchievementsPage/sagas'),
+          import('containers/AchievementsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('achievementsPage', reducer.default);
+          injectSagas('achievementsPage', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '/achievements/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {

@@ -101,7 +101,7 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
     const t = this.props.intl.formatMessage;
     const { eventError, currentlySending, alreadyExists, datesError } = this.props.CreateEvent;
     return (
-      <div style={{ maxWidth: 550, width: '100%', margin: 5 }}>
+      <div style={{ maxWidth: 550, width: '100%', margin: 20 }}>
         <Helmet
           title={`Civify | ${t(messages.title)}`}
           meta={[

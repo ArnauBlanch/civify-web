@@ -67,7 +67,7 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
     const t = this.props.intl.formatMessage;
     const { achievementError, currentlySending, alreadyExists } = this.props.CreateAchievement;
     return (
-      <div style={{ maxWidth: 550, width: '100%', margin: 5 }}>
+      <div style={{ maxWidth: 550, width: '100%', margin: 20 }}>
         <Helmet
           title={`Civify | ${t(messages.title)}`}
           meta={[
