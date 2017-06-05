@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.AchievementsPage.disabled',
     defaultMessage: 'Disabled',
   },
+  thereAreNoAchievements: {
+    id: 'app.components.AchievementsPage.there-are-no-achievements',
+    defaultMessage: 'There are no achievements',
+  },
 });
