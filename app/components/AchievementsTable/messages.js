@@ -34,8 +34,8 @@ export default defineMessages({
     id: 'app.components.AchievementsTable.edit',
     defaultMessage: 'Edit',
   },
-  delete: {
-    id: 'app.components.AchievementsTable.delete',
-    defaultMessage: 'Delete',
+  enableDisable: {
+    id: 'app.components.AchievementsTable.enable-disable',
+    defaultMessage: 'Enabled?',
   },
 });

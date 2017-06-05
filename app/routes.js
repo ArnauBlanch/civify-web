@@ -224,6 +224,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/events',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EventsPage/reducer'),
+          import('containers/EventsPage/sagas'),
+          import('containers/EventsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('eventsPage', reducer.default);
+          injectSagas('eventsPage', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '/events/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {

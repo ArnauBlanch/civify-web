@@ -7,7 +7,7 @@ const mainStyle = {
   overflow: 'auto',
   marginTop: 50,
   maxHeight: '100vh',
-  minHeight: 'min-content',
+  minHeight: '100%',
 };
 
 export default mainStyle;
