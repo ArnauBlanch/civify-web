@@ -26,47 +26,75 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.sendEvent = this.sendEvent.bind(this);
     this.state = {
-      missingFile: false,
+      missingImage: false,
+      missingBadgeImage: false,
       imageError: false,
+      badgeError: false,
+      image: undefined,
+      badgeImage: undefined,
     };
   }
 
   onSubmit(values) {
     if (typeof values.get('image') === 'undefined') {
-      this.setState({ missingFile: true });
-    } else {
+      this.setState({ missingImage: true });
+    }
+    if (typeof values.get('badge_image') === 'undefined') {
+      this.setState({ missingBadgeImage: true });
+    }
+    if (typeof values.get('image') !== 'undefined' &&
+        typeof values.get('badge_image') !== 'undefined') {
       const reader = new FileReader();
       reader.readAsDataURL(values.get('image')[0]);
-      reader.onload = () => this.sendEvent(values, reader.result.split(',')[1]);
+      reader.onload = () => {
+        this.setState({ image: reader.result.split(',')[1] });
+        this.sendEvent(values);
+      };
       reader.onError = () => this.setState({ imageError: true });
+      const badgeReader = new FileReader();
+      badgeReader.readAsDataURL(values.get('badge_image')[0]);
+      badgeReader.onload = () => {
+        this.setState({ badgeImage: badgeReader.result.split(',')[1] });
+        this.sendEvent(values);
+      };
+      badgeReader.onError = () => this.setState({ badgeError: true });
     }
   }
 
-  sendEvent(values, base64image) {
-    const valuesJs = values.toJS();
-    this.setState({ imageError: false });
-
-    const startTime = typeof valuesJs.startTime !== 'undefined' ?
-      formatTime(valuesJs.startTime) : '00:00:00';
-    const endTime = typeof valuesJs.endTime !== 'undefined' ?
-      formatTime(valuesJs.endTime) : '23:59:59';
-    const event = {
-      title: valuesJs.title,
-      description: valuesJs.description,
-      kind: valuesJs.kind,
-      number: valuesJs.number,
-      coins: valuesJs.coins,
-      xp: valuesJs.xp,
-      start_date: `${formatDate(valuesJs.startDate)} ${startTime}`,
-      end_date: `${formatDate(valuesJs.endDate)} ${endTime}`,
-      image: {
-        content: base64image,
-        filename: values.get('image')[0].name,
-        content_type: values.get('image')[0].type,
-      },
-    };
-    this.props.dispatch(createEventRequest(event));
+  sendEvent(values) {
+    if (typeof this.state.image !== 'undefined' &&
+        typeof this.state.badgeImage !== 'undefined') {
+      const valuesJs = values.toJS();
+      this.setState({ imageError: false, badgeError: false });
+      const startTime = typeof valuesJs.startTime !== 'undefined' ?
+        formatTime(valuesJs.startTime) : '00:00:00';
+      const endTime = typeof valuesJs.endTime !== 'undefined' ?
+        formatTime(valuesJs.endTime) : '23:59:59';
+      const event = {
+        title: valuesJs.title,
+        description: valuesJs.description,
+        kind: valuesJs.kind,
+        number: valuesJs.number,
+        coins: valuesJs.coins,
+        xp: valuesJs.xp,
+        start_date: `${formatDate(valuesJs.startDate)} ${startTime}`,
+        end_date: `${formatDate(valuesJs.endDate)} ${endTime}`,
+        image: {
+          content: this.state.image,
+          filename: values.get('image')[0].name,
+          content_type: values.get('image')[0].type,
+        },
+        badge: {
+          title: valuesJs.badge_title,
+          content: this.state.badgeImage,
+          filename: values.get('badge_image')[0].name,
+          content_type: values.get('badge_image')[0].type,
+        },
+      };
+      this.props.dispatch(createEventRequest(event));
+    }
   }
 
   render() {
@@ -88,8 +116,10 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
             alreadyExists={alreadyExists}
             isEvent
             lang={this.props.lang}
-            missingFile={this.state.missingFile}
+            missingImage={this.state.missingImage}
+            missingBadge={this.state.missingBadgeImage}
             imageError={this.state.imageError}
+            badgeError={this.state.badgeError}
             datesError={datesError}
           />
           { currentlySending &&

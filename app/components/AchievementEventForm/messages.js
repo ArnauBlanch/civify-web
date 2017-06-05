@@ -118,4 +118,16 @@ export default defineMessages({
     id: 'app.components.AchievementEventForm.end-date-must-be-after-start-date',
     defaultMessage: 'End date must be after start date',
   },
+  picture: {
+    id: 'app.components.AchievementEventForm.picture',
+    defaultMessage: 'Event picture',
+  },
+  badgeTitle: {
+    id: 'app.components.AchievementEventForm.badge-title',
+    defaultMessage: 'Badge title',
+  },
+  badgePicture: {
+    id: 'app.components.AchievementEventForm.badge-picture',
+    defaultMessage: 'Badge picture',
+  },
 });
