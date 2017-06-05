@@ -1,6 +1,6 @@
 /**
 *
-* AchievementsTable
+* EventsTable
 *
 */
 
@@ -9,11 +9,11 @@ import { Table, TableHeader, TableHeaderColumn, TableRow,
 TableBody } from 'material-ui';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import AchievementRow, { numStyle, goalWidth, enabledStyle } from '../AchievementRow';
+import EventRow, { numStyle, goalStyle, enabledStyle, dateStyle } from '../EventRow';
 
-class AchievementsTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class EventsTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { achievements } = this.props;
+    const { events } = this.props;
     return (
       <Table>
         <TableHeader
@@ -23,20 +23,23 @@ class AchievementsTable extends React.Component { // eslint-disable-line react/p
         >
           <TableRow style={{ textAlign: 'left' }}>
             <TableHeaderColumn><FormattedMessage {...messages.title} /></TableHeaderColumn>
-            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone" style={{ width: goalWidth }}><FormattedMessage {...messages.goal} /></TableHeaderColumn>
+            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone" style={goalStyle}><FormattedMessage {...messages.goal} /></TableHeaderColumn>
             <TableHeaderColumn style={numStyle}><FormattedMessage {...messages.xp} /></TableHeaderColumn>
             <TableHeaderColumn style={numStyle}><FormattedMessage {...messages.coins} /></TableHeaderColumn>
+            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={dateStyle}><FormattedMessage {...messages.startDate} /></TableHeaderColumn>
+            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={dateStyle}><FormattedMessage {...messages.endDate} /></TableHeaderColumn>
             <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet"><FormattedMessage {...messages.description} /></TableHeaderColumn>
+            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={numStyle}><FormattedMessage {...messages.image} /></TableHeaderColumn>
             <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={numStyle}><FormattedMessage {...messages.badge} /></TableHeaderColumn>
             <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={numStyle}><FormattedMessage {...messages.edit} /></TableHeaderColumn>
-            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={enabledStyle}><FormattedMessage {...messages.enableDisable} /></TableHeaderColumn>
+            <TableHeaderColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={enabledStyle}><FormattedMessage {...messages.enabled} /></TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {achievements.map((a) => (
-            <AchievementRow
-              key={a.achievement_token}
-              achievement={a}
+          {events.map((e) => (
+            <EventRow
+              key={e.event_token}
+              event={e}
             />
           ))}
         </TableBody>
@@ -45,8 +48,8 @@ class AchievementsTable extends React.Component { // eslint-disable-line react/p
   }
 }
 
-AchievementsTable.propTypes = {
-  achievements: PropTypes.array.isRequired,
+EventsTable.propTypes = {
+  events: PropTypes.array.isRequired,
 };
 
-export default AchievementsTable;
+export default EventsTable;

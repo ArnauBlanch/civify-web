@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { TableRow, TableRowColumn } from 'material-ui';
+import { TableRow, TableRowColumn, Toggle } from 'material-ui';
 import { injectIntl, intlShape } from 'react-intl';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router';
@@ -18,6 +18,12 @@ export const numStyle = {
   paddingLeft: 5,
   paddingRight: 5,
   textAlign: 'center',
+};
+export const enabledStyle = {
+  paddingLeft: 5,
+  paddingRight: 5,
+  textAlign: 'center',
+  width: 60,
 };
 export const goalWidth = 170;
 
@@ -66,7 +72,7 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
         <TableRowColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={numStyle}>
           <i // eslint-disable-line
             className="material-icons"
-            style={{ fontSize: 18 }}
+            style={{ fontSize: 18, color: '#27ae60' }}
             data-tip={badgeTooltip(a.badge)}
             data-html
           >stars</i><ReactTooltip />
@@ -75,11 +81,11 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
           <Link
             to={`/achievements/${a.achievement_token}/edit`}
             className="material-icons"
-            style={{ fontSize: 18, color: '#000', textDecoration: 'none' }}
+            style={{ fontSize: 18, color: '#27ae60', textDecoration: 'none' }}
           >mode_edit</Link>
         </TableRowColumn>
-        <TableRowColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={numStyle}>
-          <i className="material-icons" style={{ fontSize: 18 }}>delete</i>
+        <TableRowColumn className="mdl-cell mdl-cell--hide-phone" style={enabledStyle}>
+          <Toggle toggled={a.enabled} style={{ width: 10 }} />
         </TableRowColumn>
       </TableRow>
     );
