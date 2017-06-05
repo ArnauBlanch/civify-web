@@ -9,7 +9,7 @@ import { Table, TableHeader, TableHeaderColumn, TableRow,
 TableBody } from 'material-ui';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import AchievementRow, { numStyle, titleWidth, goalWidth } from '../AchievementRow';
+import AchievementRow, { numStyle, goalWidth } from '../AchievementRow';
 
 class AchievementsTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {

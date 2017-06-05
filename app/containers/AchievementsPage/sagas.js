@@ -21,8 +21,11 @@ export function* getAchievements() {
         yield put(getAchievementsSuccess(body));
       } else if (response.status === 401) {
         yield put(getAchievementsFailure());
+        yield put(logoutRequest());
+        yield put(push('/login'));
       }
     } catch (e) {
+      yield put(currentlySending(false));
       yield put(getAchievementsFailure());
       yield put(logoutRequest());
       yield put(push('/login'));
