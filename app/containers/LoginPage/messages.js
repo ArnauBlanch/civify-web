@@ -16,7 +16,7 @@ export default defineMessages({
   },
   notRegisteredBusiness: {
     id: 'app.containers.LoginPage.not-registered-business',
-    defaultMessage: 'Are you a business and would like to offer rewards in our app?',
+    defaultMessage: 'Do you have a business and would like to offer rewards in our app?',
   },
   wrongPassword: {
     id: 'app.containers.LoginPage.wrong-password',
