@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.containers.EventsPage.disabled',
     defaultMessage: 'Disabled',
   },
+  thereAreNoEvents: {
+    id: 'app.components.EventsPage.there-are-no-events',
+    defaultMessage: 'There are no events',
+  },
 });

@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { TableRow, TableRowColumn, Toggle } from 'material-ui';
-import { FormattedDate, FormattedTime, injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router';
 import messages from './messages';
