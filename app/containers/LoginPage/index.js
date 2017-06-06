@@ -76,12 +76,14 @@ export class LoginPage extends React.Component {
           <h4 style={{ margin: 0 }}><FormattedMessage {...messages.signIn} /></h4>
           <LoginForm
             onSubmit={this.handleSubmit}
-          />
-          <br />
+          /><br />
           { this.getErrorMessage() &&
             <strong
               style={{ color: 'rgb(244, 67, 54)' }}
-            >{this.getErrorMessage()}</strong>}
+            >{this.getErrorMessage()}</strong>}<br /><br />
+          <Link to="/recover_password" style={{ color: '#27ae60', textDecoration: 'none' }}>
+            <FormattedMessage {...messages.recoverPassword} />
+          </Link>
           <br /><br />
           <FormattedMessage {...messages.notRegisteredBusiness} /><br />
           <FlatButton

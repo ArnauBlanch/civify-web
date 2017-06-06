@@ -34,4 +34,8 @@ export default defineMessages({
     id: 'app.containers.LoginPage.you-do-not-have-enough-privileges',
     defaultMessage: 'You do not have enough privileges',
   },
+  recoverPassword: {
+    id: 'app.containers.LoginPage.have-you-forgotten-your-password',
+    defaultMessage: 'Have you forgotten your password?',
+  },
 });
