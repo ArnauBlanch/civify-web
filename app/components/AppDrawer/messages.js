@@ -14,13 +14,9 @@ export default defineMessages({
     id: 'app.components.AppDrawer.my-rewards',
     defaultMessage: 'My rewards',
   },
-  achievements: {
-    id: 'app.components.AppDrawer.achievements',
-    defaultMessage: 'Achievements',
-  },
-  events: {
-    id: 'app.components.AppDrawer.events',
-    defaultMessage: 'Events',
+  administration: {
+    id: 'app.components.AppDrawer.administration',
+    defaultMessage: 'Administration',
   },
   signIn: {
     id: 'app.components.AppDrawer.sign-in',

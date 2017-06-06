@@ -14,13 +14,9 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.my-rewards',
     defaultMessage: 'Rewards',
   },
-  achievements: {
-    id: 'app.components.AppBarButtons.achievements',
-    defaultMessage: 'Achievements',
-  },
-  events: {
-    id: 'app.components.AppBarButtons.events',
-    defaultMessage: 'Events',
+  administration: {
+    id: 'app.components.AppBarButtons.administration',
+    defaultMessage: 'Administration',
   },
   signIn: {
     id: 'app.components.AppBarButtons.sign-in',
