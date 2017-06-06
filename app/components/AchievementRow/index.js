@@ -56,6 +56,7 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
   render() {
     const t = this.props.intl.formatMessage;
     const a = this.props.achievement;
+    const { handleToggle } = this.props;
     return (
       <TableRow>
         <TableRowColumn>
@@ -85,7 +86,15 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
           >mode_edit</Link>
         </TableRowColumn>
         <TableRowColumn className="mdl-cell mdl-cell--hide-phone" style={enabledStyle}>
-          <Toggle toggled={a.enabled} style={{ width: 10 }} />
+          <Toggle
+            toggled={a.enabled}
+            style={{ width: 10 }}
+            onToggle={(e, checked) => {
+              if (a.enabled !== checked) {
+                handleToggle(checked);
+              }
+            }}
+          />
         </TableRowColumn>
       </TableRow>
     );
@@ -95,6 +104,7 @@ class AchievementRow extends React.Component { // eslint-disable-line react/pref
 AchievementRow.propTypes = {
   intl: intlShape.isRequired,
   achievement: PropTypes.object.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };
 
 export default injectIntl(AchievementRow);

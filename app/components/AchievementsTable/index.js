@@ -13,7 +13,7 @@ import AchievementRow, { numStyle, goalWidth, enabledStyle } from '../Achievemen
 
 class AchievementsTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { achievements } = this.props;
+    const { achievements, handleToggle } = this.props;
     return (
       <Table>
         <TableHeader
@@ -37,6 +37,7 @@ class AchievementsTable extends React.Component { // eslint-disable-line react/p
             <AchievementRow
               key={a.achievement_token}
               achievement={a}
+              handleToggle={(enabled) => handleToggle(a.achievement_token, enabled)}
             />
           ))}
         </TableBody>
@@ -47,6 +48,7 @@ class AchievementsTable extends React.Component { // eslint-disable-line react/p
 
 AchievementsTable.propTypes = {
   achievements: PropTypes.array.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };
 
 export default AchievementsTable;

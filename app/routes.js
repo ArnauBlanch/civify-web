@@ -191,14 +191,18 @@ export default function createRoutes(store) {
           import('containers/AchievementsPage/reducer'),
           import('containers/AchievementsPage/sagas'),
           import('containers/AchievementsPage'),
+          import('containers/EditAchievement/reducer'),
+          import('containers/EditAchievement/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, sagas, component, r2, s2]) => {
           injectReducer('achievementsPage', reducer.default);
           injectSagas('achievementsPage', sagas.default);
           renderRoute(component);
+          injectReducer('editAchievement', r2.default);
+          injectSagas('editAchievement', s2.default);
         });
 
         importModules.catch(errorLoading);

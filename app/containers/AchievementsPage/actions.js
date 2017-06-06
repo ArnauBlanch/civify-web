@@ -11,8 +11,8 @@ import {
   CURRENTLY_SENDING,
 } from './constants';
 
-export function getAchievementsRequest(enabled) {
-  return { type: GET_ACHIEVEMENTS_REQUEST, enabled };
+export function getAchievementsRequest() {
+  return { type: GET_ACHIEVEMENTS_REQUEST };
 }
 
 export function getAchievementsSuccess(achievements) {

@@ -20,7 +20,7 @@ import request from '../../../utils/request';
 const achievements = [{ id: 1 }, { id: 2 }];
 
 describe('AchievementsPage Saga', () => {
-  it('should alert that the request is no longer being sent and that it succeeded (no filter)', () => (
+  it('should alert that the request is no longer being sent and that it succeeded', () => (
     expectSaga(getAchievements)
     .provide([
       [call(request, '/achievements', 'GET', undefined, true),
@@ -30,32 +30,6 @@ describe('AchievementsPage Saga', () => {
     .put(currentlySending(false))
     .put(getAchievementsSuccess(achievements))
     .dispatch(getAchievementsRequest(undefined))
-    .run()
-  ));
-
-  it('should alert that the request is no longer being sent and that it succeeded (filter enabled only)', () => (
-    expectSaga(getAchievements)
-    .provide([
-      [call(request, '/achievements?enabled=true', 'GET', undefined, true),
-      { status: 200, json: () => achievements }],
-    ])
-    .put(currentlySending(true))
-    .put(currentlySending(false))
-    .put(getAchievementsSuccess(achievements))
-    .dispatch(getAchievementsRequest(true))
-    .run()
-  ));
-
-  it('should alert that the request is no longer being sent and that it succeeded (filter disabled only)', () => (
-    expectSaga(getAchievements)
-    .provide([
-      [call(request, '/achievements?enabled=false', 'GET', undefined, true),
-      { status: 200, json: () => achievements }],
-    ])
-    .put(currentlySending(true))
-    .put(currentlySending(false))
-    .put(getAchievementsSuccess(achievements))
-    .dispatch(getAchievementsRequest(false))
     .run()
   ));
 

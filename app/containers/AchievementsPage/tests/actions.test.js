@@ -15,8 +15,8 @@ import {
 describe('AchievementsPage actions', () => {
   actionTest('should create an action to do a request the achievements list',
     getAchievementsRequest,
-    true,
-    { type: GET_ACHIEVEMENTS_REQUEST, enabled: true }
+    null,
+    { type: GET_ACHIEVEMENTS_REQUEST }
   );
 
   actionTest('should create an action to alert that a request has been sent',

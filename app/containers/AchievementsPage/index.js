@@ -16,6 +16,7 @@ import makeSelectAchievementsPage from './selectors';
 import messages from './messages';
 import AchievementsTable from '../../components/AchievementsTable';
 import { getAchievementsRequest } from './actions';
+import { editAchievementRequest } from '../EditAchievement/actions';
 
 const FABstyle = {
   margin: 0,
@@ -31,6 +32,7 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
     super(props);
     this.state = { enabled: undefined };
     this.filterChanged = this.filterChanged.bind(this);
+    this.toggleAchievement = this.toggleAchievement.bind(this);
   }
 
   componentWillMount() {
@@ -39,15 +41,25 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
 
   filterChanged(enabled) {
     if (enabled !== this.state.enabled) {
-      this.props.dispatch(getAchievementsRequest(enabled));
       this.setState({ enabled });
     }
+  }
+
+  toggleAchievement(id, enabled) {
+    this.props.dispatch(editAchievementRequest(id, { enabled }, false));
   }
 
   render() {
     const t = this.props.intl.formatMessage;
     const { enabled } = this.state;
-    const { currentlySending, achievements, error } = this.props.AchievementsPage;
+    const { currentlySending, error } = this.props.AchievementsPage;
+    const originalAchievements = this.props.AchievementsPage.achievements;
+    let achievements;
+    if (typeof enabled !== 'undefined') {
+      achievements = originalAchievements.filter((a) => a.enabled === enabled);
+    } else {
+      achievements = originalAchievements;
+    }
     return (
       <div>
         <Helmet
@@ -95,7 +107,10 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
             }
 
             { error && <h5 style={{ color: 'red', margin: 50 }}>{'Couldn\'t get the achievements'}</h5> }
-            <AchievementsTable achievements={achievements} />
+            <AchievementsTable
+              achievements={achievements}
+              handleToggle={this.toggleAchievement}
+            />
             { !error && achievements.length === 0 &&
               <h5 style={{ color: '#888', margin: 50 }}><FormattedMessage {...messages.thereAreNoAchievements} /></h5> }
           </Paper>
