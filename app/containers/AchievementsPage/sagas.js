@@ -8,13 +8,9 @@ import { logoutRequest } from '../LoginPage/actions';
 export function* getAchievements() {
   while (true) { // eslint-disable-line
     const { enabled } = yield take(GET_ACHIEVEMENTS_REQUEST);
-    let url = '/achievements';
-    if (typeof enabled !== 'undefined') {
-      url = `${url}?enabled=${enabled ? 'true' : 'false'}`;
-    }
     try {
       yield put(currentlySending(true));
-      const response = yield call(request, url, 'GET', undefined, true);
+      const response = yield call(request, '/achievements', 'GET', undefined, true);
       yield put(currentlySending(false));
       if (response.status === 200) {
         const body = yield response.json();
