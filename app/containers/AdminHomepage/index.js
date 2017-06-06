@@ -4,8 +4,7 @@
  *
  */
 
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { Paper } from 'material-ui';
@@ -61,15 +60,7 @@ export class AdminHomepage extends React.Component { // eslint-disable-line reac
 }
 
 AdminHomepage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };
 
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(null, mapDispatchToProps)(injectIntl(AdminHomepage));
+export default injectIntl(AdminHomepage);
