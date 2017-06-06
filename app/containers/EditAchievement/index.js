@@ -84,7 +84,8 @@ export class EditAchievement extends React.Component { // eslint-disable-line re
   }
   render() {
     const t = this.props.intl.formatMessage;
-    const { getError, editError, currentlySending, achievement } = this.props.EditAchievement;
+    const { achievementID } = this.props.params;
+    const { getError, editError, currentlySending, achievement, alreadyExists } = this.props.EditAchievement;
     return (
       <div style={{ maxWidth: 550, width: '100%', margin: 20 }}>
         <Helmet
@@ -93,7 +94,7 @@ export class EditAchievement extends React.Component { // eslint-disable-line re
             { name: 'description', content: 'Description of EditAchievement' },
           ]}
         />
-        { typeof achievement === 'undefined' ?
+        { typeof achievement === 'undefined' || achievement.achievement_token !== achievementID ?
           <div style={{ width: '100%', textAlign: 'center' }}>
             <CircularProgress style={{ marginTop: 20 }} size={40} />
           </div>
@@ -103,6 +104,9 @@ export class EditAchievement extends React.Component { // eslint-disable-line re
             <AchievementEventForm
               onSubmit={this.onSubmit}
               isEditing
+              aeError={editError}
+              alreadyExists={alreadyExists}
+              badgeError={this.state.badgeError}
               initialValues={{
                 badge_title: achievement.badge.title,
                 ...achievement,
@@ -111,8 +115,6 @@ export class EditAchievement extends React.Component { // eslint-disable-line re
             <div style={{ width: '100%', textAlign: 'center', marginTop: 10 }}>
               { getError
                 && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.getError} /></span> }
-              { editError
-                && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.editError} /></span> }
               { currentlySending && <CircularProgress style={{ marginTop: 20 }} size={40} /> }
             </div>
           </Card>

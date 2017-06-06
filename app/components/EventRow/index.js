@@ -43,9 +43,7 @@ const goals = {
   resolve: messages.resolveIssues,
 };
 
-const tGoal = (t, a) => (
-  t(goals[a.kind], { num: a.number })
-);
+const tGoal = (t, a) => t(goals[a.kind], { num: a.number });
 
 const badgeTooltip = (badge) => (
   ReactDOMServer.renderToStaticMarkup(
