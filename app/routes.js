@@ -320,6 +320,25 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     }, {
+      path: '/recover_password',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/RecoverPassword/reducer'),
+          import('containers/RecoverPassword/sagas'),
+          import('containers/RecoverPassword'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('recoverPassword', reducer.default);
+          injectSagas('recoverPassword', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       getComponent(nextState, cb) {
         import('containers/NotFoundPage')
