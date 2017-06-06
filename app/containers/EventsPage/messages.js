@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.components.EventsPage.there-are-no-events',
     defaultMessage: 'There are no events',
   },
+  error: {
+    id: 'app.components.EventsPage.could-not-get-the-events',
+    defaultMessage: 'Could not get the events',
+  },
 });

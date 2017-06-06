@@ -11,8 +11,8 @@ import {
   CURRENTLY_SENDING,
 } from './constants';
 
-export function getEventsRequest(enabled) {
-  return { type: GET_EVENTS_REQUEST, enabled };
+export function getEventsRequest() {
+  return { type: GET_EVENTS_REQUEST };
 }
 
 export function getEventsSuccess(events) {

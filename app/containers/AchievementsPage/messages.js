@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.components.AchievementsPage.there-are-no-achievements',
     defaultMessage: 'There are no achievements',
   },
+  error: {
+    id: 'app.components.AchievementsPage.could-not-get-the-achievements',
+    defaultMessage: 'Could not get the achievements',
+  },
 });

@@ -58,6 +58,7 @@ class EventRow extends React.Component { // eslint-disable-line react/prefer-sta
     const t = this.props.intl.formatMessage;
     const { formatDate, formatTime } = this.props.intl;
     const e = this.props.event;
+    const { handleToggle } = this.props;
     return (
       <TableRow>
         <TableRowColumn>
@@ -116,8 +117,16 @@ class EventRow extends React.Component { // eslint-disable-line react/prefer-sta
             style={{ fontSize: 18, color: '#27ae60', textDecoration: 'none' }}
           >mode_edit</Link>
         </TableRowColumn>
-        <TableRowColumn className="mdl-cell mdl-cell--hide-phone mdl-cell--hide-tablet" style={enabledStyle}>
-          <Toggle toggled={e.enabled} style={{ width: 10 }} />
+        <TableRowColumn className="mdl-cell mdl-cell--hide-phone" style={enabledStyle}>
+          <Toggle
+            toggled={e.enabled}
+            style={{ width: 10 }}
+            onToggle={(event, checked) => {
+              if (e.enabled !== checked) {
+                handleToggle(checked);
+              }
+            }}
+          />
         </TableRowColumn>
       </TableRow>
     );
@@ -127,6 +136,7 @@ class EventRow extends React.Component { // eslint-disable-line react/prefer-sta
 EventRow.propTypes = {
   intl: intlShape.isRequired,
   event: PropTypes.object.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };
 
 export default injectIntl(EventRow);

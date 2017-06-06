@@ -106,7 +106,7 @@ export class AchievementsPage extends React.Component { // eslint-disable-line r
               </div>
             }
 
-            { error && <h5 style={{ color: 'red', margin: 50 }}>{'Couldn\'t get the achievements'}</h5> }
+            { error && <h5 style={{ color: 'red', margin: 50 }}><FormattedMessage {...messages.error} /></h5> }
             <AchievementsTable
               achievements={achievements}
               handleToggle={this.toggleAchievement}
