@@ -14,7 +14,6 @@ import makeSelectCreateAchievement from './selectors';
 import messages from './messages';
 import AchievementEventForm from '../../components/AchievementEventForm';
 import { createAchievementRequest } from './actions';
-import { makeSelectLanguage } from '../App/selectors';
 
 export class CreateAchievement extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
