@@ -74,7 +74,7 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
             { name: 'description', content: 'Description of CreateAchievement' },
           ]}
         />
-        <Card style={{ paddingTop: 10, paddingBottom: 30 }}>
+        <Card style={{ paddingTop: 10, paddingBottom: 30, marginBottom: 20 }}>
           <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
           <AchievementEventForm
             onSubmit={this.onSubmit}

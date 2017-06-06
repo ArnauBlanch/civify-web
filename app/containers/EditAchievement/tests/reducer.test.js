@@ -2,6 +2,7 @@ import { reducerTest } from 'redux-jest';
 import { fromJS } from 'immutable';
 import editAchievementReducer from '../reducer';
 import {
+  getAchievementRequest,
   getAchievementFailure,
   getAchievementSuccess,
   editAchievementFailure,
@@ -16,6 +17,14 @@ describe('editAchievementReducer', () => {
     fromJS({ currentlySending: false }),
     sendingRequest(true),
     fromJS({ currentlySending: true })
+  );
+
+  reducerTest(
+    'should clear the edit error when requesting an achievement',
+    editAchievementReducer,
+    fromJS({ editError: true }),
+    getAchievementRequest('12345'),
+    fromJS({ editError: false })
   );
 
   reducerTest(

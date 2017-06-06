@@ -1,6 +1,6 @@
 /*
  *
- * CreateAchievement
+ * EditAchievement
  *
  */
 
@@ -10,13 +10,21 @@ import Helmet from 'react-helmet';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { Card, CircularProgress } from 'material-ui';
-import makeSelectCreateAchievement from './selectors';
+import makeSelectEditAchievement from './selectors';
 import messages from './messages';
 import AchievementEventForm from '../../components/AchievementEventForm';
-import { createAchievementRequest } from './actions';
+import { getAchievementRequest, editAchievementRequest } from './actions';
 import { makeSelectLanguage } from '../App/selectors';
 
-export class CreateAchievement extends React.Component { // eslint-disable-line react/prefer-stateless-function
+const addValueIfChanged = (oldValues, newValues, name, values) => {
+  const aux = newValues;
+  if (oldValues[name] != values[name]) { // eslint-disable-line
+    aux[name] = values[name];
+  }
+  return aux;
+};
+
+export class EditAchievement extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -27,10 +35,12 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
       badgeImage: undefined,
     };
   }
+
+  componentWillMount() {
+    this.props.dispatch(getAchievementRequest(this.props.params.achievementID));
+  }
+
   onSubmit(values) {
-    if (typeof values.get('badge_image') === 'undefined') {
-      this.setState({ missingBadgeImage: true });
-    }
     if (typeof values.get('badge_image') !== 'undefined') {
       const badgeReader = new FileReader();
       badgeReader.readAsDataURL(values.get('badge_image')[0]);
@@ -39,66 +49,88 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
         this.sendAchievement(values);
       };
       badgeReader.onError = () => this.setState({ badgeError: true });
+    } else {
+      this.sendAchievement(values);
     }
   }
 
   sendAchievement(values) {
-    if (typeof this.state.badgeImage !== 'undefined') {
-      const valuesJs = values.toJS();
-      this.setState({ badgeError: false });
-      const achievement = {
-        title: valuesJs.title,
-        description: valuesJs.description,
-        kind: valuesJs.kind,
-        number: valuesJs.number,
-        coins: valuesJs.coins,
-        xp: valuesJs.xp,
-        badge: {
-          title: valuesJs.badge_title,
-          content: this.state.badgeImage,
-          filename: values.get('badge_image')[0].name,
-          content_type: values.get('badge_image')[0].type,
-        },
+    const valuesJs = values.toJS();
+    this.setState({ badgeError: false });
+    let newValues = {};
+    const oldValues = this.props.EditAchievement.achievement;
+    newValues = addValueIfChanged(oldValues, newValues, 'title', valuesJs);
+    newValues = addValueIfChanged(oldValues, newValues, 'description', valuesJs);
+    newValues = addValueIfChanged(oldValues, newValues, 'kind', valuesJs);
+    newValues = addValueIfChanged(oldValues, newValues, 'number', valuesJs);
+    newValues = addValueIfChanged(oldValues, newValues, 'coins', valuesJs);
+    newValues = addValueIfChanged(oldValues, newValues, 'xp', valuesJs);
+    if (this.state.badgeImage) {
+      const newBadge = {
+        content: this.state.badgeImage,
+        filename: values.get('badge_image')[0].name,
+        content_type: values.get('badge_image')[0].type,
       };
-      this.props.dispatch(createAchievementRequest(achievement));
+      newValues.badge = newBadge;
     }
+    if (oldValues.badge.title !== valuesJs.badge_title) {
+      if (typeof newValues.badge === 'undefined') {
+        newValues.badge = {};
+      }
+      newValues.badge.title = valuesJs.badge_title;
+    }
+    this.props.dispatch(editAchievementRequest(
+      this.props.params.achievementID, newValues, true));
   }
   render() {
     const t = this.props.intl.formatMessage;
-    const { achievementError, currentlySending, alreadyExists } = this.props.CreateAchievement;
+    const { getError, editError, currentlySending, achievement } = this.props.EditAchievement;
     return (
       <div style={{ maxWidth: 550, width: '100%', margin: 20 }}>
         <Helmet
           title={`Civify | ${t(messages.title)}`}
           meta={[
-            { name: 'description', content: 'Description of CreateAchievement' },
+            { name: 'description', content: 'Description of EditAchievement' },
           ]}
         />
-        <Card style={{ paddingTop: 10, paddingBottom: 30 }}>
-          <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
-          <AchievementEventForm
-            onSubmit={this.onSubmit}
-            error={achievementError}
-            alreadyExists={alreadyExists}
-          />
-          { currentlySending &&
-            <div style={{ width: '100%', textAlign: 'center' }}>
-              <CircularProgress style={{ marginTop: 20 }} size={40} />
-            </div> }
-        </Card>
+        { typeof achievement === 'undefined' ?
+          <div style={{ width: '100%', textAlign: 'center' }}>
+            <CircularProgress style={{ marginTop: 20 }} size={40} />
+          </div>
+          :
+          <Card style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 20 }}>
+            <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
+            <AchievementEventForm
+              onSubmit={this.onSubmit}
+              isEditing
+              initialValues={{
+                badge_title: achievement.badge.title,
+                ...achievement,
+              }}
+            />
+            <div style={{ width: '100%', textAlign: 'center', marginTop: 10 }}>
+              { getError
+                && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.getError} /></span> }
+              { editError
+                && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.editError} /></span> }
+              { currentlySending && <CircularProgress style={{ marginTop: 20 }} size={40} /> }
+            </div>
+          </Card>
+        }
       </div>
     );
   }
 }
 
-CreateAchievement.propTypes = {
+EditAchievement.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  CreateAchievement: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
+  EditAchievement: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  CreateAchievement: makeSelectCreateAchievement(),
+  EditAchievement: makeSelectEditAchievement(),
   lang: makeSelectLanguage(),
 });
 
@@ -108,4 +140,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(CreateAchievement));
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditAchievement));

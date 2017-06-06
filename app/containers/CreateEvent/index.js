@@ -108,7 +108,7 @@ export class CreateEvent extends React.Component { // eslint-disable-line react/
             { name: 'description', content: 'Description of CreateEvent' },
           ]}
         />
-        <Card style={{ paddingTop: 10, paddingBottom: 30 }}>
+        <Card style={{ paddingTop: 10, paddingBottom: 30, marginBottom: 20 }}>
           <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
           <AchievementEventForm
             onSubmit={this.onSubmit}
