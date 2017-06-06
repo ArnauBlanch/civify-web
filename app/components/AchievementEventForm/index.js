@@ -191,6 +191,10 @@ class AchievementEventForm extends React.Component {
             component={renderDropzoneInput}
             onChange={this.imageChanged}
             onFocus={this.imageChanged}
+            currentImage={
+              typeof initialValues !== 'undefined' ?
+              initialValues.get('picture').toJS() : undefined
+            }
           />
           <div style={{ textAlign: 'center' }}>
             { isEvent && missingImage && !imageChanged
@@ -221,7 +225,7 @@ class AchievementEventForm extends React.Component {
           }
         />
         <div style={{ textAlign: 'center' }}>
-          { isEvent && missingBadge && !badgeChanged
+          { missingBadge && !badgeChanged
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.required} /></span> }
           { isEvent && badgeError
             && <span style={{ color: 'red', fontSize: 12 }}><FormattedMessage {...messages.invalidImage} /></span> }
@@ -230,7 +234,10 @@ class AchievementEventForm extends React.Component {
           { aeError && (typeof datesError !== 'undefined' && datesError)
             && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.invalidDates} /></span> }
           { alreadyExists
-            && <span style={{ color: 'red', fontSize: 14 }}><FormattedMessage {...messages.alreadyExists} /></span> }
+            && <span style={{ color: 'red', fontSize: 14 }}>
+              { isEvent ? <FormattedMessage {...messages.eventAlreadyExists} />
+                : <FormattedMessage {...messages.achievementAlreadyExists} /> }
+            </span> }
           <br /><br />
           <RaisedButton
             label={

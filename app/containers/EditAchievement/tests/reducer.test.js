@@ -22,9 +22,9 @@ describe('editAchievementReducer', () => {
   reducerTest(
     'should clear the edit error when requesting an achievement',
     editAchievementReducer,
-    fromJS({ editError: true }),
+    fromJS({ editError: true, alreadyExists: true }),
     getAchievementRequest('12345'),
-    fromJS({ editError: false })
+    fromJS({ editError: false, alreadyExists: false })
   );
 
   reducerTest(
@@ -38,17 +38,25 @@ describe('editAchievementReducer', () => {
   reducerTest(
     'should clear errors if the edit request succeeded',
     editAchievementReducer,
-    fromJS({ editError: true }),
+    fromJS({ editError: true, alreadyExists: true }),
     editAchievementSuccess({ id: 1 }),
-    fromJS({ editError: false })
+    fromJS({ editError: false, alreadyExists: false })
   );
 
   reducerTest(
     'should update if the edit request failed',
     editAchievementReducer,
-    fromJS({ editError: false }),
-    editAchievementFailure(),
-    fromJS({ editError: true })
+    fromJS({ editError: false, alreadyExists: false }),
+    editAchievementFailure(false),
+    fromJS({ editError: true, alreadyExists: false })
+  );
+
+  reducerTest(
+    'should update if the edit request failed because it already exists',
+    editAchievementReducer,
+    fromJS({ editError: false, alreadyExists: false }),
+    editAchievementFailure(true),
+    fromJS({ editError: true, alreadyExists: true })
   );
 
   reducerTest(

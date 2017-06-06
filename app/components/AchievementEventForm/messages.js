@@ -42,7 +42,11 @@ export default defineMessages({
     id: 'app.components.AchievementEventForm.there-was-an-error',
     defaultMessage: 'There was an error',
   },
-  alreadyExists: {
+  eventAlreadyExists: {
+    id: 'app.components.AchievementEventForm.this-event-already-exists',
+    defaultMessage: 'This event already exists',
+  },
+  achievementAlreadyExists: {
     id: 'app.components.AchievementEventForm.this-achievement-already-exists',
     defaultMessage: 'This achievement already exists',
   },
