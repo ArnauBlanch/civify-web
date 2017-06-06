@@ -268,6 +268,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/events/:eventID/edit',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EditEvent/reducer'),
+          import('containers/EditEvent/sagas'),
+          import('containers/EditEvent'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('editEvent', reducer.default);
+          injectSagas('editEvent', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '/events/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {

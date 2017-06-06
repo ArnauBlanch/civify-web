@@ -130,9 +130,35 @@ describe('testing editAchievement saga', () => {
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(editAchievementFailure())
+    .put(editAchievementFailure(false))
     .put(push('/achievement-not-found'))
     .dispatch(editAchievementRequest('404', achievement, false))
+    .run()
+  ));
+
+  it('should alert that there was an error if there was a bad request', () => (
+    expectSaga(editAchievement)
+    .provide([
+      [call(request, '/achievements/400', 'PATCH', achievement, true),
+      { status: 400, json: () => ({ message: 'else' }) }],
+    ])
+    .put(sendingRequest(true))
+    .put(sendingRequest(false))
+    .put(editAchievementFailure(false))
+    .dispatch(editAchievementRequest('400', achievement, false))
+    .run()
+  ));
+
+  it('should alert that there was an error if the achievement already exists', () => (
+    expectSaga(editAchievement)
+    .provide([
+      [call(request, '/achievements/400', 'PATCH', achievement, true),
+      { status: 400, json: () => ({ message: 'Number has already been taken' }) }],
+    ])
+    .put(sendingRequest(true))
+    .put(sendingRequest(false))
+    .put(editAchievementFailure(true))
+    .dispatch(editAchievementRequest('400', achievement, false))
     .run()
   ));
 
@@ -144,7 +170,7 @@ describe('testing editAchievement saga', () => {
     ])
     .put(sendingRequest(true))
     .put(sendingRequest(false))
-    .put(editAchievementFailure())
+    .put(editAchievementFailure(false))
     .put(logoutRequest())
     .put(push('/login'))
     .dispatch(editAchievementRequest('401', achievement, false))

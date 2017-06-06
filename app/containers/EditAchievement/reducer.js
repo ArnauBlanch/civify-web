@@ -19,6 +19,7 @@ const initialState = fromJS({
   getError: false,
   currentlySending: false,
   editError: false,
+  alreadyExists: false,
 });
 
 function editAchievementReducer(state = initialState, action) {
@@ -26,15 +27,15 @@ function editAchievementReducer(state = initialState, action) {
     case SENDING_REQUEST:
       return state.set('currentlySending', action.sending);
     case GET_ACHIEVEMENT_REQUEST:
-      return state.set('editError', false);
+      return state.set('editError', false).set('alreadyExists', false);
     case GET_ACHIEVEMENT_SUCCESS:
       return state.set('getError', false).set('achievement', fromJS(action.achievement));
     case GET_ACHIEVEMENT_FAILURE:
       return state.set('getError', true);
     case EDIT_ACHIEVEMENT_SUCCESS:
-      return state.set('editError', false);
+      return state.set('editError', false).set('alreadyExists', false);
     case EDIT_ACHIEVEMENT_FAILURE:
-      return state.set('editError', true);
+      return state.set('editError', true).set('alreadyExists', action.alreadyExists);
     default:
       return state;
   }

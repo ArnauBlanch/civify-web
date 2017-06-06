@@ -29,7 +29,7 @@ describe('AchievementsPage Saga', () => {
     .put(currentlySending(true))
     .put(currentlySending(false))
     .put(getAchievementsSuccess(achievements))
-    .dispatch(getAchievementsRequest(undefined))
+    .dispatch(getAchievementsRequest())
     .run()
   ));
 
@@ -44,7 +44,7 @@ describe('AchievementsPage Saga', () => {
     .put(getAchievementsFailure(false))
     .put(logoutRequest())
     .put(push('/login'))
-    .dispatch(getAchievementsRequest(undefined))
+    .dispatch(getAchievementsRequest())
     .run()
   ));
 
@@ -59,7 +59,7 @@ describe('AchievementsPage Saga', () => {
     .put(getAchievementsFailure())
     .put(logoutRequest())
     .put(push('/login'))
-    .dispatch(getAchievementsRequest(undefined))
+    .dispatch(getAchievementsRequest())
     .run()
   ));
 });
