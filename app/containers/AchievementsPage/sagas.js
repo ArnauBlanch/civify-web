@@ -7,7 +7,7 @@ import { logoutRequest } from '../LoginPage/actions';
 
 export function* getAchievements() {
   while (true) { // eslint-disable-line
-    const { enabled } = yield take(GET_ACHIEVEMENTS_REQUEST);
+    yield take(GET_ACHIEVEMENTS_REQUEST);
     try {
       yield put(currentlySending(true));
       const response = yield call(request, '/achievements', 'GET', undefined, true);

@@ -70,7 +70,7 @@ describe('EditAchievement actions', () => {
 
   actionTest('should edit an action to notify that the achievement edition failed',
     editAchievementFailure,
-    null,
-    { type: EDIT_ACHIEVEMENT_FAILURE }
+    false,
+    { type: EDIT_ACHIEVEMENT_FAILURE, alreadyExists: false }
   );
 });

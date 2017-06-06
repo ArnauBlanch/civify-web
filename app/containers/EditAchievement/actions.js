@@ -34,8 +34,8 @@ export function editAchievementSuccess() {
   return { type: EDIT_ACHIEVEMENT_SUCCESS };
 }
 
-export function editAchievementFailure() {
-  return { type: EDIT_ACHIEVEMENT_FAILURE };
+export function editAchievementFailure(alreadyExists) {
+  return { type: EDIT_ACHIEVEMENT_FAILURE, alreadyExists };
 }
 
 export function sendingRequest(sending) {

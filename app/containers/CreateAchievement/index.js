@@ -30,8 +30,7 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
   onSubmit(values) {
     if (typeof values.get('badge_image') === 'undefined') {
       this.setState({ missingBadgeImage: true });
-    }
-    if (typeof values.get('badge_image') !== 'undefined') {
+    } else {
       const badgeReader = new FileReader();
       badgeReader.readAsDataURL(values.get('badge_image')[0]);
       badgeReader.onload = () => {
@@ -78,8 +77,10 @@ export class CreateAchievement extends React.Component { // eslint-disable-line 
           <h4 style={{ textAlign: 'center' }}><FormattedMessage {...messages.title} /></h4>
           <AchievementEventForm
             onSubmit={this.onSubmit}
-            error={achievementError}
+            aeError={achievementError}
             alreadyExists={alreadyExists}
+            missingBadge={this.state.missingBadgeImage}
+            badgeError={this.state.badgeError}
           />
           { currentlySending &&
             <div style={{ width: '100%', textAlign: 'center' }}>
@@ -99,7 +100,6 @@ CreateAchievement.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   CreateAchievement: makeSelectCreateAchievement(),
-  lang: makeSelectLanguage(),
 });
 
 function mapDispatchToProps(dispatch) {

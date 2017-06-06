@@ -15,21 +15,19 @@ export function* createAchievement() {
       if (response.status === 201) {
         yield put(createAchievementSuccess());
         yield put(push('/achievements'));
-      } else {
-        if (response.status === 400) {
-          const body = yield response.json();
-          if (body.message === 'Number has already been taken') {
-            yield put(createAchievementFailure(true));
-          } else {
-            yield put(createAchievementFailure(false));
-          }
+      } else if (response.status === 400) {
+        const body = yield response.json();
+        if (body.message === 'Number has already been taken') {
+          yield put(createAchievementFailure(true));
         } else {
           yield put(createAchievementFailure(false));
         }
-        if (response.status === 401) {
-          yield put(logoutRequest());
-          yield put(push('/login'));
-        }
+      } else {
+        yield put(createAchievementFailure(false));
+      }
+      if (response.status === 401) {
+        yield put(logoutRequest());
+        yield put(push('/login'));
       }
     } catch (e) {
       yield put(sendingRequest(false));

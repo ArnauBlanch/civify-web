@@ -16,7 +16,7 @@ import AchievementEventForm, { formatDate } from '../../components/AchievementEv
 import { createEventRequest } from './actions';
 import { makeSelectLanguage } from '../App/selectors';
 
-const formatTime = (time) => {
+export const formatTime = (time) => {
   const hh = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
   const mm = time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
   return `${hh}:${mm}:00`;
