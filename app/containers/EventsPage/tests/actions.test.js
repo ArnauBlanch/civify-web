@@ -15,8 +15,8 @@ import {
 describe('EventsPage actions', () => {
   actionTest('should create an action to do a request the events list',
     getEventsRequest,
-    true,
-    { type: GET_EVENTS_REQUEST, enabled: true }
+    null,
+    { type: GET_EVENTS_REQUEST }
   );
 
   actionTest('should create an action to alert that a request has been sent',

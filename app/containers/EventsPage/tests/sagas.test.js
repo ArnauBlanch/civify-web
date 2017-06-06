@@ -20,7 +20,7 @@ import request from '../../../utils/request';
 const events = [{ id: 1 }, { id: 2 }];
 
 describe('EventsPage Saga', () => {
-  it('should alert that the request is no longer being sent and that it succeeded (no filter)', () => (
+  it('should alert that the request is no longer being sent and that it succeeded', () => (
     expectSaga(getEvents)
     .provide([
       [call(request, '/events', 'GET', undefined, true),
@@ -29,33 +29,7 @@ describe('EventsPage Saga', () => {
     .put(currentlySending(true))
     .put(currentlySending(false))
     .put(getEventsSuccess(events))
-    .dispatch(getEventsRequest(undefined))
-    .run()
-  ));
-
-  it('should alert that the request is no longer being sent and that it succeeded (filter enabled only)', () => (
-    expectSaga(getEvents)
-    .provide([
-      [call(request, '/events?enabled=true', 'GET', undefined, true),
-      { status: 200, json: () => events }],
-    ])
-    .put(currentlySending(true))
-    .put(currentlySending(false))
-    .put(getEventsSuccess(events))
-    .dispatch(getEventsRequest(true))
-    .run()
-  ));
-
-  it('should alert that the request is no longer being sent and that it succeeded (filter disabled only)', () => (
-    expectSaga(getEvents)
-    .provide([
-      [call(request, '/events?enabled=false', 'GET', undefined, true),
-      { status: 200, json: () => events }],
-    ])
-    .put(currentlySending(true))
-    .put(currentlySending(false))
-    .put(getEventsSuccess(events))
-    .dispatch(getEventsRequest(false))
+    .dispatch(getEventsRequest())
     .run()
   ));
 
@@ -70,7 +44,7 @@ describe('EventsPage Saga', () => {
     .put(getEventsFailure(false))
     .put(logoutRequest())
     .put(push('/login'))
-    .dispatch(getEventsRequest(undefined))
+    .dispatch(getEventsRequest())
     .run()
   ));
 
@@ -85,7 +59,7 @@ describe('EventsPage Saga', () => {
     .put(getEventsFailure())
     .put(logoutRequest())
     .put(push('/login'))
-    .dispatch(getEventsRequest(undefined))
+    .dispatch(getEventsRequest())
     .run()
   ));
 });

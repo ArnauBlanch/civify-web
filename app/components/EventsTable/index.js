@@ -13,7 +13,7 @@ import EventRow, { numStyle, goalStyle, enabledStyle, dateStyle } from '../Event
 
 class EventsTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { events } = this.props;
+    const { events, handleToggle } = this.props;
     return (
       <Table>
         <TableHeader
@@ -40,6 +40,7 @@ class EventsTable extends React.Component { // eslint-disable-line react/prefer-
             <EventRow
               key={e.event_token}
               event={e}
+              handleToggle={(enabled) => handleToggle(e.event_token, enabled)}
             />
           ))}
         </TableBody>
@@ -50,6 +51,7 @@ class EventsTable extends React.Component { // eslint-disable-line react/prefer-
 
 EventsTable.propTypes = {
   events: PropTypes.array.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };
 
 export default EventsTable;

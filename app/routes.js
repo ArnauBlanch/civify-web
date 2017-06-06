@@ -255,14 +255,18 @@ export default function createRoutes(store) {
           import('containers/EventsPage/reducer'),
           import('containers/EventsPage/sagas'),
           import('containers/EventsPage'),
+          import('containers/EditEvent/reducer'),
+          import('containers/EditEvent/sagas'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, sagas, component, r2, s2]) => {
           injectReducer('eventsPage', reducer.default);
           injectSagas('eventsPage', sagas.default);
           renderRoute(component);
+          injectReducer('editEvent', r2.default);
+          injectSagas('editEvent', s2.default);
         });
 
         importModules.catch(errorLoading);

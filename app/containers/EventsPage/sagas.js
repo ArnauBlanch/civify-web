@@ -7,14 +7,10 @@ import { logoutRequest } from '../LoginPage/actions';
 
 export function* getEvents() {
   while (true) { // eslint-disable-line
-    const { enabled } = yield take(GET_EVENTS_REQUEST);
-    let url = '/events';
-    if (typeof enabled !== 'undefined') {
-      url = `${url}?enabled=${enabled ? 'true' : 'false'}`;
-    }
+    yield take(GET_EVENTS_REQUEST);
     try {
       yield put(currentlySending(true));
-      const response = yield call(request, url, 'GET', undefined, true);
+      const response = yield call(request, '/events', 'GET', undefined, true);
       yield put(currentlySending(false));
       if (response.status === 200) {
         const body = yield response.json();

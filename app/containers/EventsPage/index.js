@@ -16,6 +16,7 @@ import makeSelectEventsPage from './selectors';
 import messages from './messages';
 import EventsTable from '../../components/EventsTable';
 import { getEventsRequest } from './actions';
+import { editEventRequest } from '../EditEvent/actions';
 
 const FABstyle = {
   margin: 0,
@@ -31,6 +32,7 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
     super(props);
     this.state = { enabled: undefined };
     this.filterChanged = this.filterChanged.bind(this);
+    this.toggleEvent = this.toggleEvent.bind(this);
   }
 
   componentWillMount() {
@@ -39,15 +41,25 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
 
   filterChanged(enabled) {
     if (enabled !== this.state.enabled) {
-      this.props.dispatch(getEventsRequest(enabled));
       this.setState({ enabled });
     }
+  }
+
+  toggleEvent(id, enabled) {
+    this.props.dispatch(editEventRequest(id, { enabled }, false));
   }
 
   render() {
     const t = this.props.intl.formatMessage;
     const { enabled } = this.state;
-    const { currentlySending, events, error } = this.props.EventsPage;
+    const { currentlySending, error } = this.props.EventsPage;
+    const originalEvents = this.props.EventsPage.events;
+    let events;
+    if (typeof enabled !== 'undefined') {
+      events = originalEvents.filter((e) => e.enabled === enabled);
+    } else {
+      events = originalEvents;
+    }
     return (
       <div>
         <Helmet
@@ -94,8 +106,11 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
               </div>
             }
 
-            { error && <h5 style={{ color: 'red', margin: 50 }}>{'Couldn\'t get the events'}</h5> }
-            <EventsTable events={events} />
+            { error && <h5 style={{ color: 'red', margin: 50 }}><FormattedMessage {...messages.error} /></h5> }
+            <EventsTable
+              events={events}
+              handleToggle={this.toggleEvent}
+            />
             { !error && events.length === 0 &&
               <h5 style={{ color: '#888', margin: 50 }}><FormattedMessage {...messages.thereAreNoEvents} /></h5> }
           </Paper>
