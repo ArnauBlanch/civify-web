@@ -57,7 +57,7 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
           <h3><FormattedMessage {...messages.myRewards} /></h3>
           { this.props.rewardsState.rewards && this.props.rewardsState.rewards.length !== 0 &&
             <RaisedButton
-              href="/rewards/validate"
+              onTouchTap={() => this.props.dispatch(push('/rewards/validate'))}
               label={<FormattedMessage {...messages.validate} />}
               primary
               backgroundColor="#27ae60"
