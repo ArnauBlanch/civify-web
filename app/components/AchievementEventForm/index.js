@@ -76,8 +76,6 @@ class AchievementEventForm extends React.Component {
     const { aeError, alreadyExists, datesError, isEvent,
       missingImage, missingBadge, imageError, badgeError, initialValues } = this.props;
     const { imageChanged, badgeChanged } = this.state;
-    console.log(this.state);
-    console.log(this.props);
     return (
       <form
         style={{ marginLeft: 80, marginRight: 80, textAlign: 'center' }}
