@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Paper, CardTitle, CardMedia, CardText, FlatButton, Dialog } from 'material-ui';
-import { FormattedMessage, FormattedRelative } from 'react-intl';
+import { FormattedMessage, FormattedRelative, intlShape, injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import messages from './messages';
@@ -40,7 +40,7 @@ export class RewardDetailsPage extends React.Component { // eslint-disable-line 
     const { rewards } = this.props.rewardsState;
     const reward = rewards.find((r) => r.award_auth_token === this.props.params.rewardID);
     const rewardExists = typeof reward !== 'undefined';
-
+    const t = this.props.intl.formatMessage;
     const actions = [
       <FlatButton
         label={<FormattedMessage {...messages.cancel} />}
@@ -118,7 +118,7 @@ export class RewardDetailsPage extends React.Component { // eslint-disable-line 
           <h2><FormattedMessage {...messages.rewardNotFound} /></h2>}
 
         <Dialog
-          title="Delete reward"
+          title={t(messages.deleteReward)}
           actions={actions}
           modal={false}
           open={this.state.dialogOpen}
@@ -134,6 +134,7 @@ export class RewardDetailsPage extends React.Component { // eslint-disable-line 
 RewardDetailsPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   rewardsState: PropTypes.object.isRequired,
 };
 
@@ -147,4 +148,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RewardDetailsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(RewardDetailsPage));

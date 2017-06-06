@@ -41,7 +41,7 @@ function routeReducer(state = routeInitialState, action) {
 
 const authInitialState = fromJS({
   isAuthenticated: localStorage.getItem('auth_token') !== null,
-  isAdmin: localStorage.getItem('auth_admin') !== null,
+  isAdmin: localStorage.getItem('auth_admin') === 'true',
 });
 
 export function authReducer(state = authInitialState, action) {
