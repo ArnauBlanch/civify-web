@@ -9,7 +9,7 @@ import { recoverPassword, recoverPasswordSaga } from '../sagas';
 import {
   recoverPasswordRequest,
   recoverPasswordSuccess,
-  recoverPasswordFailure
+  recoverPasswordFailure,
 } from '../actions';
 import request from '../../../utils/request';
 
@@ -49,6 +49,14 @@ describe('testing recoverPasswordSaga', () => {
     ])
     .put(recoverPasswordFailure(true))
     .dispatch(recoverPasswordRequest(email))
+    .run()
+  ));
+});
+
+describe('testing root saga', () => {
+  it('should fork the internal sagas', () => (
+    expectSaga(recoverPasswordSaga)
+    .fork(recoverPassword)
     .run()
   ));
 });
