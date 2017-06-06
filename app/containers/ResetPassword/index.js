@@ -67,6 +67,7 @@ ResetPassword.propTypes = {
   intl: intlShape.isRequired,
   ResetPassword: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
