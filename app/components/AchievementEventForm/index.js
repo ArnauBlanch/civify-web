@@ -74,7 +74,7 @@ class AchievementEventForm extends React.Component {
 
   render() {
     const { aeError, alreadyExists, datesError, isEvent,
-      missingImage, missingBadge, imageError, badgeError } = this.props;
+      missingImage, missingBadge, imageError, badgeError, initialValues } = this.props;
     const { imageChanged, badgeChanged } = this.state;
     return (
       <form
@@ -215,6 +215,10 @@ class AchievementEventForm extends React.Component {
           component={renderDropzoneInput}
           onChange={this.badgeChanged}
           onFocus={this.badgeChanged}
+          currentImage={
+            typeof initialValues !== 'undefined' ?
+            initialValues.get('badge').toJS() : undefined
+          }
         />
         <div style={{ textAlign: 'center' }}>
           { isEvent && missingBadge && !badgeChanged
@@ -245,15 +249,16 @@ class AchievementEventForm extends React.Component {
 
 AchievementEventForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  aeError: PropTypes.bool.isRequired,
+  aeError: PropTypes.bool,
   datesError: PropTypes.bool,
-  alreadyExists: PropTypes.bool.isRequired,
+  alreadyExists: PropTypes.bool,
   isEvent: PropTypes.bool,
   missingImage: PropTypes.bool,
   missingBadge: PropTypes.bool,
   imageError: PropTypes.bool,
   badgeError: PropTypes.bool,
   lang: PropTypes.string,
+  initialValues: PropTypes.object,
 };
 
 export default reduxForm({ form: 'achievementEventForm' })(AchievementEventForm);

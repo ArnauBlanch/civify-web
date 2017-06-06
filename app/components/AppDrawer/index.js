@@ -44,7 +44,7 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
           </Link>
         }
         { isAuthenticated && isAdmin &&
-          <Link to="/administration" style={{ textDecoration: 'none' }}>
+          <Link to="/admin" style={{ textDecoration: 'none' }}>
             <MenuItem onTouchTap={this.props.toggleDrawer} >
               <FormattedMessage {...messages.administration} />
             </MenuItem>

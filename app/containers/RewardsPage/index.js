@@ -29,10 +29,10 @@ const FABstyle = {
 };
 
 export class RewardsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     this.props.dispatch(getRewardsRequest());
   }
+
   render() {
     const t = this.props.intl.formatMessage;
     return (

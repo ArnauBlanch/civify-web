@@ -204,6 +204,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/achievements/:achievementID/edit',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EditAchievement/reducer'),
+          import('containers/EditAchievement/sagas'),
+          import('containers/EditAchievement'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('editAchievement', reducer.default);
+          injectSagas('editAchievement', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '/achievements/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {
