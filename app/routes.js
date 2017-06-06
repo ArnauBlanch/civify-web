@@ -264,6 +264,14 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/admin',
+      onEnter: checkAuth,
+      getComponent(location, cb) {
+        import('containers/AdminHomepage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }, {
       path: '*',
       getComponent(nextState, cb) {
         import('containers/NotFoundPage')
