@@ -38,13 +38,13 @@ describe('test map page saga', () => {
   it('should dispatch an action when issues are loaded correctly (with filters)', () => (
     expectSaga(issuesRequestSaga)
     .provide([
-      [call(request, '/issues?test1=true&test2=100&test3=string', 'GET', undefined, false), {
+      [call(request, '/issues?test1=true&test2=100&test3=string&categories[]=cat1&categories[]=cat2', 'GET', undefined, false), {
         status: 200,
         json: () => ([{}, {}]),
       }],
     ])
     .put(issuesInfoSuccess([{}, {}]))
-    .dispatch(issuesRequest({ test1: true, test2: 100, test3: 'string' }))
+    .dispatch(issuesRequest({ test1: true, test2: 100, test3: 'string', categories: ['cat1', 'cat2'] }))
     .run()
   ));
 

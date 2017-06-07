@@ -12,9 +12,16 @@ export function* issuesRequest() {
     const { filters } = yield take(ISSUES_REQUEST);
     let filtersQuery = Object.keys(filters).length > 0 ? '?' : '';
     Object.keys(filters).forEach((key, index) => {
-      if (index > 0) filtersQuery += '&';
+      filtersQuery += index > 0 ? '&' : '';
       const value = filters[key];
-      filtersQuery += `${key}=${value}`;
+      if (key === 'categories') {
+        value.forEach((c, cIndex) => {
+          filtersQuery += cIndex > 0 ? '&' : '';
+          filtersQuery += `categories[]=${c}`;
+        });
+      } else {
+        filtersQuery += `${key}=${value}`;
+      }
     });
     const response = yield call(request, `/issues${filtersQuery}`, 'GET', undefined, false);
     if (response.status === 200) {
