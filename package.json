@@ -236,6 +236,7 @@
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "react-dropzone": "^3.13.1",
+    "react-google-charts": "^1.5.5",
     "react-google-maps": "^7.0.0",
     "react-helmet": "^4.0.0",
     "react-intl": "2.2.3",
