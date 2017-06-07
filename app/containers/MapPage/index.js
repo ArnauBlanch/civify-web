@@ -24,6 +24,9 @@ class MapPage extends React.Component {
     };
     this.showIssue = this.showIssue.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
+  }
+
+  componentWillMount() {
     this.props.dispatch(issuesRequest());
   }
 
@@ -69,10 +72,10 @@ class MapPage extends React.Component {
         />
         <Map
           containerElement={
-            <div style={{ height: '100vh', width: '100vw', overflow: 'hidden' }} />
+            <div style={{ height: 'calc(100vh - 50px)', width: '100vw', overflow: 'hidden' }} />
           }
           mapElement={
-            <div style={{ height: '100vh', width: '100vw', position: 'absolute' }} />
+            <div style={{ height: 'calc(100vh - 50px)', width: '100vw', position: 'absolute' }} />
           }
           markers={this.props.mapState.issues}
           onIssueClick={this.showIssue}

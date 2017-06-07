@@ -8,6 +8,8 @@ import React, { PropTypes } from 'react';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
+import { MAP } from 'react-google-maps/lib/constants';
+import HeatmapLayer from 'react-google-maps/lib/visualization/HeatmapLayer';
 import { injectIntl, intlShape } from 'react-intl';
 import messages from './messages';
 import CustomMarker from '../CustomMarker';
@@ -16,7 +18,7 @@ const searchStyle = {
   boxSizing: 'border-box',
   MozBoxSizing: 'border-box',
   border: '1px solid transparent',
-  width: 240,
+  width: 220,
   height: 32,
   marginTop: 10,
   padding: '0 12px',
@@ -49,10 +51,14 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
         center: nextProps.issueCenter,
       });
     }
+    if (this.props.fullMap !== nextProps.fullMap) {
+      google.maps.event.trigger(this.map.context[MAP], 'resize'); // eslint-disable-line no-undef
+    }
   }
 
   handleMapMounted(map) {
     this.map = map;
+    if (this.props.heatmapEnabled) this.props.onInitMap();
   }
 
   handleBoundsChanged() {
@@ -60,6 +66,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       bounds: this.map.getBounds(),
       center: this.map.getCenter(),
     });
+    if (this.props.heatmapEnabled) this.props.onBoundsChanged(this.map.getBounds());
   }
 
   handleSearchBoxMounted(searchBox) {
@@ -74,6 +81,10 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
       center: mapCenter,
       zoom: 16,
     });
+    if (this.props.heatmapEnabled) {
+      this.props.onBoundsChanged(this.map.getBounds());
+      this.props.onInitMap();
+    }
   }
 
   handleZoomChanged() {
@@ -81,39 +92,48 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
   }
 
   render() {
+    const { zoom, center, bounds } = this.state;
+    const { markers, onIssueClick, heatmapEnabled } = this.props;
+    const t = this.props.intl.formatMessage;
     return (
       <GoogleMap
         ref={this.handleMapMounted}
-        zoom={this.state.zoom}
-        center={this.state.center}
+        zoom={zoom}
+        center={center}
         onBoundsChanged={this.handleBoundsChanged}
         onZoomChanged={this.handleZoomChanged}
       >
         <SearchBox
           ref={this.handleSearchBoxMounted}
-          bounds={this.state.bounds}
+          bounds={bounds}
           controlPosition={google.maps.ControlPosition.TOP_LEFT} // eslint-disable-line no-undef
           onPlacesChanged={this.handlePlacesChanged}
-          inputPlaceholder={this.props.intl.formatMessage(messages.searchPlace)}
+          inputPlaceholder={t(messages.searchPlace)}
           inputStyle={searchStyle}
         />
-        <MarkerClusterer
-          averageCenter
-          enableRetinaIcons
-          gridSize={30}
-        >
-          {this.props.markers.map((marker) => (
-            <CustomMarker
-              key={marker.issue_auth_token}
-              marker={marker}
-              position={{ lat: marker.latitude, lng: marker.longitude }}
-              category={marker.category}
-              onClick={this.props.onIssueClick}
-              map={this}
-            >
-            </CustomMarker>
-          ))}
-        </MarkerClusterer>
+        { heatmapEnabled ?
+          <HeatmapLayer
+            data={markers.map((m) => new google.maps.LatLng(m.latitude, m.longitude))} // eslint-disable-line no-undef
+            options={{ radius: 40 }}
+          /> :
+          <MarkerClusterer
+            averageCenter
+            enableRetinaIcons
+            gridSize={30}
+          >
+            {markers.map((marker) => (
+              <CustomMarker
+                key={marker.issue_auth_token}
+                marker={marker}
+                position={{ lat: marker.latitude, lng: marker.longitude }}
+                category={marker.category}
+                onClick={onIssueClick}
+                map={this}
+              >
+              </CustomMarker>
+            ))}
+          </MarkerClusterer>
+        }
       </GoogleMap>
     );
   }
@@ -121,9 +141,13 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
 Map.propTypes = {
   markers: PropTypes.array.isRequired,
-  onIssueClick: PropTypes.func.isRequired,
+  onIssueClick: PropTypes.func,
   intl: intlShape.isRequired,
-  showingIssue: PropTypes.bool.isRequired,
+  showingIssue: PropTypes.bool,
+  heatmapEnabled: PropTypes.bool,
+  onBoundsChanged: PropTypes.func,
+  onInitMap: PropTypes.func,
+  fullMap: PropTypes.bool,
 };
 
 export default withGoogleMap(injectIntl(Map));
