@@ -30,4 +30,8 @@ export default defineMessages({
     id: 'app.components.AppDrawer.language',
     defaultMessage: 'Language',
   },
+  stats: {
+    id: 'app.containers.StatsPage.stats',
+    defaultMessage: 'Statistics',
+  },
 });

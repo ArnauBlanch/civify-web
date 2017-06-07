@@ -26,4 +26,8 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.sign-out',
     defaultMessage: 'Sign out',
   },
+  stats: {
+    id: 'app.containers.StatsPage.stats',
+    defaultMessage: 'Statistics',
+  },
 });
