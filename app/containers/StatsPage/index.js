@@ -6,36 +6,67 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Paper, Toggle } from 'material-ui';
+import { Paper, Toggle, RaisedButton } from 'material-ui';
 import Helmet from 'react-helmet';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import ActionRefresh from 'material-ui/svg-icons/action/autorenew';
+import { Chart } from 'react-google-charts';
 
 import Map from '../../components/Map';
 import makeSelectStatsPage from './selectors';
 import { issuesRequest } from '../MapPage/actions';
 import messages from './messages';
+import prepareStats from './prepareStats';
+
+const geocoder = new google.maps.Geocoder(); // eslint-disable-line no-undef
 
 export class StatsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.state = { bounds: undefined, firstLoaded: false, fullMap: false };
+    this.state = {
+      bounds: undefined,
+      firstLoaded: false,
+      fullMap: true,
+      mapIssues: [],
+      address: '',
+    };
     this.updateIssues = this.updateIssues.bind(this);
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
 
-  updateIssues() {
-    console.log(this.state.bounds);
-    this.props.dispatch(issuesRequest({}));
+  componentWillReceiveProps(nextProps) {
+    if (this.state.mapIssues.length === 0 && nextProps.MapPage.issues.length > 0) {
+      this.setState({ mapIssues: nextProps.MapPage.issues });
+    }
   }
 
-  handleBoundsChanged(bounds) {
-    this.setState({ bounds: {
-      minLat: bounds.f.b,
-      maxLat: bounds.f.f,
-      minLng: bounds.b.b,
-      maxLng: bounds.b.f,
-    } });
+  updateIssues() {
+    if (this.state.bounds) {
+      this.props.dispatch(issuesRequest({ ...this.state.bounds }));
+      geocoder.geocode({
+        bounds: new google.maps.LatLngBounds(                     // eslint-disable-line no-undef
+          new google.maps.LatLng(this.state.bounds.lat_min, this.state.bounds.lng_min), // eslint-disable-line no-undef
+          new google.maps.LatLng(this.state.bounds.lat_max, this.state.bounds.lng_max), // eslint-disable-line no-undef
+        ),
+      }, (results, status) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            this.setState({ address: results[0].formatted_address });
+          }
+        }
+      });
+    }
+  }
+
+  handleBoundsChanged(newBounds) {
+    const bounds = {
+      lat_min: newBounds.f.b,
+      lat_max: newBounds.f.f,
+      lng_min: newBounds.b.b,
+      lng_max: newBounds.b.f,
+    };
+    this.setState({ bounds });
     if (!this.state.firstLoaded) {
       this.updateIssues();
       this.setState({ firstLoaded: true });
@@ -45,7 +76,8 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
   render() {
     const t = this.props.intl.formatMessage;
     const { issues } = this.props.MapPage;
-    const { fullMap } = this.state;
+    const { mapIssues, fullMap, address } = this.state;
+    prepareStats(t, issues);
     return (
       <div style={{ width: '100%', maxWidth: 1000, maxHeight: 1000 }}>
         <Helmet
@@ -65,15 +97,29 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
           zDepth={4}
         >
           <h3 style={{ margin: 0 }}><FormattedMessage {...messages.stats} /></h3>
-          <Toggle
-            label={<FormattedMessage {...messages.showCharts} />}
-            style={{ width: '200', right: 0 }}
-            toggled={!this.state.fullMap}
-            onToggle={() => this.setState({ fullMap: !this.state.fullMap })}
-          />
+          <h5 style={{ margin: 10 }}><i>{address}</i></h5>
+          <div className="mdl-grid">
+            <Toggle
+              className="mdl-cell mdl-cell--2-col"
+              label={<FormattedMessage {...messages.showCharts} />}
+              style={{ width: 200, right: 0 }}
+              toggled={!this.state.fullMap}
+              onToggle={() => this.setState({ fullMap: !fullMap })}
+            />
+            { !fullMap &&
+              <RaisedButton
+                className="mdl-cell mdl-cell--2-col"
+                label={<FormattedMessage {...messages.refreshStats} />}
+                labelPosition="before"
+                primary
+                icon={<ActionRefresh />}
+                style={{ marginTop: 0 }}
+                onTouchTap={this.updateIssues}
+              /> }
+          </div>
           <div className="mdl-grid" style={{ maxWidth: 940 }}>
             <div
-              className={`mdl-cell ${!fullMap && 'mdl-cell--6-col'}`}
+              className={`mdl-cell ${!fullMap && 'mdl-cell--9-col'}`}
               style={fullMap ? { width: '100%' } : {}}
             >
               <Map
@@ -83,7 +129,7 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
                 mapElement={
                   <div style={{ height: '100%', width: '100%', position: 'relative' }} />
                 }
-                markers={issues}
+                markers={mapIssues}
                 heatmapEnabled
                 onBoundsChanged={this.handleBoundsChanged}
                 onInitMap={this.updateIssues}
@@ -91,12 +137,24 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
               />
             </div>
             <div
-              className={`mdl-cell ${!fullMap && 'mdl-cell--6-col'}`}
+              className={`mdl-cell ${!fullMap && 'mdl-cell--3-col'}`}
               style={fullMap ? { display: 'none' } : {}}
             >
-              test
+              Select chart / options
             </div>
+
           </div>
+          { !fullMap &&
+            <div>
+              <h4><b><FormattedMessage {...messages.issuesByCategory} /> (%)</b></h4>
+              <Chart
+                chartType="PieChart"
+                data={prepareStats(t, issues)}
+                width="100%"
+                height="450px"
+                legend_toggle
+              />
+            </div> }
         </Paper>
       </div>
     );

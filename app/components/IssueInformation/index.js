@@ -117,8 +117,8 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
       };
       geocoder.geocode({ location: latlng }, (results, status) => {
         if (status === 'OK') {
-          if (results[1]) {
-            this.setState({ address: results[1].formatted_address });
+          if (results[0]) {
+            this.setState({ address: results[0].formatted_address });
           }
         }
       });
