@@ -10,8 +10,8 @@ import {
   ISSUES_INFO_FAIL,
 } from './constants';
 
-export function issuesRequest() {
-  return { type: ISSUES_REQUEST };
+export function issuesRequest(filters) {
+  return { type: ISSUES_REQUEST, filters };
 }
 
 export function issuesInfoSuccess(issues) {

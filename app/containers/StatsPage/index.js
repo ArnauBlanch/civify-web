@@ -26,7 +26,7 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
 
   updateIssues() {
     console.log(this.state.bounds);
-    this.props.dispatch(issuesRequest());
+    this.props.dispatch(issuesRequest({}));
   }
 
   handleBoundsChanged(bounds) {
