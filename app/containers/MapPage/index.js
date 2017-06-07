@@ -27,7 +27,7 @@ class MapPage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(issuesRequest());
+    this.props.dispatch(issuesRequest({}));
   }
 
   componentWillReceiveProps(nextProps) {
