@@ -7,7 +7,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
 import makeSelectMapPage from './selectors';
 // import messages from './messages';
@@ -24,6 +23,9 @@ class MapPage extends React.Component {
       filterOpen: false,
       issue: undefined,
       showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
+      initialStatus: 'unresolved',
+      initialRisk: 'all',
+      initialCategories: [true, false, true, false, true, true, true, true],
     };
     this.showIssue = this.showIssue.bind(this);
     this.showFilters = this.showFilters.bind(this);
@@ -86,6 +88,9 @@ class MapPage extends React.Component {
           open={this.state.filterOpen}
           handleClose={this.closeFilters}
           onFilterSubmit={this.filterSubmit}
+          risk={this.state.initialRisk}
+          status={this.state.initialStatus}
+          categories={this.state.initialCategories}
         >
         </FilterDialog>
         <IssueDetails
