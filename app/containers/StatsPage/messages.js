@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.containers.StatsPage.show-charts',
     defaultMessage: 'Show charts',
   },
+  showResolvedComparison: {
+    id: 'app.containers.StatsPage.showResolvedComparison',
+    defaultMessage: 'Resolved/Unresolved',
+  },
   refreshStats: {
     id: 'app.containers.StatsPage.refresh',
     defaultMessage: 'Refresh',

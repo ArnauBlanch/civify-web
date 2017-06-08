@@ -30,6 +30,7 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
       fullMap: true,
       mapIssues: [],
       address: '',
+      firstChart: true,
     };
     this.updateIssues = this.updateIssues.bind(this);
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
@@ -141,6 +142,14 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
               style={fullMap ? { display: 'none' } : {}}
             >
               Select chart / options
+              <Toggle
+                className="mdl-cell mdl-cell--2-col"
+                label={<FormattedMessage {...messages.showResolvedComparison} />}
+                style={{ width: 200, right: 0 }}
+                toggled={this.state.firstChart}
+                onToggle={() => this.setState({ firstChart: !this.state.firstChart })}
+              >
+              </Toggle>
             </div>
 
           </div>
