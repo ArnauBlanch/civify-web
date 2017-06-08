@@ -20,7 +20,7 @@ import CustomMarker from '../CustomMarker';
 const filterIconStyle = {
   height: '32px',
   paddingTop: '4px',
-}
+};
 
 const searchStyle = {
   boxSizing: 'border-box',
