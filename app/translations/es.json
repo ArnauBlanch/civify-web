@@ -82,6 +82,8 @@
   "app.components.EventsTable.start-date": "Fecha inicio",
   "app.components.EventsTable.title": "Título",
   "app.components.EventsTable.xp": "XP",
+  "app.components.FilterDialog.filter-title": "Filtrar incidencias",
+  "app.components.FilterDialog.header": "",
   "app.components.IssueInformation.category": "Categoria",
   "app.components.IssueInformation.could-not-load-the-issue": "No se ha podido cargar la incidencia",
   "app.components.IssueInformation.does-it-pose-a-risk": "Supone un riesgo?",

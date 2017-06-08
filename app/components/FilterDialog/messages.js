@@ -6,10 +6,6 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.components.FilterDialog.header',
-    defaultMessage: 'This is the FilterDialog component !',
-  },
   filterTitle: {
     id: 'app.components.FilterDialog.filter-title',
     defaultMessage: 'Filter issues',

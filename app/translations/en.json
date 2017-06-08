@@ -82,6 +82,8 @@
   "app.components.EventsTable.start-date": "Start date",
   "app.components.EventsTable.title": "Title",
   "app.components.EventsTable.xp": "XP",
+  "app.components.FilterDialog.filter-title": "Filter issues",
+  "app.components.FilterDialog.header": "This is the FilterDialog component !",
   "app.components.IssueInformation.category": "Category",
   "app.components.IssueInformation.could-not-load-the-issue": "Could not load the issue",
   "app.components.IssueInformation.does-it-pose-a-risk": "Does it pose a risk?",
