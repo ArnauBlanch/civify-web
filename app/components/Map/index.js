@@ -4,8 +4,11 @@
 *
 */
 
+import filterIcon from '!file-loader?name=[name].[ext]!../../images/filter-icon.png';
+
 import React, { PropTypes } from 'react';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
+import { FloatingActionButton } from 'material-ui';
 import MarkerClusterer from 'react-google-maps/lib/addons/MarkerClusterer';
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
 import { MAP } from 'react-google-maps/lib/constants';
@@ -13,6 +16,11 @@ import HeatmapLayer from 'react-google-maps/lib/visualization/HeatmapLayer';
 import { injectIntl, intlShape } from 'react-intl';
 import messages from './messages';
 import CustomMarker from '../CustomMarker';
+
+const filterIconStyle = {
+  height: '32px',
+  paddingTop: '4px',
+}
 
 const searchStyle = {
   boxSizing: 'border-box',
@@ -27,6 +35,17 @@ const searchStyle = {
   fontSize: '14px',
   outline: 'none',
   textOverflow: 'ellipses',
+};
+
+const fabStyle = {
+  margin: 0,
+  bottom: 'auto',
+  right: 40,
+  top: 70,
+  left: 'auto',
+  position: 'fixed',
+  marginRight: '10px',
+  marginBottom: '3px',
 };
 
 class Map extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -95,7 +114,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
   render() {
     const { zoom, center, bounds } = this.state;
-    const { markers, onIssueClick, heatmapEnabled } = this.props;
+    const { markers, onIssueClick, heatmapEnabled, onFabClick } = this.props;
     const t = this.props.intl.formatMessage;
     return (
       <GoogleMap
@@ -113,6 +132,14 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
           inputPlaceholder={t(messages.searchPlace)}
           inputStyle={searchStyle}
         />
+        <FloatingActionButton
+          style={fabStyle}
+          onTouchTap={onFabClick}
+        >
+          <div>
+            <img src={filterIcon} alt="filter" style={filterIconStyle} />
+          </div>
+        </FloatingActionButton>
         { heatmapEnabled ?
           <HeatmapLayer
             data={markers.map((m) => new google.maps.LatLng(m.latitude, m.longitude))} // eslint-disable-line no-undef
@@ -144,6 +171,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 Map.propTypes = {
   markers: PropTypes.array.isRequired,
   onIssueClick: PropTypes.func,
+  onFabClick: PropTypes.func,
   intl: intlShape.isRequired,
   showingIssue: PropTypes.bool,
   heatmapEnabled: PropTypes.bool,

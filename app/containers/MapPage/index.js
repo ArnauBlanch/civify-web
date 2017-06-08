@@ -7,23 +7,29 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import FlatButton from 'material-ui/FlatButton';
 import Helmet from 'react-helmet';
 import makeSelectMapPage from './selectors';
 // import messages from './messages';
 import { issuesRequest } from './actions';
 import IssueDetails from '../../components/IssueDetails';
 import Map from '../../components/Map';
+import FilterDialog from '../../components/FilterDialog';
 
 class MapPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      filterOpen: false,
       issue: undefined,
       showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
     };
     this.showIssue = this.showIssue.bind(this);
+    this.showFilters = this.showFilters.bind(this);
+    this.closeFilters = this.closeFilters.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
+    this.filterSubmit = this.filterSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -47,12 +53,24 @@ class MapPage extends React.Component {
     this.setState({ issue });
   }
 
+  showFilters() {
+    this.setState({ filterOpen: true });
+  }
+
+  closeFilters() {
+    this.setState({ filterOpen: false });
+  }
+
   closeDrawer() {
     this.setState({ issue: undefined, showIssueFromUrl: false });
   }
 
   mapLoaded() {
     this.setState({ loaded: true });
+  }
+
+  filterSubmit() {
+    // TODO: handle filter submit
   }
 
   render() {
@@ -64,7 +82,12 @@ class MapPage extends React.Component {
             { name: 'description', content: 'Description of CreateAchievement' },
           ]}
         />
-
+        <FilterDialog
+          open={this.state.filterOpen}
+          handleClose={this.closeFilters}
+          onFilterSubmit={this.filterSubmit}
+        >
+        </FilterDialog>
         <IssueDetails
           toggleDrawer={this.closeDrawer}
           open={typeof this.state.issue !== 'undefined'}
@@ -79,6 +102,7 @@ class MapPage extends React.Component {
           }
           markers={this.props.mapState.issues}
           onIssueClick={this.showIssue}
+          onFabClick={this.showFilters}
           showingIssue={typeof (this.state.issue) !== 'undefined'}
           issueCenter={this.state.issue && { lat: this.state.issue.latitude, lng: this.state.issue.longitude }}
         />
