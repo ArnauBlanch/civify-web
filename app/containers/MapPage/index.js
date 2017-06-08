@@ -117,6 +117,7 @@ class MapPage extends React.Component {
           issue={this.state.issue}
         />
         <Map
+          showFilters
           containerElement={
             <div style={{ height: 'calc(100vh - 50px)', width: '100vw', overflow: 'hidden' }} />
           }
