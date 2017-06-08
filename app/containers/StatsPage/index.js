@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Paper, Toggle, RaisedButton } from 'material-ui';
+import { Paper, RaisedButton, SelectField, MenuItem } from 'material-ui';
 import Helmet from 'react-helmet';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
@@ -17,7 +17,7 @@ import Map from '../../components/Map';
 import makeSelectStatsPage from './selectors';
 import { issuesRequest } from '../MapPage/actions';
 import messages from './messages';
-import prepareStats from './prepareStats';
+import { prepareCategories, prepareCategoriesResolved, prepareDates } from './prepareStats';
 
 const geocoder = new google.maps.Geocoder(); // eslint-disable-line no-undef
 
@@ -27,9 +27,10 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
     this.state = {
       bounds: undefined,
       firstLoaded: false,
-      fullMap: true,
+      currentChart: 'category',
       mapIssues: [],
       address: '',
+      firstChart: true,
     };
     this.updateIssues = this.updateIssues.bind(this);
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
@@ -76,8 +77,7 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
   render() {
     const t = this.props.intl.formatMessage;
     const { issues } = this.props.MapPage;
-    const { mapIssues, fullMap, address } = this.state;
-    prepareStats(t, issues);
+    const { mapIssues, address, currentChart } = this.state;
     return (
       <div style={{ width: '100%', maxWidth: 1000, maxHeight: 1000 }}>
         <Helmet
@@ -98,63 +98,120 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
         >
           <h3 style={{ margin: 0 }}><FormattedMessage {...messages.stats} /></h3>
           <h5 style={{ margin: 10 }}><i>{address}</i></h5>
+
           <div className="mdl-grid">
-            <Toggle
-              className="mdl-cell mdl-cell--2-col"
-              label={<FormattedMessage {...messages.showCharts} />}
-              style={{ width: 200, right: 0 }}
-              toggled={!this.state.fullMap}
-              onToggle={() => this.setState({ fullMap: !fullMap })}
-            />
-            { !fullMap &&
-              <RaisedButton
-                className="mdl-cell mdl-cell--2-col"
-                label={<FormattedMessage {...messages.refreshStats} />}
-                labelPosition="before"
-                primary
-                icon={<ActionRefresh />}
-                style={{ marginTop: 0 }}
-                onTouchTap={this.updateIssues}
-              /> }
-          </div>
-          <div className="mdl-grid" style={{ maxWidth: 940 }}>
             <div
-              className={`mdl-cell ${!fullMap && 'mdl-cell--9-col'}`}
-              style={fullMap ? { width: '100%' } : {}}
+              className="mdl-cell mdl-cell--12-col"
+              style={{ width: '100%', maxWidth: 900, margin: '0 auto' }}
             >
               <Map
                 containerElement={
                   <div style={{ width: '100%', height: '100%', minHeight: 400, position: 'relative' }} />
                 }
-                mapElement={
-                  <div style={{ height: '100%', width: '100%', position: 'relative' }} />
-                }
+                mapElement={<div style={{ height: '100%', width: '100%', position: 'relative' }} />}
                 markers={mapIssues}
                 heatmapEnabled
                 onBoundsChanged={this.handleBoundsChanged}
                 onInitMap={this.updateIssues}
-                fullMap={fullMap}
               />
             </div>
-            <div
-              className={`mdl-cell ${!fullMap && 'mdl-cell--3-col'}`}
-              style={fullMap ? { display: 'none' } : {}}
-            >
-              Select chart / options
-            </div>
-
           </div>
-          { !fullMap &&
-            <div>
-              <h4><b><FormattedMessage {...messages.issuesByCategory} /> (%)</b></h4>
-              <Chart
-                chartType="PieChart"
-                data={prepareStats(t, issues)}
-                width="100%"
-                height="450px"
-                legend_toggle
-              />
-            </div> }
+
+          <RaisedButton
+            className="mdl-cell mdl-cell--2-col"
+            label={<FormattedMessage {...messages.refreshStats} />}
+            labelPosition="before"
+            primary
+            icon={<ActionRefresh />}
+            style={{ margin: 'auto', marginTop: 10, width: 170 }}
+            onTouchTap={this.updateIssues}
+          />
+          {
+            issues.length === 0 ?
+              <div style={{ marginTop: 30 }}>
+                <h4><FormattedMessage {...messages.noDataToDisplay} /></h4>
+              </div> :
+              <div className="mdl-grid" style={{ maxWidth: 930 }}>
+                <div className="mdl-cell mdl-cell--4-col">
+                  <h5><b><FormattedMessage {...messages.chooseChart} /></b></h5>
+
+                  <SelectField
+                    floatingLabelText={t(messages.chart)}
+                    value={currentChart}
+                    onChange={(a, b, v) => this.setState({ currentChart: v })}
+                    style={{ width: 230, textAlign: 'left' }}
+                    selectedMenuItemStyle={{ color: '#888' }}
+                  >
+                    <MenuItem
+                      value="category"
+                      primaryText={<FormattedMessage {...messages.byCategory} />}
+                    />
+                    <MenuItem
+                      value="category-resolved"
+                      primaryText={<FormattedMessage {...messages.byCategoryResolved} />}
+                    />
+                    <MenuItem
+                      value="date"
+                      primaryText={<FormattedMessage {...messages.byDateCategory} />}
+                    />
+                  </SelectField>
+                </div>
+                <div className="mdl-cell mdl-cell--8-col">
+                  { currentChart === 'category' &&
+                    <div>
+                      <h4><b><FormattedMessage {...messages.issuesByCategory} /> (%)</b></h4>
+                      <Chart
+                        chartType="PieChart"
+                        data={prepareCategories(t, issues)}
+                        options={{
+                          backgroundColor: { fill: 'transparent' },
+                          chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
+                        }}
+                        width="100%"
+                        style={{ left: '-200px' }}
+                        height="450px"
+
+                        legend_toggle
+                      />
+                    </div> }
+                  { currentChart === 'category-resolved' &&
+                    <div>
+                      <h4><b><FormattedMessage {...messages.issuesByCategoryResolved} /></b></h4>
+                      <Chart
+                        chartType="ColumnChart"
+                        data={prepareCategoriesResolved(t, issues)}
+                        options={{
+                          backgroundColor: { fill: 'transparent' },
+                          // chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
+                          legend: { position: 'top', maxLines: 3 },
+                          isStacked: true,
+                        }}
+                        width="100%"
+                        style={{ left: '-200px' }}
+                        height="450px"
+
+                        legend_toggle
+                      />
+                    </div> }
+                  { currentChart === 'date' &&
+                    <div>
+                      <h4><b><FormattedMessage {...messages.issuesByDateCategory} /></b></h4>
+                      <Chart
+                        chartType="LineChart"
+                        data={prepareDates(t, issues)}
+                        options={{
+                          backgroundColor: { fill: 'transparent' },
+                          // chartArea: { left: 0, top: 0, width: '100%', height: '100%' },
+                        }}
+                        width="100%"
+                        style={{ left: '-200px' }}
+                        height="450px"
+
+                        legend_toggle
+                      />
+                    </div> }
+                </div>
+              </div> }
         </Paper>
       </div>
     );

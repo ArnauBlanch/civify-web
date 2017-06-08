@@ -100,8 +100,9 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
     const mapCenter = places.length > 0 ? places[0].geometry.location : this.state.center;
     this.setState({
       center: mapCenter,
-      zoom: 16,
+      bounds: places[0].geometry.viewport,
     });
+    this.map.fitBounds(this.state.bounds);
     if (this.props.heatmapEnabled) {
       this.props.onBoundsChanged(this.map.getBounds());
       this.props.onInitMap();
@@ -114,7 +115,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
 
   render() {
     const { zoom, center, bounds } = this.state;
-    const { markers, onIssueClick, heatmapEnabled, onFabClick } = this.props;
+    const { markers, onIssueClick, heatmapEnabled, onFabClick, showFilters } = this.props;
     const t = this.props.intl.formatMessage;
     return (
       <GoogleMap
@@ -132,14 +133,15 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
           inputPlaceholder={t(messages.searchPlace)}
           inputStyle={searchStyle}
         />
-        <FloatingActionButton
-          style={fabStyle}
-          onTouchTap={onFabClick}
-        >
-          <div>
-            <img src={filterIcon} alt="filter" style={filterIconStyle} />
-          </div>
-        </FloatingActionButton>
+        { showFilters &&
+          <FloatingActionButton
+            style={fabStyle}
+            onTouchTap={onFabClick}
+          >
+            <div>
+              <img src={filterIcon} alt="filter" style={filterIconStyle} />
+            </div>
+          </FloatingActionButton> }
         { heatmapEnabled ?
           <HeatmapLayer
             data={markers.map((m) => new google.maps.LatLng(m.latitude, m.longitude))} // eslint-disable-line no-undef
@@ -178,6 +180,7 @@ Map.propTypes = {
   onBoundsChanged: PropTypes.func,
   onInitMap: PropTypes.func,
   fullMap: PropTypes.bool,
+  showFilters: PropTypes.bool,
 };
 
 export default withGoogleMap(injectIntl(Map));
