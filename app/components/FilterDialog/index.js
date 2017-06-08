@@ -1,3 +1,4 @@
+
 /**
 *
 * FilterDialog
@@ -14,7 +15,6 @@ import { intlShape, injectIntl } from 'react-intl';
 import messages from './messages';
 
 // import styled from 'styled-components';
-
 
 const styles = {
   block: {
@@ -72,7 +72,6 @@ class FilterDialog extends React.Component {
       categories: props.categories,
       toggled: props.categories.every((x) => x),
     };
-    this.printFilters = this.printFilters.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleCategory = this.toggleCategory.bind(this);
   }
@@ -105,7 +104,7 @@ class FilterDialog extends React.Component {
     // console.log(this.state.categories);
   }
 
-  printFilters() {
+  applyFilters() {
     console.log(this.state.status);
     console.log(this.state.risk);
     console.log(this.state.categories);
@@ -116,15 +115,15 @@ class FilterDialog extends React.Component {
     const { open, handleClose } = this.props;
     const filterActions = [
       <FlatButton
-        label="Cancel"
+        label={t(messages.cancel)}
         primary
         onTouchTap={this.closeFilters}
       />,
       <FlatButton
-        label="Filter"
+        label={t(messages.filter)}
         primary
         keyboardFocused
-        onTouchTap={this.printFilters}
+        onTouchTap={() => this.props.onFilterSubmit(this.state.status, this.state.risk, this.state.categories)}
       />,
     ];
     return (
@@ -139,7 +138,7 @@ class FilterDialog extends React.Component {
           style={{ borderColor: 'transparent', textAlign: 'center' }}
         >
           <div style={{ paddingTop: '15px' }} />
-          <span style={styles.title}>Status</span>
+          <span style={styles.title}>{t(messages.status)}</span>
           <RadioButtonGroup
             name="status"
             defaultSelected={this.state.status}
@@ -148,21 +147,21 @@ class FilterDialog extends React.Component {
           >
             <RadioButton
               value="unresolved"
-              label="Unresolved"
+              label={t(messages.unresolved)}
               style={styles.radioButton}
             />
             <RadioButton
               value="resolved"
-              label="Resolved"
+              label={t(messages.resolved)}
               style={styles.radioButton}
             />
             <RadioButton
               value="all"
-              label="All"
+              label={t(messages.all)}
               style={styles.radioButton}
             />
           </RadioButtonGroup>
-          <span style={styles.title}>Does it pose a risk?</span>
+          <span style={styles.title}>{t(messages.doesItPoseARisk)}</span>
           <RadioButtonGroup
             name="risk"
             defaultSelected={this.state.risk}
@@ -171,46 +170,46 @@ class FilterDialog extends React.Component {
           >
             <RadioButton
               value="yes"
-              label="Yes"
+              label={t(messages.yes)}
               style={styles.radioButton}
             />
             <RadioButton
               value="no"
-              label="No"
+              label={t(messages.no)}
               style={styles.radioButton}
             />
             <RadioButton
               value="all"
-              label="All"
+              label={t(messages.all)}
               style={styles.radioButton}
             />
           </RadioButtonGroup>
-          <span style={styles.title}>Categories</span>
+          <span style={styles.title}>{t(messages.categories)}</span>
           <div style={styles.container}>
             <div style={styles.row}>
               <Checkbox
-                label="Road signs"
+                label={t(messages.roadSigns)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[0]}
                 onCheck={(e, b) => this.toggleCategory(0, b)}
               />
               <Checkbox
-                label="Illumination"
+                label={t(messages.illumination)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[1]}
                 onCheck={(e, b) => this.toggleCategory(1, b)}
               />
               <Checkbox
-                label="Grove"
+                label={t(messages.grove)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[2]}
                 onCheck={(e, b) => this.toggleCategory(2, b)}
               />
               <Checkbox
-                label="Street furniture"
+                label={t(messages.streetFurniture)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[3]}
@@ -219,28 +218,28 @@ class FilterDialog extends React.Component {
             </div>
             <div style={styles.row}>
               <Checkbox
-                label="Trash and cleaning"
+                label={t(messages.trashAndCleaning)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[4]}
                 onCheck={(e, b) => this.toggleCategory(4, b)}
               />
               <Checkbox
-                label="Public transport"
+                label={t(messages.publicTransportation)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[5]}
                 onCheck={(e, b) => this.toggleCategory(5, b)}
               />
               <Checkbox
-                label="Suggestion"
+                label={t(messages.suggestion)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[6]}
                 onCheck={(e, b) => this.toggleCategory(6, b)}
               />
               <Checkbox
-                label="Other"
+                label={t(messages.other)}
                 style={styles.checkbox}
                 labelStyle={styles.checkboxLabel}
                 checked={this.state.categories[7]}
@@ -249,7 +248,7 @@ class FilterDialog extends React.Component {
             </div>
           </div>
           <Toggle
-            label={this.state.toggled ? 'Deselect all' : 'Select all'}
+            label={this.state.toggled ? t(messages.deselectAll) : t(messages.selectAll)}
             toggled={this.state.toggled}
             labelPosition="left"
             labelStyle={{ marginLeft: '500px' }} // 0 responsive lmao
@@ -270,6 +269,7 @@ FilterDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  onFilterSubmit: PropTypes.func.isRequired,
 };
 
 export default injectIntl(FilterDialog);

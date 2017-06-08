@@ -24,8 +24,8 @@ class MapPage extends React.Component {
       issue: undefined,
       showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
       filters: {
-        initialStatus: 'resolved',
-        initialRisk: 'yes',
+        initialStatus: 'unresolved',
+        initialRisk: 'all',
         initialCategories: [true, true, true, true, true, true, true, true],
       },
     };
@@ -73,8 +73,24 @@ class MapPage extends React.Component {
     this.setState({ loaded: true });
   }
 
-  filterSubmit() {
-    // TODO: handle filter submit
+  filterSubmit(status, risk, categories) {
+    const filterInfo = {};
+    if (status === 'unresolved') filterInfo.resolved = false;
+    else if (status === 'unresolved') filterInfo.resolved = true;
+    if (risk === 'yes') filterInfo.risk = true;
+    else if (risk === 'no') filterInfo.risk = false;
+    const newCategories = [];
+    if (categories[0]) newCategories.push('road_signs');
+    if (categories[1]) newCategories.push('illumination');
+    if (categories[2]) newCategories.push('grove');
+    if (categories[3]) newCategories.push('street_furniture');
+    if (categories[4]) newCategories.push('trash_and_cleaning');
+    if (categories[5]) newCategories.push('public_transport');
+    if (categories[6]) newCategories.push('suggestion');
+    if (categories[7]) newCategories.push('other');
+    if (newCategories.length > 0) filterInfo.categories = newCategories;
+    this.props.dispatch(issuesRequest(filterInfo));
+    this.setState({ filterOpen: false });
   }
 
   render() {
