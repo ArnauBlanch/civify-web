@@ -59,7 +59,47 @@ export default defineMessages({
     defaultMessage: 'Others',
   },
   issuesByCategory: {
-    id: 'app.components.IssueInformation.issues-by-category',
+    id: 'app.components.StatsPage.issues-by-category',
     defaultMessage: 'Issues by category',
+  },
+  byCategory: {
+    id: 'app.components.StatsPage.by-category',
+    defaultMessage: 'By category',
+  },
+  issuesByCategoryResolved: {
+    id: 'app.components.StatsPage.issues-by-category-and-status',
+    defaultMessage: 'Issues by category and status',
+  },
+  chart: {
+    id: 'app.components.StatsPage.chart',
+    defaultMessage: 'Chart',
+  },
+  byCategoryResolved: {
+    id: 'app.components.StatsPage.by-category-and-status',
+    defaultMessage: 'By category and status',
+  },
+  issuesByDateCategory: {
+    id: 'app.components.StatsPage.issues-by-date-and-category',
+    defaultMessage: 'Issues by date and category',
+  },
+  byDateCategory: {
+    id: 'app.components.StatsPage.by-date-and-category',
+    defaultMessage: 'By date and category',
+  },
+  chooseChart: {
+    id: 'app.components.StatsPage.choose-chart',
+    defaultMessage: 'Choose chart',
+  },
+  resolved: {
+    id: 'app.components.StatsPage.resolved',
+    defaultMessage: 'Resolved',
+  },
+  unresolved: {
+    id: 'app.components.StatsPage.unresolved',
+    defaultMessage: 'Unresolved',
+  },
+  noDataToDisplay: {
+    id: 'app.components.StatsPage.no-data-to-display',
+    defaultMessage: 'No data to display',
   },
 });
