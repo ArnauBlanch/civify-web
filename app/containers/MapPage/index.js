@@ -13,17 +13,27 @@ import makeSelectMapPage from './selectors';
 import { issuesRequest } from './actions';
 import IssueDetails from '../../components/IssueDetails';
 import Map from '../../components/Map';
+import FilterDialog from '../../components/FilterDialog';
 
 class MapPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      filterOpen: false,
       issue: undefined,
       showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
+      filters: {
+        initialStatus: 'unresolved',
+        initialRisk: 'all',
+        initialCategories: [true, true, true, true, true, true, true, true],
+      },
     };
     this.showIssue = this.showIssue.bind(this);
+    this.showFilters = this.showFilters.bind(this);
+    this.closeFilters = this.closeFilters.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
+    this.filterSubmit = this.filterSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -47,12 +57,40 @@ class MapPage extends React.Component {
     this.setState({ issue });
   }
 
+  showFilters() {
+    this.setState({ filterOpen: true });
+  }
+
+  closeFilters() {
+    this.setState({ filterOpen: false });
+  }
+
   closeDrawer() {
     this.setState({ issue: undefined, showIssueFromUrl: false });
   }
 
   mapLoaded() {
     this.setState({ loaded: true });
+  }
+
+  filterSubmit(status, risk, categories) {
+    const filterInfo = {};
+    if (status === 'unresolved') filterInfo.resolved = false;
+    else if (status === 'unresolved') filterInfo.resolved = true;
+    if (risk === 'yes') filterInfo.risk = true;
+    else if (risk === 'no') filterInfo.risk = false;
+    const newCategories = [];
+    if (categories[0]) newCategories.push('road_signs');
+    if (categories[1]) newCategories.push('illumination');
+    if (categories[2]) newCategories.push('grove');
+    if (categories[3]) newCategories.push('street_furniture');
+    if (categories[4]) newCategories.push('trash_and_cleaning');
+    if (categories[5]) newCategories.push('public_transport');
+    if (categories[6]) newCategories.push('suggestion');
+    if (categories[7]) newCategories.push('other');
+    if (newCategories.length > 0) filterInfo.categories = newCategories;
+    this.props.dispatch(issuesRequest(filterInfo));
+    this.setState({ filterOpen: false });
   }
 
   render() {
@@ -64,7 +102,15 @@ class MapPage extends React.Component {
             { name: 'description', content: 'Description of CreateAchievement' },
           ]}
         />
-
+        <FilterDialog
+          open={this.state.filterOpen}
+          handleClose={this.closeFilters}
+          onFilterSubmit={this.filterSubmit}
+          risk={this.state.filters.initialRisk}
+          status={this.state.filters.initialStatus}
+          categories={this.state.filters.initialCategories}
+        >
+        </FilterDialog>
         <IssueDetails
           toggleDrawer={this.closeDrawer}
           open={typeof this.state.issue !== 'undefined'}
@@ -79,6 +125,7 @@ class MapPage extends React.Component {
           }
           markers={this.props.mapState.issues}
           onIssueClick={this.showIssue}
+          onFabClick={this.showFilters}
           showingIssue={typeof (this.state.issue) !== 'undefined'}
           issueCenter={this.state.issue && { lat: this.state.issue.latitude, lng: this.state.issue.longitude }}
         />
