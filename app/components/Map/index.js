@@ -40,11 +40,11 @@ const searchStyle = {
 const fabStyle = {
   margin: 0,
   bottom: 'auto',
-  right: 40,
+  right: 20,
   top: 70,
   left: 'auto',
   position: 'fixed',
-  marginRight: '10px',
+  marginRight: 0,
   marginBottom: '3px',
 };
 

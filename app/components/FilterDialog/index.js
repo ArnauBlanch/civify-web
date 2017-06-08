@@ -101,13 +101,6 @@ class FilterDialog extends React.Component {
     }
     this.setState({ toggled: newToggle });
     this.setState({ categories: newCategories });
-    // console.log(this.state.categories);
-  }
-
-  applyFilters() {
-    console.log(this.state.status);
-    console.log(this.state.risk);
-    console.log(this.state.categories);
   }
 
   render() {
@@ -117,7 +110,7 @@ class FilterDialog extends React.Component {
       <FlatButton
         label={t(messages.cancel)}
         primary
-        onTouchTap={this.closeFilters}
+        onTouchTap={handleClose}
       />,
       <FlatButton
         label={t(messages.filter)}
