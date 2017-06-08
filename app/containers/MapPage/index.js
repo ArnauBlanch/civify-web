@@ -23,9 +23,11 @@ class MapPage extends React.Component {
       filterOpen: false,
       issue: undefined,
       showIssueFromUrl: typeof this.props.params.issueID !== 'undefined',
-      initialStatus: 'unresolved',
-      initialRisk: 'all',
-      initialCategories: [true, false, true, false, true, true, true, true],
+      filters: {
+        initialStatus: 'resolved',
+        initialRisk: 'yes',
+        initialCategories: [true, true, true, true, true, true, true, true],
+      },
     };
     this.showIssue = this.showIssue.bind(this);
     this.showFilters = this.showFilters.bind(this);
@@ -88,9 +90,9 @@ class MapPage extends React.Component {
           open={this.state.filterOpen}
           handleClose={this.closeFilters}
           onFilterSubmit={this.filterSubmit}
-          risk={this.state.initialRisk}
-          status={this.state.initialStatus}
-          categories={this.state.initialCategories}
+          risk={this.state.filters.initialRisk}
+          status={this.state.filters.initialStatus}
+          categories={this.state.filters.initialCategories}
         >
         </FilterDialog>
         <IssueDetails
