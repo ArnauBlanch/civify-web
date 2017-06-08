@@ -10,10 +10,11 @@ import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
 import Toggle from 'material-ui/Toggle';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import messages from './messages';
 
 // import styled from 'styled-components';
 
-// import messages from './messages';
 
 const styles = {
   block: {
@@ -66,23 +67,18 @@ class FilterDialog extends React.Component {
     super(props);
     // will do something
     this.state = {
-      status: 'unresolved',
-      risk: 'all',
-      categories: [true, true, true, true, false, false, true, false],
+      status: props.status,
+      risk: props.risk,
+      categories: props.categories,
+      toggled: props.categories.every((x) => x),
     };
-    this.state.isToggled = this.isAllSelected();
-    this.toggleText = this.toggleText.bind(this);
+    this.toggleText();
+    console.log(this.state.toggled);
+    console.log(this.state.textToggle);
   }
 
   toggleText() {
-    return this.isToggled ? 'Deselect all' : 'Select all';
-}
-
-  isAllSelected() {
-    for (let i = 0; i < this.state.categories.size; i += 1) {
-      if (!this.state.categories[0]) return false;
-    }
-    return true;
+    this.state.textToggle = this.state.toggled ? 'Deselect all' : 'Select all';
   }
 
   render() {
@@ -103,7 +99,7 @@ class FilterDialog extends React.Component {
     return (
       <div style={{ borderColor: 'transparent', textAlign: 'center' }}>
         <Dialog
-          title="Filter issues"
+          title={messages.filterTitle.text}
           actions={filterActions}
           modal={false}
           open={open}
@@ -203,8 +199,8 @@ class FilterDialog extends React.Component {
             </div>
           </div>
           <Toggle
-            label={this.toggleText()}
-            defaultToggled={this.state.isToggled}
+            label={this.state.textToggle}
+            defaultToggled={this.state.toggled}
             labelPosition="left"
             labelStyle={{ marginLeft: '500px' }} // 0 responsive lmao
             style={styles.toggle}
@@ -217,8 +213,12 @@ class FilterDialog extends React.Component {
 }
 
 FilterDialog.propTypes = {
+  risk: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default FilterDialog;
