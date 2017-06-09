@@ -48,7 +48,7 @@ componentGen.runActions({ name: 'RbGeneratedComponentStatelessfunction', type: '
   .then(removeTestsDirFrom('components/RbGeneratedComponentStatelessfunction'))
   .catch(reportErrorsFor('component/Stateless Function'));
 
-const containerGen = plop.getGenerator('container');
+const containerGen = plop.getGenerator('row');
 containerGen.runActions({
   name: 'RbGeneratedContainerPureComponent',
   type: 'React.PureComponent',
@@ -59,7 +59,7 @@ containerGen.runActions({
 })
   .then(checkForErrors)
   .then(removeTestsDirFrom('containers/RbGeneratedContainerPureComponent'))
-  .catch(reportErrorsFor('container/React.PureComponent'));
+  .catch(reportErrorsFor('row/React.PureComponent'));
 
 const ContainerComponent = containerGen.runActions({
   name: 'RbGeneratedContainerComponent',
@@ -71,7 +71,7 @@ const ContainerComponent = containerGen.runActions({
 })
   .then(checkForErrors)
   .then(removeTestsDirFrom('containers/RbGeneratedContainerComponent'))
-  .catch(reportErrorsFor('container/React.Component'));
+  .catch(reportErrorsFor('row/React.Component'));
 
 containerGen.runActions({
   name: 'RbGeneratedContainerStateless',
@@ -83,12 +83,12 @@ containerGen.runActions({
 })
   .then(checkForErrors)
   .then(removeTestsDirFrom('containers/RbGeneratedContainerStateless'))
-  .catch(reportErrorsFor('container/Stateless'));
+  .catch(reportErrorsFor('row/Stateless'));
 
 const routeGen = plop.getGenerator('route');
 
 ContainerComponent
-  .then(() => routeGen.runActions({ component: 'RbGeneratedContainerComponent', path: '/generated-route-container' })
+  .then(() => routeGen.runActions({ component: 'RbGeneratedContainerComponent', path: '/generated-route-row' })
     .then(checkForErrors)
     .catch(reportErrorsFor('route/Container'))
 );

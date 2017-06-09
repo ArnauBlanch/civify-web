@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.components.AppBarButtons.my-rewards',
     defaultMessage: 'Rewards',
   },
+  administration: {
+    id: 'app.components.AppBarButtons.administration',
+    defaultMessage: 'Administration',
+  },
   signIn: {
     id: 'app.components.AppBarButtons.sign-in',
     defaultMessage: 'Sign in',
@@ -21,5 +25,9 @@ export default defineMessages({
   signOut: {
     id: 'app.components.AppBarButtons.sign-out',
     defaultMessage: 'Sign out',
+  },
+  stats: {
+    id: 'app.containers.StatsPage.stats',
+    defaultMessage: 'Statistics',
   },
 });

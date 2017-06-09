@@ -3,11 +3,11 @@ const mainStyle = {
   backgroundColor: '#eee',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
+  // alignItems: 'center',
   overflow: 'auto',
   marginTop: 50,
   maxHeight: '100vh',
-  minHeight: 'min-content',
+  minHeight: '100%',
 };
 
 export default mainStyle;

@@ -5,14 +5,18 @@
 */
 
 import React, { PropTypes } from 'react';
-import { Drawer, AppBar, MenuItem } from 'material-ui';
+import { Drawer, AppBar, MenuItem, SelectField } from 'material-ui';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import Logo from '../../logo.svg';
+import catalanIcon from '../../images/ca.png';
+import spanishIcon from '../../images/es.png';
+import englishIcon from '../../images/en.png';
 
 class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { isAuthenticated, isAdmin } = this.props;
     return (
       <Drawer
         docked={false}
@@ -32,14 +36,26 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
             <FormattedMessage {...messages.issues} />
           </MenuItem>
         </Link>
-        { this.props.isAuthenticated &&
+        <Link to="/stats" style={{ textDecoration: 'none' }}>
+          <MenuItem onTouchTap={this.props.toggleDrawer} >
+            <FormattedMessage {...messages.stats} />
+          </MenuItem>
+        </Link>
+        { isAuthenticated && !isAdmin &&
           <Link to="/rewards" style={{ textDecoration: 'none' }}>
             <MenuItem onTouchTap={this.props.toggleDrawer} >
               <FormattedMessage {...messages.myRewards} />
             </MenuItem>
           </Link>
         }
-        { this.props.isAuthenticated ?
+        { isAuthenticated && isAdmin &&
+          <Link to="/admin" style={{ textDecoration: 'none' }}>
+            <MenuItem onTouchTap={this.props.toggleDrawer} >
+              <FormattedMessage {...messages.administration} />
+            </MenuItem>
+          </Link>
+        }
+        { isAuthenticated ?
           <MenuItem onTouchTap={this.props.toggleDrawer} onClick={this.props.logout} >
             <FormattedMessage {...messages.signOut} />
           </MenuItem> :
@@ -49,6 +65,20 @@ class AppDrawer extends React.PureComponent { // eslint-disable-line react/prefe
             </MenuItem>
           </Link>
         }
+        <SelectField
+          floatingLabelText={<FormattedMessage {...messages.language} />}
+          value={this.props.language}
+          onChange={(e, key, value) => this.props.changeLocale(value)}
+          style={{ width: 60, marginLeft: 15, marginTop: -10 }}
+          menuItemStyle={{ marginLeft: -5 }}
+          selectedMenuItemStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.07)' }}
+          underlineStyle={{ borderColor: 'rgba(255,255,255,0.7)', width: 45 }}
+
+        >
+          <MenuItem value="ca" primaryText={<img alt="Catalan" src={catalanIcon} height="22" />} />
+          <MenuItem value="es" primaryText={<img alt="Spanish" src={spanishIcon} height="22" />} />
+          <MenuItem value="en" primaryText={<img alt="English" src={englishIcon} height="22" />} />
+        </SelectField>
       </Drawer>
     );
   }
@@ -58,7 +88,10 @@ AppDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
   logout: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+  changeLocale: PropTypes.func.isRequired,
 };
 
 export default AppDrawer;

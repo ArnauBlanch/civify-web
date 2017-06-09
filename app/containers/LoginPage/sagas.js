@@ -24,7 +24,7 @@ export function* userInfo() {
         const body = yield response.json();
         if (body.kind === 'business' || body.kind === 'admin') {
           localStorage.setItem('user_token', body.user_auth_token);
-          yield put(loginSuccess());
+          yield put(loginSuccess(body.kind === 'admin'));
           if (body.kind === 'business') {
             yield put(push('/rewards')); // change
           } else {

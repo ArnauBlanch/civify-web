@@ -16,7 +16,7 @@ export default defineMessages({
   },
   notRegisteredBusiness: {
     id: 'app.containers.LoginPage.not-registered-business',
-    defaultMessage: 'Are you a business and would like to offer rewards in our app?',
+    defaultMessage: 'Do you have a business and would like to offer rewards in our app?',
   },
   wrongPassword: {
     id: 'app.containers.LoginPage.wrong-password',
@@ -33,5 +33,9 @@ export default defineMessages({
   noPrivileges: {
     id: 'app.containers.LoginPage.you-do-not-have-enough-privileges',
     defaultMessage: 'You do not have enough privileges',
+  },
+  recoverPassword: {
+    id: 'app.containers.LoginPage.have-you-forgotten-your-password',
+    defaultMessage: 'Have you forgotten your password?',
   },
 });

@@ -17,12 +17,12 @@ class RewardCard extends React.PureComponent { // eslint-disable-line react/pref
       <div className="mdl-cell mdl-cell--4-col">
         <Link to={`/rewards/${reward.award_auth_token}`} style={{ textDecoration: 'none' }}>
           <Card>
-            <CardMedia>
+            <CardMedia style={{ minHeight: 200, maxHeight: 300, objectFit: 'cover', overflow: 'hidden' }}>
 
               <img
                 alt="Reward"
                 src={`${API_URL}${reward.picture.med_url}`}
-                style={{ height: '200', objectFit: 'cover' }}
+                // style={{ minHeight: 200, overflow: 'hidden', objectFit: 'cover' }}
               />
 
             </CardMedia>

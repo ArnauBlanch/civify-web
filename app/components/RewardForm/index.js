@@ -11,8 +11,9 @@ import { TextField } from 'redux-form-material-ui';
 import { FormattedMessage } from 'react-intl';
 import Dropzone from 'react-dropzone';
 import messages from './messages';
+import BASE_URL from '../../api';
 
-const renderDropzoneInput = (field) => {
+export const renderDropzoneInput = (field) => {
   const files = field.input.value;
   return (
     <div>
@@ -20,7 +21,7 @@ const renderDropzoneInput = (field) => {
         name={field.name}
         onDrop={(filesToUpload) => field.input.onChange(filesToUpload)}
         maxSize={1000000}
-        // accept="image/jpeg, image/png"
+        accept="image/jpeg, image/png"
         style={{
           border: '3px dotted #ccc',
           borderRadius: '20px',
@@ -46,6 +47,15 @@ const renderDropzoneInput = (field) => {
             style={{ maxHeight: 150, maxWidth: 150, marginBottom: 10 }}
           /><br />
           { files[0].name }
+        </div>
+      }
+      { !(files && Array.isArray(files) && files[0]) && typeof field.currentImage !== 'undefined' &&
+        <div style={{ fontWeight: 'bold', fontSize: 13, marginTop: 10 }}>
+          <img
+            alt="Preview"
+            src={`${BASE_URL}${field.currentImage.large_url}`}
+            style={{ maxHeight: 150, maxWidth: 150, marginBottom: 10 }}
+          />
         </div>
       }
     </div>

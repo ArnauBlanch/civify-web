@@ -4,7 +4,6 @@ import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import invariant from 'invariant';
-import warning from 'warning';
 import createReducer from 'reducers';
 
 /**
@@ -28,26 +27,23 @@ export function checkStore(store) {
 export function checkAuth(store) {
   return (nextState, replace) => {
     const loggedIn = store.getState().get('auth').get('isAuthenticated');
+    const isAdmin = store.getState().get('auth').get('isAdmin');
+    const { pathname } = nextState.location;
     // Check if the path isn't rewards. That way we can apply specific logic to
     // display/render the path we want to
     if (loggedIn) {
-      if (nextState.location.pathname === '/login' ||
-          nextState.location.pathname === '/register') {
+      if (pathname === '/login' || pathname === '/register' ||
+          (pathname.startsWith('/rewards') && isAdmin) ||
+          (pathname === '/admin' && !isAdmin) ||
+          (!pathname.startsWith('/rewards') && pathname.endsWith('/edit') && !isAdmin) ||
+          (pathname.startsWith('/achievements') && !isAdmin) ||
+          (pathname.startsWith('/events') && !isAdmin)) {
         replace('/');
-        // console.log('Logged in + login/register');
       }
-      // else {
-      //   console.log('Logged in + / or requires auth');
-      //   // replace(nextState.location.pathname);
-      // }
-    } else if (nextState.location.pathname !== '/' &&
-          nextState.location.pathname !== '/login' &&
-          nextState.location.pathname !== '/register' &&
-          !nextState.location.pathname.startsWith('/issues/')) {
-      // console.log('Not logged in + requires auth');
+    } else if (pathname !== '/' && pathname !== '/login' &&
+          pathname !== '/register' && !pathname.startsWith('/issues/')) {
       replace('/login');
     }
-    // else { console.log('Not logged in + doesn\'t require auth'); }
   };
 }
 
@@ -75,27 +71,28 @@ export function injectAsyncReducer(store, isValid) {
  */
 export function injectAsyncSagas(store, isValid) {
   const asyncSagas = {};
-  return function injectSagas(sagas) {
+
+  return function injectSagas(name, sagas) {
     if (!isValid) checkStore(store);
 
     invariant(
-      Array.isArray(sagas),
-      '(app/utils...) injectAsyncSagas: Expected `sagas` to be an array of generator functions'
-    );
+        Array.isArray(sagas),
+        '(app/utils...) injectAsyncSagas: Expected `sagas` to be an array of generator functions'
+     );
 
-    warning(
-      !isEmpty(sagas),
-      '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
-    );
+    if (sagas.length <= 0) return;
 
     if (!asyncSagas[name]) {
       asyncSagas[name] = [];
     }
+
     sagas.filter((saga) => {
       if (asyncSagas[name].includes(saga.name)) {
         return false;
       }
+
       asyncSagas[name].push(saga.name);
+
       return true;
     }).map(store.runSaga);
   };

@@ -30,7 +30,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('mapPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('mapPage', sagas.default);
           renderRoute(component);
         });
 
@@ -49,7 +49,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('mapPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('mapPage', sagas.default);
           renderRoute(component);
         });
 
@@ -71,9 +71,9 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
           injectReducer('registrationPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('registrationPage', sagas.default);
           injectReducer('loginPage', reducer2.default);
-          injectSagas(sagas2.default);
+          injectSagas('loginPage', sagas2.default);
           renderRoute(component);
         });
 
@@ -93,14 +93,14 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('loginPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('loginPage', sagas.default);
           renderRoute(component);
         });
 
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/rewards/create',
+      path: '/rewards/new',
       onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
@@ -115,10 +115,10 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component, reducer2, sagas2]) => {
           injectReducer('createReward', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
+          injectSagas('createReward', sagas.default);
           injectReducer('loginPage', reducer2.default);
-          injectSagas(sagas2.default);
+          injectSagas('loginPage', sagas2.default);
+          renderRoute(component);
         });
 
         importModules.catch(errorLoading);
@@ -137,7 +137,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('rewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('rewardsPage', sagas.default);
           renderRoute(component);
         });
 
@@ -157,7 +157,7 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('validateRewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('validateRewardsPage', sagas.default);
           renderRoute(component);
         });
 
@@ -165,6 +165,7 @@ export default function createRoutes(store) {
       },
     }, {
       path: '/rewards/:rewardID',
+      onEnter: checkAuth,
       getComponent(nextState, cb) {
         const importModules = Promise.all([
           import('containers/RewardsPage/reducer'),
@@ -176,7 +177,200 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('rewardsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas('rewardsPage', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/achievements',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/AchievementsPage/reducer'),
+          import('containers/AchievementsPage/sagas'),
+          import('containers/AchievementsPage'),
+          import('containers/EditAchievement/reducer'),
+          import('containers/EditAchievement/sagas'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component, r2, s2]) => {
+          injectReducer('achievementsPage', reducer.default);
+          injectSagas('achievementsPage', sagas.default);
+          renderRoute(component);
+          injectReducer('editAchievement', r2.default);
+          injectSagas('editAchievement', s2.default);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/achievements/:achievementID/edit',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EditAchievement/reducer'),
+          import('containers/EditAchievement/sagas'),
+          import('containers/EditAchievement'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('editAchievement', reducer.default);
+          injectSagas('editAchievement', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/achievements/new',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CreateAchievement/reducer'),
+          import('containers/CreateAchievement/sagas'),
+          import('containers/CreateAchievement'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('createAchievement', reducer.default);
+          injectSagas('createAchievement', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/events',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EventsPage/reducer'),
+          import('containers/EventsPage/sagas'),
+          import('containers/EventsPage'),
+          import('containers/EditEvent/reducer'),
+          import('containers/EditEvent/sagas'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component, r2, s2]) => {
+          injectReducer('eventsPage', reducer.default);
+          injectSagas('eventsPage', sagas.default);
+          renderRoute(component);
+          injectReducer('editEvent', r2.default);
+          injectSagas('editEvent', s2.default);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/events/:eventID/edit',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/EditEvent/reducer'),
+          import('containers/EditEvent/sagas'),
+          import('containers/EditEvent'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('editEvent', reducer.default);
+          injectSagas('editEvent', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/events/new',
+      onEnter: checkAuth,
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CreateEvent/reducer'),
+          import('containers/CreateEvent/sagas'),
+          import('containers/CreateEvent'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('createEvent', reducer.default);
+          injectSagas('createEvent', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/admin',
+      onEnter: checkAuth,
+      getComponent(location, cb) {
+        import('containers/AdminHomepage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }, {
+      path: '/recover_password',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/RecoverPassword/reducer'),
+          import('containers/RecoverPassword/sagas'),
+          import('containers/RecoverPassword'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('recoverPassword', reducer.default);
+          injectSagas('recoverPassword', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/password_reset/:resetToken',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/ResetPassword/reducer'),
+          import('containers/ResetPassword/sagas'),
+          import('containers/ResetPassword'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('resetPassword', reducer.default);
+          injectSagas('resetPassword', sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/stats',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/MapPage/reducer'),
+          import('containers/MapPage/sagas'),
+          import('containers/StatsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('mapPage', reducer.default);
+          injectSagas('mapPage', sagas.default);
           renderRoute(component);
         });
 

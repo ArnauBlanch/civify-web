@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'app.components.AppDrawer.my-rewards',
     defaultMessage: 'My rewards',
   },
+  administration: {
+    id: 'app.components.AppDrawer.administration',
+    defaultMessage: 'Administration',
+  },
   signIn: {
     id: 'app.components.AppDrawer.sign-in',
     defaultMessage: 'Sign in',
@@ -21,5 +25,13 @@ export default defineMessages({
   signOut: {
     id: 'app.components.AppDrawer.sign-out',
     defaultMessage: 'Sign out',
+  },
+  language: {
+    id: 'app.components.AppDrawer.language',
+    defaultMessage: 'Language',
+  },
+  stats: {
+    id: 'app.containers.StatsPage.stats',
+    defaultMessage: 'Statistics',
   },
 });

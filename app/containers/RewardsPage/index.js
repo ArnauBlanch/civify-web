@@ -29,10 +29,10 @@ const FABstyle = {
 };
 
 export class RewardsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
+  componentWillMount() {
     this.props.dispatch(getRewardsRequest());
   }
+
   render() {
     const t = this.props.intl.formatMessage;
     return (
@@ -57,7 +57,7 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
           <h3><FormattedMessage {...messages.myRewards} /></h3>
           { this.props.rewardsState.rewards && this.props.rewardsState.rewards.length !== 0 &&
             <RaisedButton
-              href="/rewards/validate"
+              onTouchTap={() => this.props.dispatch(push('/rewards/validate'))}
               label={<FormattedMessage {...messages.validate} />}
               primary
               backgroundColor="#27ae60"
@@ -75,7 +75,7 @@ export class RewardsPage extends React.Component { // eslint-disable-line react/
         </Paper>
         <FloatingActionButton
           style={FABstyle}
-          onClick={() => this.props.dispatch(push('/rewards/create'))}
+          onClick={() => this.props.dispatch(push('/rewards/new'))}
         >
           <ContentAdd />
         </FloatingActionButton>
