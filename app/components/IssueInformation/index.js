@@ -146,6 +146,13 @@ class IssueInformation extends React.Component { // eslint-disable-line react/pr
             </p>
           </div>
           <div style={textRowStyle}>
+            <span style={{ color: !issue.resolved ? 'red' : 'green' }}>
+              <b>{ issue.resolved ?
+                <FormattedMessage {...messages.resolved} />
+                : <FormattedMessage {...messages.unresolved} /> }</b>
+            </span>
+          </div>
+          <div style={textRowStyle}>
             <b><FormattedMessage {...messages.category} /></b>
             <span>
             </span>
