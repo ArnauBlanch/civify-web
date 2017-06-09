@@ -38,13 +38,15 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
 
   componentWillReceiveProps(nextProps) {
     if (this.state.mapIssues.length === 0 && nextProps.MapPage.issues.length > 0) {
-      this.setState({ mapIssues: nextProps.MapPage.issues });
+      this.setState({ mapIssues:
+        nextProps.MapPage.issues.filter((i) => !i.resolved),
+      });
     }
   }
 
   updateIssues() {
     if (this.state.bounds) {
-      this.props.dispatch(issuesRequest({ ...this.state.bounds, resolved: false }));
+      this.props.dispatch(issuesRequest({ ...this.state.bounds }));
       geocoder.geocode({
         bounds: new google.maps.LatLngBounds(                     // eslint-disable-line no-undef
           new google.maps.LatLng(this.state.bounds.lat_min, this.state.bounds.lng_min), // eslint-disable-line no-undef
