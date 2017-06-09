@@ -13,6 +13,7 @@ import AppDrawer from '../AppDrawer';
 import AppBarButtons from '../AppBarButtons';
 import Logo from '../../logo.svg';
 import { logoutRequest } from '../../containers/LoginPage/actions';
+import { changeLocale } from '../../containers/LanguageProvider/actions';
 
 class Header extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -20,6 +21,7 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
     this.state = { open: false };
     this.toggleDrawer = this.toggleDrawer.bind(this);
     this.logout = this.logout.bind(this);
+    this.changeLocale = this.changeLocale.bind(this);
   }
 
   toggleDrawer() {
@@ -31,6 +33,10 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
     this.props.dispatch(push('/'));
   }
 
+  changeLocale(locale) {
+    this.props.dispatch(changeLocale(locale));
+  }
+
   render() {
     return (
       <div>
@@ -40,7 +46,10 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
           iconElementRight={
             <AppBarButtons
               isAuthenticated={this.props.isAuthenticated}
+              isAdmin={this.props.isAdmin}
               logout={this.logout}
+              language={this.props.language}
+              changeLocale={this.changeLocale}
             />}
           onLeftIconButtonTouchTap={this.toggleDrawer}
         />
@@ -48,7 +57,10 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
           toggleDrawer={this.toggleDrawer}
           open={this.state.open}
           isAuthenticated={this.props.isAuthenticated}
+          isAdmin={this.props.isAdmin}
           logout={this.logout}
+          language={this.props.language}
+          changeLocale={this.changeLocale}
         />
       </div>
     );
@@ -57,6 +69,8 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
+  language: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

@@ -26,8 +26,8 @@ export function loginFailed(error) {
   return { type: LOGIN_FAILED, error };
 }
 
-export function loginSuccess() {
-  return { type: LOGIN_SUCCESS };
+export function loginSuccess(isAdmin) {
+  return { type: LOGIN_SUCCESS, isAdmin };
 }
 
 export function userInfoRequest() {

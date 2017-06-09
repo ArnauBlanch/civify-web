@@ -46,8 +46,8 @@ describe('LoginPage actions', () => {
 
   actionTest('should create an action to alert that login has succeeded',
     loginSuccess,
-    null,
-    { type: LOGIN_SUCCESS }
+    false,
+    { type: LOGIN_SUCCESS, isAdmin: false }
   );
 
   actionTest('should create an action to do a current user info request',

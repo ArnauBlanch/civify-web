@@ -22,7 +22,7 @@ import {
 import request from '../../../utils/request';
 
 describe('test map page saga', () => {
-  it('should dispatch an action when issues are loaded correctly', () => (
+  it('should dispatch an action when issues are loaded correctly (no filters)', () => (
     expectSaga(issuesRequestSaga)
     .provide([
       [call(request, '/issues', 'GET', undefined, false), {
@@ -31,7 +31,20 @@ describe('test map page saga', () => {
       }],
     ])
     .put(issuesInfoSuccess([{}, {}]))
-    .dispatch(issuesRequest())
+    .dispatch(issuesRequest({}))
+    .run()
+  ));
+
+  it('should dispatch an action when issues are loaded correctly (with filters)', () => (
+    expectSaga(issuesRequestSaga)
+    .provide([
+      [call(request, '/issues?test1=true&test2=100&test3=string&categories[]=cat1&categories[]=cat2', 'GET', undefined, false), {
+        status: 200,
+        json: () => ([{}, {}]),
+      }],
+    ])
+    .put(issuesInfoSuccess([{}, {}]))
+    .dispatch(issuesRequest({ test1: true, test2: 100, test3: 'string', categories: ['cat1', 'cat2'] }))
     .run()
   ));
 
@@ -43,7 +56,7 @@ describe('test map page saga', () => {
         json: () => ({ message: 'Error loading the issues' }),
       }],
     ])
-    .dispatch(issuesRequest())
+    .dispatch(issuesRequest({}))
     .run()
   ));
 });

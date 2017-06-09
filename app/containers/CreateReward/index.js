@@ -28,7 +28,7 @@ export class CreateReward extends React.Component { // eslint-disable-line react
   }
 
   onSubmit(values) {
-    if (!values.get('picture')[0]) {
+    if (typeof values.get('picture') === 'undefined') {
       this.setState({ missingFile: true });
     } else {
       const reader = new FileReader();
@@ -70,6 +70,8 @@ export class CreateReward extends React.Component { // eslint-disable-line react
             width: '100%',
             paddingLeft: 100,
             paddingRight: 100,
+            marginBottom: 20,
+            marginTop: 20,
           }}
           zDepth={4}
         >

@@ -25,8 +25,8 @@ const issues = [
 describe('MapPage actions', () => {
   actionTest('should create an action to do the issues request',
     issuesRequest,
-    null,
-    { type: ISSUES_REQUEST }
+    { resolved: true },
+    { type: ISSUES_REQUEST, filters: { resolved: true } }
   );
 
   actionTest('should create an action to handle the success on issues request',
