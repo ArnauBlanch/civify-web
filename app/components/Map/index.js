@@ -145,7 +145,7 @@ class Map extends React.Component { // eslint-disable-line react/prefer-stateles
         { heatmapEnabled ?
           <HeatmapLayer
             data={markers.map((m) => new google.maps.LatLng(m.latitude, m.longitude))} // eslint-disable-line no-undef
-            options={{ radius: 25 }}
+            options={{ radius: 20 }}
           /> :
           <MarkerClusterer
             averageCenter
