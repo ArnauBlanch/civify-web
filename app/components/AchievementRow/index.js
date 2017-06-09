@@ -33,7 +33,7 @@ const goals = {
   resolve: messages.resolveIssues,
   reward: messages.getRewards,
   use: messages.useRewards,
-  confirmed_received: messages.receiveConfirmations,
+  confirm_received: messages.receiveConfirmations,
   resolve_received: messages.receiveResolutions,
   coins_spent: messages.spendCoins,
   issues_resolved: messages.issuesResolved,
