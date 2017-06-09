@@ -37,7 +37,7 @@ class MapPage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(issuesRequest({}));
+    this.props.dispatch(issuesRequest({ resolved: false }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,7 +76,7 @@ class MapPage extends React.Component {
   filterSubmit(status, risk, categories) {
     const filterInfo = {};
     if (status === 'unresolved') filterInfo.resolved = false;
-    else if (status === 'unresolved') filterInfo.resolved = true;
+    else if (status === 'resolved') filterInfo.resolved = true;
     if (risk === 'yes') filterInfo.risk = true;
     else if (risk === 'no') filterInfo.risk = false;
     const newCategories = [];
@@ -88,7 +88,9 @@ class MapPage extends React.Component {
     if (categories[5]) newCategories.push('public_transport');
     if (categories[6]) newCategories.push('suggestion');
     if (categories[7]) newCategories.push('other');
-    if (newCategories.length > 0) filterInfo.categories = newCategories;
+    if (newCategories.length > 0 && newCategories.length !== 8) {
+      filterInfo.categories = newCategories;
+    }
     this.props.dispatch(issuesRequest(filterInfo));
     this.setState({ filterOpen: false });
   }

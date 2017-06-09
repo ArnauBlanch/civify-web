@@ -44,7 +44,7 @@ export class StatsPage extends React.Component { // eslint-disable-line react/pr
 
   updateIssues() {
     if (this.state.bounds) {
-      this.props.dispatch(issuesRequest({ ...this.state.bounds }));
+      this.props.dispatch(issuesRequest({ ...this.state.bounds, resolved: false }));
       geocoder.geocode({
         bounds: new google.maps.LatLngBounds(                     // eslint-disable-line no-undef
           new google.maps.LatLng(this.state.bounds.lat_min, this.state.bounds.lng_min), // eslint-disable-line no-undef

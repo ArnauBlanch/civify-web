@@ -62,4 +62,12 @@ export default defineMessages({
     id: 'app.components.IssueInformation.no',
     defaultMessage: 'No',
   },
+  resolved: {
+    id: 'app.components.IssueInformation.resolved-caps',
+    defaultMessage: 'RESOLVED',
+  },
+  unresolved: {
+    id: 'app.components.IssueInformation.unresolved-caps',
+    defaultMessage: 'UNRESOLVED',
+  },
 });
