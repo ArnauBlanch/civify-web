@@ -1,6 +1,6 @@
 /**
 *
-* AchievementEventorm
+* AchievementEventForm
 *
 */
 
@@ -12,14 +12,10 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { renderDropzoneInput } from '../RewardForm';
 
-const eventTypes = [
+const achievementTypes = [
   { value: 'issue', text: <FormattedMessage {...messages.createIssues} /> },
   { value: 'confirm', text: <FormattedMessage {...messages.confirmIssues} /> },
   { value: 'resolve', text: <FormattedMessage {...messages.resolveIssues} /> },
-];
-
-const achievementTypes = [
-  ...eventTypes,
   { value: 'reward', text: <FormattedMessage {...messages.getRewards} /> },
   { value: 'use', text: <FormattedMessage {...messages.useRewards} /> },
   { value: 'confirm_received', text: <FormattedMessage {...messages.receiveConfirmations} /> },
@@ -178,7 +174,7 @@ class AchievementEventForm extends React.Component {
             errorStyle={{ textAlign: 'center' }}
             validate={this.required}
           >
-            { (isEvent ? eventTypes : achievementTypes).map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
+            { achievementTypes.map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
             }
           </Field><br />
         </div>
