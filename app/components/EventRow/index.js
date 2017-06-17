@@ -41,6 +41,13 @@ const goals = {
   issue: messages.createIssues,
   confirm: messages.confirmIssues,
   resolve: messages.resolveIssues,
+  reward: messages.getRewards,
+  use: messages.useRewards,
+  confirm_received: messages.receiveConfirmations,
+  resolve_received: messages.receiveResolutions,
+  coins_spent: messages.spendCoins,
+  issues_resolved: messages.issuesResolved,
+  level: messages.earnLevels,
 };
 
 const tGoal = (t, a) => t(goals[a.kind], { num: a.number });

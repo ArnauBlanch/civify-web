@@ -12,17 +12,26 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { renderDropzoneInput } from '../RewardForm';
 
+const commonTypes = [
+    { value: 'issue', text: <FormattedMessage {...messages.createIssues} /> },
+    { value: 'confirm', text: <FormattedMessage {...messages.confirmIssues} /> },
+    { value: 'resolve', text: <FormattedMessage {...messages.resolveIssues} /> },
+    { value: 'reward', text: <FormattedMessage {...messages.getRewards} /> },
+    { value: 'use', text: <FormattedMessage {...messages.useRewards} /> },
+    { value: 'confirm_received', text: <FormattedMessage {...messages.receiveConfirmations} /> },
+    { value: 'resolve_received', text: <FormattedMessage {...messages.receiveResolutions} /> },
+    { value: 'coins_spent', text: <FormattedMessage {...messages.spendCoins} /> },
+    { value: 'issues_resolved', text: <FormattedMessage {...messages.issuesResolved} /> },
+];
+
 const achievementTypes = [
-  { value: 'issue', text: <FormattedMessage {...messages.createIssues} /> },
-  { value: 'confirm', text: <FormattedMessage {...messages.confirmIssues} /> },
-  { value: 'resolve', text: <FormattedMessage {...messages.resolveIssues} /> },
-  { value: 'reward', text: <FormattedMessage {...messages.getRewards} /> },
-  { value: 'use', text: <FormattedMessage {...messages.useRewards} /> },
-  { value: 'confirm_received', text: <FormattedMessage {...messages.receiveConfirmations} /> },
-  { value: 'resolve_received', text: <FormattedMessage {...messages.receiveResolutions} /> },
-  { value: 'coins_spent', text: <FormattedMessage {...messages.spendCoins} /> },
-  { value: 'issues_resolved', text: <FormattedMessage {...messages.issuesResolved} /> },
+  ...commonTypes,
   { value: 'level', text: <FormattedMessage {...messages.reachLevel} /> },
+];
+
+const eventTypes = [
+  ...commonTypes,
+  { value: 'level', text: <FormattedMessage {...messages.earnLevels} /> },
 ];
 
 export const formatDate = (date) => {
@@ -174,7 +183,8 @@ class AchievementEventForm extends React.Component {
             errorStyle={{ textAlign: 'center' }}
             validate={this.required}
           >
-            { achievementTypes.map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
+            { (isEvent ? eventTypes : achievementTypes)
+                .map((type) => <MenuItem key={type.value} value={type.value} primaryText={type.text} />)
             }
           </Field><br />
         </div>
