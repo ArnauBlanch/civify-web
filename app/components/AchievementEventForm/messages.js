@@ -90,6 +90,10 @@ export default defineMessages({
     id: 'app.components.AchievementEventForm.reach-level-X',
     defaultMessage: 'Reach level X',
   },
+  earnLevels: {
+    id: 'app.components.AchievementEventForm.earn-X-levels',
+    defaultMessage: 'Earn X levels',
+  },
   type: {
     id: 'app.components.AchievementEventForm.type-of-goal',
     defaultMessage: 'Type of goal',
